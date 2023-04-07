@@ -18,3 +18,5 @@ DOMAIN-KEYWORD,baidu
 DOMAIN-SUFFIX,jd.com
 DOMAIN-SUFFIX,360buyimg.com
 DOMAIN-SUFFIX,jdpay.com
+# other
+DOMAIN-KEYWORD,elink
