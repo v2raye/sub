@@ -20,3 +20,10 @@ DOMAIN-SUFFIX,360buyimg.com
 DOMAIN-SUFFIX,jdpay.com
 # other
 DOMAIN-KEYWORD,elink
+
+# China Bank
+DOMAIN-SUFFIX,icbc.com.cn
+
+DOMAIN-SUFFIX,ccb.com
+
+DOMAIN-SUFFIX,ccb.com.cn
