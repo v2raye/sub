@@ -2,6 +2,8 @@
 USER-AGENT,MicroMessenger Client
 USER-AGENT,WeChat*
 USER-AGENT,MApi* // Dianping
+DOMAIN-KEYWORD,baidu
+
 # Ali
 DOMAIN-KEYWORD,alipay
 DOMAIN-KEYWORD,taobao
@@ -11,14 +13,13 @@ DOMAIN-KEYWORD,.tmall.
 IP-CIDR,198.11.188.0/25,no-resolve
 IP-CIDR,198.11.136.0/24,no-resolve
 USER-AGENT,%E6%89%8B%E6%9C%BA%E6%B7%98%E5%AE%9D*
-# China
-DOMAIN-SUFFIX,CN
-DOMAIN-KEYWORD,baidu
+
 # JD
 DOMAIN-SUFFIX,jd.com
 DOMAIN-SUFFIX,360buyimg.com
 DOMAIN-SUFFIX,jdpay.com
-# other
+
+# csg
 DOMAIN-KEYWORD,elink
 
 # China Bank
@@ -54,3 +55,6 @@ IP-CIDR6,240e:e1:a900:50::/112,no-resolve
 
 USER-AGENT,WeChat*
 USER-AGENT,MicroMessenger*
+
+# China
+DOMAIN-SUFFIX,CN
