@@ -1,7 +1,3 @@
-# China Apps
-USER-AGENT,MApi* // Dianping
-DOMAIN-KEYWORD,baidu
-
 # Ali
 DOMAIN-KEYWORD,alipay
 DOMAIN-KEYWORD,taobao
@@ -55,6 +51,7 @@ USER-AGENT,WeChat*
 USER-AGENT,MicroMessenger*
 
 # Meituan
+USER-AGENT,MApi* // Dianping
 DOMAIN-SUFFIX,dianping.com
 DOMAIN-SUFFIX,maoyan.com
 DOMAIN-SUFFIX,meituan.com
@@ -63,4 +60,6 @@ DOMAIN-SUFFIX,mtyun.com
 DOMAIN-SUFFIX,sankuai.com
 
 # China
+DOMAIN-KEYWORD,163.com
+DOMAIN-KEYWORD,baidu
 DOMAIN-SUFFIX,CN
