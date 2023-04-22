@@ -54,5 +54,13 @@ IP-CIDR6,240e:e1:a900:50::/112,no-resolve
 USER-AGENT,WeChat*
 USER-AGENT,MicroMessenger*
 
+#Meituan
+DOMAIN-SUFFIX,dianping.com
+DOMAIN-SUFFIX,maoyan.com
+DOMAIN-SUFFIX,meituan.com
+DOMAIN-SUFFIX,meituan.net
+DOMAIN-SUFFIX,mtyun.com
+DOMAIN-SUFFIX,sankuai.com
+
 # China
 DOMAIN-SUFFIX,CN
