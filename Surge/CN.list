@@ -17,18 +17,15 @@ DOMAIN-SUFFIX,jdpay.com
 DOMAIN-KEYWORD,elink
 
 # China Bank
-DOMAIN-SUFFIX,icbc.com.cn
 DOMAIN-SUFFIX,ccb.com
-DOMAIN-SUFFIX,ccb.com.cn
 DOMAIN-SUFFIX,pingan.com
-DOMAIN-SUFFIX,pingan.com.cn
+
 
 #Tencent
 DOMAIN-SUFFIX,qq.com
 DOMAIN-SUFFIX,wechat.com
 DOMAIN-SUFFIX,weixin.com
 DOMAIN-SUFFIX,tenpay.com
-
 USER-AGENT,WeChat*
 USER-AGENT,MicroMessenger*
 
