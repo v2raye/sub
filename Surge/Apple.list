@@ -26,5 +26,5 @@ DOMAIN,appleid.cdn-apple.com
 DOMAIN,idmsa.apple.com
 DOMAIN,gsa.apple.com
 
-DOMAIN-SUFFX,ess.apple.com
+DOMAIN-SUFFIX,ess.apple.com
 
