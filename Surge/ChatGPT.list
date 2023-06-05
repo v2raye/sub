@@ -1,12 +1,11 @@
-DOMAIN-SUFFIX,openai.com
-DOMAIN-SUFFIX,pay.openai.com
-DOMAIN-SUFFIX,chat.openai.com
-DOMAIN-SUFFIX,challenges.cloudflare.com
-DOMAIN-SUFFIX,auth0.openai.com
-DOMAIN-SUFFIX,platform.openai.com
-DOMAIN-SUFFIX,invoice.stripe.com
-DOMAIN-SUFFIX,stripe.com
+# OpenAI
+DOMAIN,cdn.auth0.com
+DOMAIN,o33249.ingest.sentry.io
 DOMAIN-SUFFIX,ai.com
+DOMAIN-SUFFIX,challenges.cloudflare.com
+DOMAIN-SUFFIX,identrust.com
+DOMAIN-SUFFIX,stripe.com
+DOMAIN-KEYWORD,openai
 
 # ultramobile
 DOMAIN-SUFFIX,mintmobile.com
