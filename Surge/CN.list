@@ -10,6 +10,7 @@ USER-AGENT,%E6%89%8B%E6%9C%BA%E6%B7%98%E5%AE%9D*
 
 # JD
 DOMAIN-SUFFIX,jd.com
+DOMAIN-SUFFIX,360buy.com
 DOMAIN-SUFFIX,360buyimg.com
 DOMAIN-SUFFIX,jdpay.com
 DOMAIN-SUFFIX,jingxi.com
@@ -22,11 +23,13 @@ DOMAIN-SUFFIX,pingan.com
 
 
 #Tencent
+IP-CIDR,182.254.116.0/24,no-resolve
 DOMAIN-SUFFIX,qq.com
 DOMAIN-SUFFIX,wechat.com
 DOMAIN-SUFFIX,weixin.com
 DOMAIN-SUFFIX,tenpay.com
 USER-AGENT,WeChat*
+USER-AGENT,QQ*
 USER-AGENT,MicroMessenger*
 
 # Meituan
@@ -38,7 +41,7 @@ DOMAIN-SUFFIX,meituan.net
 DOMAIN-SUFFIX,mtyun.com
 DOMAIN-SUFFIX,sankuai.com
 
-# China
+# 网易
 DOMAIN-SUFFIX,163.com
 DOMAIN-SUFFIX,126.net
 DOMAIN-SUFFIX,126.com
@@ -46,4 +49,6 @@ DOMAIN-SUFFIX,126.com
 DOMAIN-KEYWORD,baidu
 DOMAIN-SUFFIX,zhihu.com
 DOMAIN-SUFFIX,zhimg.com
+DOMAIN-SUFFIX,gov.cn
 DOMAIN-SUFFIX,CN
+
