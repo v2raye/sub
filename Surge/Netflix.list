@@ -1,15 +1,11 @@
 # >> Netflix
-DOMAIN-SUFFIX,netflix.ca
-DOMAIN-SUFFIX,netflix.com
-DOMAIN-SUFFIX,netflix.net
+DOMAIN-KEYWORD,netflix
 DOMAIN-SUFFIX,nflxext.com
 DOMAIN-SUFFIX,nflximg.com
 DOMAIN-SUFFIX,nflximg.net
 DOMAIN-SUFFIX,nflxso.net
 DOMAIN-SUFFIX,nflxvideo.net
 DOMAIN-SUFFIX,nflxsearch.net
-DOMAIN-SUFFIX,netflix.com.edgesuite.net
-DOMAIN-KEYWORD,netflixdnstest
 DOMAIN-KEYWORD,dualstack.apiproxy-
 DOMAIN-KEYWORD,dualstack.ichnaea-web-
 DOMAIN-KEYWORD,apiproxy-device-prod-nlb-
