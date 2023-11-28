@@ -2,15 +2,8 @@
 DOMAIN-SUFFIX,googleapis.com
 DOMAIN,suggestqueries.google.com
 DOMAIN-KEYWORD,youtube
-DOMAIN-SUFFIX,youtube.com
 DOMAIN-SUFFIX,ggpht.com
 DOMAIN-SUFFIX,ytimg.com
-DOMAIN-SUFFIX,withyoutube.com
-
-DOMAIN-SUFFIX,youtubeeducation.com
-DOMAIN-SUFFIX,youtubegaming.com
-DOMAIN-SUFFIX,youtubekids.com
-DOMAIN-SUFFIX,youtube-nocookie.com
 
 USER-AGENT,com.google.ios.youtube*
 USER-AGENT,YouTube*
