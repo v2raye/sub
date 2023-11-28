@@ -1,6 +1,5 @@
 # >> YouTube
 DOMAIN-KEYWORD,youtube
-DOMAIN-SUFFIX,googleapis.com
 DOMAIN,suggestqueries.google.com
 DOMAIN-SUFFIX,googlevideo.com
 DOMAIN-SUFFIX,video.google.com
