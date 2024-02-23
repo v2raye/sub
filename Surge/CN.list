@@ -30,6 +30,7 @@ DOMAIN-SUFFIX,weixin.com
 DOMAIN-SUFFIX,tenpay.com
 USER-AGENT,WeChat*
 USER-AGENT,QQ*
+USER-AGENT,TIM*
 USER-AGENT,MicroMessenger*
 
 # Meituan
