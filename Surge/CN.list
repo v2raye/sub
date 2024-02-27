@@ -25,7 +25,6 @@ DOMAIN-SUFFIX,pingan.com
 #Tencent
 IP-CIDR,182.254.116.0/24,no-resolve
 DOMAIN-SUFFIX,qq.com
-DOMAIN-SUFFIX,wspeed.qq.com
 DOMAIN-SUFFIX,wechat.com
 DOMAIN-SUFFIX,weixin.com
 DOMAIN-SUFFIX,tenpay.com
