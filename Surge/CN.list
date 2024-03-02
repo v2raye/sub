@@ -47,6 +47,12 @@ DOMAIN-SUFFIX,163.com
 DOMAIN-SUFFIX,126.net
 DOMAIN-SUFFIX,126.com
 
+# Didi
+DOMAIN-SUFFIX,xiaojukeji.com
+DOMAIN-SUFFIX,udache.com
+DOMAIN-SUFFIX,didistatic.com
+DOMAIN-SUFFIX,diditaxi.com.cn
+
 DOMAIN-KEYWORD,baidu
 DOMAIN-SUFFIX,sf-express.com
 DOMAIN-SUFFIX,zhihu.com
