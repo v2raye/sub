@@ -7,6 +7,7 @@ USER-AGENT,com.google.ios.youtube*
 USER-AGENT,YouTube*
 
 # >> YouTubeMusic
+DOMAIN,music.youtube.com
 USER-AGENT,com.google.ios.youtubemusic*
 USER-AGENT,YouTubeMusic*
 
