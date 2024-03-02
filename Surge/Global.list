@@ -2,6 +2,7 @@ DOMAIN-SUFFIX,tw
 DOMAIN-KEYWORD,google
 DOMAIN-SUFFIX,gstatic.com
 DOMAIN-SUFFIX,github.com
+DOMAIN,github.githubassets.com
 DOMAIN-KEYWORD,gmail
 DOMAIN-KEYWORD,twitter
 DOMAIN-SUFFIX,twimg.com
