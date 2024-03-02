@@ -1,12 +1,5 @@
 # >> YouTube
 DOMAIN-KEYWORD,youtube
-DOMAIN,suggestqueries.google.com
-DOMAIN,notifications-pa.googleapis.com
-DOMAIN,oauth2.googleapis.com
-DOMAIN,oauthaccountmanager.googleapis.com
-DOMAIN,mtalk.google.com
-DOMAIN-SUFFIX,googlevideo.com
-DOMAIN-SUFFIX,video.google.com
 DOMAIN-SUFFIX,ggpht.com
 DOMAIN-SUFFIX,ytimg.com
 
