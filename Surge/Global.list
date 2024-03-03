@@ -40,3 +40,7 @@ DOMAIN-SUFFIX,githubusercontent.com
 DOMAIN-SUFFIX,account.sony.com
 DOMAIN-SUFFIX,dlercloud.com
 
+#POE
+DOMAIN-SUFFIX,poecdn.net
+DOMAIN-SUFFIX,poe.com
+DOMAIN,www.quora.com
