@@ -7,6 +7,9 @@ DOMAIN-KEYWORD,.tmall.
 DOMAIN-KEYWORD,alibaba
 DOMAIN-SUFFIX,aliapp.com
 DOMAIN-SUFFIX,aliapp.org
+DOMAIN-SUFFIX,aliyundrive.com
+DOMAIN-SUFFIX,weibo.com
+DOMAIN-SUFFIX,alipan.com
 IP-CIDR,198.11.188.0/25,no-resolve
 IP-CIDR,198.11.136.0/24,no-resolve
 PROCESS-NAME,com.taobao.taobao
