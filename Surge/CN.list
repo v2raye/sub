@@ -57,6 +57,11 @@ DOMAIN-SUFFIX,didistatic.com
 DOMAIN-SUFFIX,diditaxi.com.cn
 DOMAIN-SUFFIX,amap.com
 
+# caiyun
+DOMAIN-SUFFIX,autonavi.com
+DOMAIN-SUFFIX,umeng.com
+DOMAIN-SUFFIX,caiyuncdn.com
+DOMAIN-SUFFIX,caiyunapp.com
 DOMAIN-KEYWORD,baidu
 DOMAIN-SUFFIX,sf-express.com
 DOMAIN-SUFFIX,zhihu.com
