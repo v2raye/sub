@@ -34,7 +34,10 @@ DOMAIN,alkalimakersuite-pa.clients6.google.com
 DOMAIN-SUFFIX,generativeai.google
 
 # POE
+#POE
+DOMAIN-SUFFIX,poecdn.net
 DOMAIN-SUFFIX,poe.com
+DOMAIN,www.quora.com
 
 # ultramobile
 DOMAIN-SUFFIX,mintmobile.com
