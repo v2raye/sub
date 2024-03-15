@@ -71,8 +71,8 @@ DOMAIN-SUFFIX,colorfulclouds.net
 
 # other
 DOMAIN-KEYWORD,baidu
-DOMAIN-KEYWORD,shimo.im
-DOMAIN-KEYWORD,cnzz.com
+DOMAIN-SUFFIX,shimo.im
+DOMAIN-SUFFIX,cnzz.com
 DOMAIN-SUFFIX,sf-express.com
 DOMAIN-SUFFIX,zhihu.com
 DOMAIN-SUFFIX,zhimg.com
