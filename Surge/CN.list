@@ -21,7 +21,7 @@ DOMAIN-SUFFIX,360buyimg.com
 DOMAIN-SUFFIX,jdpay.com
 DOMAIN-SUFFIX,jingxi.com
 # csg
-DOMAIN,app.csg.cn
+DOMAIN-SUFFIX,csg.cn
 
 # China Bank
 DOMAIN-SUFFIX,ccb.com
