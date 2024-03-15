@@ -1,37 +1,21 @@
-# 国外域名
-DOMAIN-SUFFIX,eu
-DOMAIN-SUFFIX,hk
-DOMAIN-SUFFIX,jp
-DOMAIN-SUFFIX,kr
-DOMAIN-SUFFIX,sg
-DOMAIN-SUFFIX,tw
-DOMAIN-SUFFIX,uk
-DOMAIN-SUFFIX,us
-DOMAIN-SUFFIX,ca
-
-# 国外域名关键字
-DOMAIN-KEYWORD,1e100
-DOMAIN-KEYWORD,abema
-DOMAIN-KEYWORD,appledaily
-DOMAIN-KEYWORD,avtb
-DOMAIN-KEYWORD,beetalk
-DOMAIN-KEYWORD,blogspot
-DOMAIN-KEYWORD,dropbox
-DOMAIN-KEYWORD,facebook
-DOMAIN-KEYWORD,fbcdn
-DOMAIN-KEYWORD,github
-DOMAIN-KEYWORD,gmail
-DOMAIN-KEYWORD,google
-DOMAIN-KEYWORD,instagram
-DOMAIN-KEYWORD,porn
-DOMAIN-KEYWORD,sci-hub
-DOMAIN-KEYWORD,whatsapp
-
-DOMAIN-SUFFIX,gstatic.com
+# >> GitHub
 DOMAIN-SUFFIX,github.com
-DOMAIN,github.githubassets.com
-DOMAIN-SUFFIX,android.com
-DOMAIN-SUFFIX,githubusercontent.com
+DOMAIN-SUFFIX,github.blog
+DOMAIN-SUFFIX,github.community
+DOMAIN-SUFFIX,githubstatus.com
+DOMAIN-SUFFIX,git.io
+DOMAIN-SUFFIX,githubapp.com
+
+# >> 1Password
+DOMAIN-SUFFIX,1password.com
+DOMAIN-SUFFIX,1password.eu
+DOMAIN-SUFFIX,1password.ca
+
+# >> Cloudflare
+DOMAIN-SUFFIX,cloudflare-dns.com
+DOMAIN-SUFFIX,cloudflare.com
+DOMAIN-SUFFIX,cloudflareresolve.com
+
 DOMAIN-SUFFIX,account.sony.com
 DOMAIN-SUFFIX,dlercloud.com
 
