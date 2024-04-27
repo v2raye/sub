@@ -2,7 +2,14 @@
 DOMAIN-KEYWORD,github
 DOMAIN-SUFFIX,githubusercontent.com
 DOMAIN-SUFFIX,git.io
-
+DOMAIN-SUFFIX,github.com
+DOMAIN-SUFFIX,github.blog
+DOMAIN-SUFFIX,github.community
+DOMAIN-SUFFIX,githubstatus.com
+DOMAIN-SUFFIX,githubapp.com
+DOMAIN-SUFFIX,github.io
+DOMAIN-SUFFIX,githubapp.com
+DOMAIN-SUFFIX,githubassets.com
 
 # >> 1Password
 DOMAIN-SUFFIX,1password.com
