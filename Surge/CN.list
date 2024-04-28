@@ -66,6 +66,7 @@ DOMAIN-SUFFIX,jdpay.com
 DOMAIN-SUFFIX,jingxi.com
 # csg
 DOMAIN-SUFFIX,csg.cn
+DOMAIN,gov.v2raye.com
 
 # China Bank
 DOMAIN-SUFFIX,ccb.com
