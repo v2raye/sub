@@ -109,6 +109,8 @@ DOMAIN-SUFFIX,colorfulclouds.net
 
 # other
 DOMAIN-KEYWORD,baidu
+DOMAIN-SUFFIX,bdimg.com
+DOMAIN-SUFFIX,bcebos.com
 DOMAIN-SUFFIX,shimo.im
 DOMAIN-SUFFIX,cnzz.com
 DOMAIN-SUFFIX,sf-express.com
