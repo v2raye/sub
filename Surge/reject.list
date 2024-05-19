@@ -92,3 +92,10 @@ DOMAIN,fourier.taobao.com
 DOMAIN,elink.hq.corp.csg
 DOMAIN,adtrack.xiaojukeji.com
 DOMAIN,ald-lamp.alicdn.com
+DOMAIN,api-unionid.meituan.com
+DOMAIN,report.meituan.com
+DOMAIN,yun-hl.3g.qq.com
+DOMAIN,up-hl.3g.qq.com
+DOMAIN-SUFFIX,dreport.meituan.net
+DOMAIN-SUFFIX,hreport.meituan.com
+DOMAIN,mads.meituan.com
