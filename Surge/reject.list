@@ -101,3 +101,8 @@ DOMAIN-SUFFIX,hreport.meituan.com
 DOMAIN,mads.meituan.com
 DOMAIN,adashx.ut.amap.com
 DOMAIN-SUFFIX,qchannel01.cn
+DOMAIN-SUFFIX,segment.io
+DOMAIN,browser-intake-datadoghq.com
+DOMAIN-SUFFIX,segment.com
+DOMAIN,acs.waptest.taobao.com
+DOMAIN,umid.daily.alibaba.net
