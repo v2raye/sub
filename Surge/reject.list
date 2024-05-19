@@ -106,3 +106,9 @@ DOMAIN,browser-intake-datadoghq.com
 DOMAIN-SUFFIX,segment.com
 DOMAIN,acs.waptest.taobao.com
 DOMAIN,umid.daily.alibaba.net
+DOMAIN,data.bilibili.com
+DOMAIN,dataflow.biliapi.com
+DOMAIN,abtest.alibaba.com
+DOMAIN,sealine.youku.com
+DOMAIN,iyes.youku.com
+DOMAIN,aid.m.taobao.com
