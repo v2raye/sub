@@ -69,7 +69,7 @@ DOMAIN,audid-api.taobao.com
 DOMAIN,err.taobao.com
 DOMAIN,ifs.tanx.com
 DOMAIN,ilce.alicdn.com
-DOMAIN,log.aliyuncs.com
+DOMAIN-SUFFIX,log.aliyuncs.com
 DOMAIN,px.ucweb.com
 DOMAIN,log.mmstat.com
 DOMAIN,logs.amap.com
