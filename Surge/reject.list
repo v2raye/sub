@@ -76,6 +76,8 @@ DOMAIN-SUFFIX,mmstat.com
 DOMAIN-SUFFIX,tanx.com
 DOMAIN-SUFFIX,qchannel01.cn
 DOMAIN-SUFFIX,segment.io
+DOMAIN-SUFFIX,jpush.cn
+DOMAIN,zconfig.alibabausercontent.com
 DOMAIN,apoll.m.taobao.com
 DOMAIN,loggw-ex.alipay.com
 DOMAIN,amdc.m.taobao.com
@@ -102,3 +104,4 @@ DOMAIN,hreport.meituan.com
 DOMAIN,api-unionid.meituan.com
 DOMAIN,yun-hl.3g.qq.com
 DOMAIN,dreport.meituan.net
+DOMAIN,cgi.connect.qq.com
