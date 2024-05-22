@@ -69,9 +69,11 @@ DOMAIN,blackhole.m.jd.com
 DOMAIN,policy.jd.com
 DOMAIN,jpushjd.m.jd.com
 DOMAIN,mars.jd.com
+
 #Alibaba
 DOMAIN-SUFFIX,cmpassport.com
 DOMAIN-SUFFIX,mmstat.com
+DOMAIN-SUFFIX,tanx.com
 DOMAIN,apoll.m.taobao.com
 DOMAIN,loggw-ex.alipay.com
 DOMAIN,amdc.m.taobao.com
@@ -86,6 +88,7 @@ DOMAIN,fourier.taobao.com
 DOMAIN,ilce.alicdn.com
 DOMAIN,loggw.alipay.com.cn
 DOMAIN,audid-api.taobao.com
+
 #WeChet&meituan
 DOMAIN,dreport.meituan.net
 DOMAIN,mads.meituan.com
