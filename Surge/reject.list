@@ -105,3 +105,10 @@ DOMAIN,api-unionid.meituan.com
 DOMAIN,yun-hl.3g.qq.com
 DOMAIN,dreport.meituan.net
 DOMAIN,cgi.connect.qq.com
+
+#Baidu&163
+DOMAIN,feed.baidu.com
+DOMAIN,ext.baidu.com
+DOMAIN,als.baidu.com
+DOMAIN,hectorstatic.baidu.com
+DOMAIN,channel.m.163.com
