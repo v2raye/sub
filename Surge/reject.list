@@ -69,3 +69,13 @@ DOMAIN,blackhole.m.jd.com
 DOMAIN,policy.jd.com
 DOMAIN,jpushjd.m.jd.com
 DOMAIN,mars.jd.com
+#Alibaba
+DOMAIN-SUFFIX,cmpassport.com
+DOMAIN-SUFFIX,mmstat.com
+DOMAIN,apoll.m.taobao.com
+DOMAIN,loggw-ex.alipay.com
+DOMAIN,amdc.m.taobao.com
+DOMAIN,ynuf.aliapp.org
+DOMAIN,px.ucweb.com
+DOMAIN,sjarvis.taobao.com
+DOMAIN,fourier.taobao.com
