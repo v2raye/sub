@@ -96,6 +96,7 @@ DOMAIN,audid-api.taobao.com
 DOMAIN,adashx.ut.amap.com
 DOMAIN,app-measurement.com
 DOMAIN,elink.hq.corp.csg
+DOMAIN,cdn.ynuf.aliapp.org
 
 #WeChet&meituan
 DOMAIN,dreport.meituan.net
@@ -105,6 +106,7 @@ DOMAIN,api-unionid.meituan.com
 DOMAIN,yun-hl.3g.qq.com
 DOMAIN,dreport.meituan.net
 DOMAIN,cgi.connect.qq.com
+DOMAIN,safebrowsing.urlsec.qq.com
 
 #Baidu&163
 DOMAIN,feed.baidu.com
@@ -112,3 +114,6 @@ DOMAIN,ext.baidu.com
 DOMAIN,als.baidu.com
 DOMAIN,hectorstatic.baidu.com
 DOMAIN,channel.m.163.com
+DOMAIN,sp0.baidu.com
+DOMAIN,feed-image.baidu.com
+DOMAIN,hm.baidu.com
