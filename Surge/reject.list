@@ -74,6 +74,8 @@ DOMAIN,mars.jd.com
 DOMAIN-SUFFIX,cmpassport.com
 DOMAIN-SUFFIX,mmstat.com
 DOMAIN-SUFFIX,tanx.com
+DOMAIN-SUFFIX,qchannel01.cn
+DOMAIN-SUFFIX,segment.io
 DOMAIN,apoll.m.taobao.com
 DOMAIN,loggw-ex.alipay.com
 DOMAIN,amdc.m.taobao.com
@@ -90,7 +92,8 @@ DOMAIN,ilce.alicdn.com
 DOMAIN,loggw.alipay.com.cn
 DOMAIN,audid-api.taobao.com
 DOMAIN,adashx.ut.amap.com
-DOMAIN,qchannel01.cn
+DOMAIN,app-measurement.com
+DOMAIN,elink.hq.corp.csg
 
 #WeChet&meituan
 DOMAIN,dreport.meituan.net
