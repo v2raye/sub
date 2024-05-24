@@ -16,6 +16,7 @@ DOMAIN-SUFFIX,1password.com
 DOMAIN-SUFFIX,1password.eu
 DOMAIN-SUFFIX,1password.ca
 DOMAIN-SUFFIX,bitwarden.com
+DOMAIN-SUFFIX,bitwarden.net
 
 # >> Cloudflare
 DOMAIN-SUFFIX,cloudflare-dns.com
@@ -71,5 +72,11 @@ DOMAIN-SUFFIX,launchdarkly.com
 DOMAIN-SUFFIX,gstatic.com
 DOMAIN-SUFFIX,gitlab.com
 DOMAIN-SUFFIX,surge-activation.com
-DOMAIN-SUFFIX,appsflyersdk.com
+
+DOMAIN-SUFFIX,appcenter.ms
+DOMAIN-SUFFIX,sleazyfork.org
+DOMAIN-SUFFIX,jsdelivr.net
+DOMAIN-SUFFIX,greasyfork.org
+DOMAIN-SUFFIX,wikimedia.org
+
 
