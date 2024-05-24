@@ -15,6 +15,7 @@ DOMAIN-SUFFIX,githubassets.com
 DOMAIN-SUFFIX,1password.com
 DOMAIN-SUFFIX,1password.eu
 DOMAIN-SUFFIX,1password.ca
+DOMAIN-SUFFIX,bitwarden.com
 
 # >> Cloudflare
 DOMAIN-SUFFIX,cloudflare-dns.com
