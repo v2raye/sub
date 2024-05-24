@@ -21,6 +21,7 @@ DOMAIN-SUFFIX,bitwarden.com
 DOMAIN-SUFFIX,cloudflare-dns.com
 DOMAIN-SUFFIX,cloudflare.com
 DOMAIN-SUFFIX,cloudflareresolve.com
+DOMAIN-SUFFIX,sagernet.org
 
 DOMAIN-SUFFIX,account.sony.com
 DOMAIN-KEYWORD,dlercloud
