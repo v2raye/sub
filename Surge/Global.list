@@ -31,6 +31,7 @@ DOMAIN-KEYWORD,onedrive
 DOMAIN-KEYWORD,paypal
 DOMAIN-KEYWORD,porn
 DOMAIN-KEYWORD,youtube
+DOMAIN-SUFFIX,ytimg.com
 
 # twitter
 DOMAIN-KEYWORD,twitter
