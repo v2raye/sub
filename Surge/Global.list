@@ -61,3 +61,6 @@ IP-CIDR,69.195.160.0/19,no-resolve
 # ultramobile
 DOMAIN-SUFFIX,mintmobile.com
 DOMAIN-SUFFIX,ultramobile.com
+
+#other
+DOMAIN-SUFFIX,segment.io
