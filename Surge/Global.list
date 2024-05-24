@@ -33,6 +33,7 @@ DOMAIN-KEYWORD,paypal
 DOMAIN-KEYWORD,porn
 DOMAIN-KEYWORD,youtube
 DOMAIN-SUFFIX,ytimg.com
+DOMAIN-SUFFIX,ggpht.com
 
 # twitter
 DOMAIN-KEYWORD,twitter
@@ -66,3 +67,5 @@ DOMAIN-SUFFIX,ultramobile.com
 #other
 DOMAIN-SUFFIX,segment.io
 DOMAIN-SUFFIX,v2ex.com
+DOMAIN-SUFFIX,launchdarkly.com
+
