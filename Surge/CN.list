@@ -60,6 +60,7 @@ DOMAIN-SUFFIX,realapp.xin
 DOMAIN,mgw.alipay.com
 DOMAIN-SUFFIX,goofish.com
 DOMAIN-SUFFIX,hellobike.com
+DOMAIN-SUFFIX,shujupie.com
 IP-CIDR,198.11.188.0/25,no-resolve
 IP-CIDR,198.11.136.0/24,no-resolve
 USER-AGENT,%E6%89%8B%E6%9C%BA%E6%B7%98%E5%AE%9D*
