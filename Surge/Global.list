@@ -40,13 +40,13 @@ DOMAIN-SUFFIX,ggpht.com
 
 #other
 DOMAIN-KEYWORD,amazon
+DOMAIN-SUFFIX,adguard.org
 DOMAIN-SUFFIX,segment.io
 DOMAIN-SUFFIX,v2ex.com
 DOMAIN-SUFFIX,launchdarkly.com
 DOMAIN-SUFFIX,gstatic.com
 DOMAIN-SUFFIX,gitlab.com
 DOMAIN-SUFFIX,surge-activation.com
-
 DOMAIN-SUFFIX,appcenter.ms
 DOMAIN-SUFFIX,sleazyfork.org
 DOMAIN-SUFFIX,jsdelivr.net
