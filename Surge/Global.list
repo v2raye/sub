@@ -21,6 +21,7 @@ DOMAIN-SUFFIX,bitwarden.net
 # >> Cloudflare
 DOMAIN-SUFFIX,cloudflare-dns.com
 DOMAIN-SUFFIX,cloudflare.com
+DOMAIN-SUFFIX,cloudfront.net
 DOMAIN-SUFFIX,cloudflareresolve.com
 DOMAIN-SUFFIX,sagernet.org
 
@@ -33,10 +34,12 @@ DOMAIN-KEYWORD,onedrive
 DOMAIN-KEYWORD,paypal
 DOMAIN-KEYWORD,porn
 DOMAIN-KEYWORD,youtube
+DOMAIN-SUFFIX,youtu.be
 DOMAIN-SUFFIX,ytimg.com
 DOMAIN-SUFFIX,ggpht.com
 
 #other
+DOMAIN-KEYWORD,amazon
 DOMAIN-SUFFIX,segment.io
 DOMAIN-SUFFIX,v2ex.com
 DOMAIN-SUFFIX,launchdarkly.com
@@ -50,6 +53,11 @@ DOMAIN-SUFFIX,jsdelivr.net
 DOMAIN-SUFFIX,greasyfork.org
 DOMAIN-SUFFIX,wikimedia.org
 DOMAIN-SUFFIX,yahoo.com
+DOMAIN-SUFFIX,adobe.com
+DOMAIN-SUFFIX,android.com
+DOMAIN-SUFFIX,bing.com
+DOMAIN-SUFFIX,chromium.org
+DOMAIN-SUFFIX,duckduckgo.com
 
 
 
