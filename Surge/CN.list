@@ -110,9 +110,12 @@ DOMAIN-SUFFIX,ydstatic.com
 # Didi
 DOMAIN-SUFFIX,xiaojukeji.com
 DOMAIN-SUFFIX,udache.com
+DOMAIN-SUFFIX,didi.cn
+DOMAIN-SUFFIX,didialift.com
 DOMAIN-SUFFIX,didistatic.com
 DOMAIN-SUFFIX,diditaxi.com.cn
 DOMAIN-SUFFIX,amap.com
+DOMAIN-SUFFIX,feizhu.com
 
 # caiyun
 DOMAIN-SUFFIX,autonavi.com
@@ -123,12 +126,15 @@ DOMAIN-SUFFIX,colorfulclouds.net
 
 # other
 DOMAIN-KEYWORD,baidu
+DOMAIN-SUFFIX,10099.com.cn
 DOMAIN-SUFFIX,12306.cn
 DOMAIN-SUFFIX,12306.com
+DOMAIN-SUFFIX,21cn.com
 DOMAIN-SUFFIX,189.cn
 DOMAIN-SUFFIX,360.cn
 DOMAIN-SUFFIX,360.com
 DOMAIN-SUFFIX,36kr.com
+DOMAIN-SUFFIX,autohome.com.cn
 DOMAIN-SUFFIX,cnbeta.com
 DOMAIN-SUFFIX,cnbetacdn.com
 DOMAIN-SUFFIX,csdn.net
@@ -138,6 +144,7 @@ DOMAIN-SUFFIX,bcebos.com
 DOMAIN-SUFFIX,cnzz.com
 DOMAIN-SUFFIX,gitcode.net
 DOMAIN-SUFFIX,haishuu.com
+DOMAIN-SUFFIX,hellowbike.com
 DOMAIN-SUFFIX,hitv.com
 DOMAIN-SUFFIX,iqiyipic.com
 DOMAIN-SUFFIX,iqiyi.com
