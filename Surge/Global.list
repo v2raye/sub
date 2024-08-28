@@ -23,10 +23,8 @@ DOMAIN-SUFFIX,cloudflare-dns.com
 DOMAIN-SUFFIX,cloudflare.com
 DOMAIN-SUFFIX,cloudfront.net
 DOMAIN-SUFFIX,cloudflareresolve.com
-DOMAIN-SUFFIX,sagernet.org
 
-DOMAIN-SUFFIX,account.sony.com
-DOMAIN-KEYWORD,dlercloud
+DOMAIN-KEYWORD,amazon
 DOMAIN-KEYWORD,fbcdn
 DOMAIN-KEYWORD,gmail
 DOMAIN-KEYWORD,google
@@ -39,14 +37,17 @@ DOMAIN-SUFFIX,ytimg.com
 DOMAIN-SUFFIX,ggpht.com
 
 #other
-DOMAIN-KEYWORD,amazon
+DOMAIN-SUFFIX,account.sony.com
 DOMAIN-SUFFIX,adguard.org
+DOMAIN-SUFFIX,dlercloud.com
+DOMAIN-SUFFIX,dler.io
 DOMAIN-SUFFIX,segment.io
 DOMAIN-SUFFIX,v2ex.com
 DOMAIN-SUFFIX,launchdarkly.com
 DOMAIN-SUFFIX,gstatic.com
 DOMAIN-SUFFIX,gitlab.com
 DOMAIN-SUFFIX,surge-activation.com
+DOMAIN-SUFFIX,sagernet.org
 DOMAIN-SUFFIX,appcenter.ms
 DOMAIN-SUFFIX,sleazyfork.org
 DOMAIN-SUFFIX,jsdelivr.net
