@@ -5,6 +5,9 @@ USER-AGENT,TIM*
 PROCESS-NAME,QQ
 PROCESS-NAME,WeChat
 PROCESS-NAME,QQLive
+DOMAIN,apd-pcdnwxlogin.teg.tencent-cloud.net
+DOMAIN,slife.xy-asia.com
+DOMAIN-SUFFIX,iot-tencent.com
 DOMAIN-SUFFIX,gtimg.com
 DOMAIN-SUFFIX,qq.com
 DOMAIN-SUFFIX,qlogo.cn
