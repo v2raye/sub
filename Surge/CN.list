@@ -19,7 +19,9 @@ DOMAIN-SUFFIX,tencent.com
 DOMAIN-SUFFIX,wechat.com
 DOMAIN-SUFFIX,wechatos.net
 DOMAIN-SUFFIX,weixin.com
-
+DOMAIN-SUFFIX,webank.com
+DOMAIN-SUFFIX,webankcdn.net
+DOMAIN-SUFFIX,tctpwebank.com
 # Ali
 DOMAIN-KEYWORD,alipay
 DOMAIN-KEYWORD,taobao
