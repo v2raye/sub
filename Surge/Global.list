@@ -41,11 +41,14 @@ DOMAIN-SUFFIX,account.sony.com
 DOMAIN-SUFFIX,adguard.org
 DOMAIN-SUFFIX,adtidy.org
 DOMAIN-SUFFIX,dlercloud.com
+DOMAIN-SUFFIX,docker.com
 DOMAIN-SUFFIX,dler.io
 DOMAIN-SUFFIX,segment.io
 DOMAIN-SUFFIX,v2ex.com
 DOMAIN-SUFFIX,launchdarkly.com
+DOMAIN-SUFFIX,loveproe.com
 DOMAIN-SUFFIX,gstatic.com
+DOMAIN-SUFFIX,gravatar.com
 DOMAIN-SUFFIX,gitlab.com
 DOMAIN-SUFFIX,surge-activation.com
 DOMAIN-SUFFIX,sagernet.org
