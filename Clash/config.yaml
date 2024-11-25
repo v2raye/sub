@@ -80,13 +80,15 @@ dns:
 # 类似于 /etc/hosts, 仅支持配置单个 IP
 #hosts:
 # '*.mcdn.bilivideo.cn': 127.0.0.1    
-# 锚点 - 节点订阅的参数 [每24小时更新一次订阅节点，每 60 秒一次健康检查]
-NodeParam: &NodeParam {type: http, interval: 86400, health-check: {enable: true, url: 'http://connectivitycheck.platform.hicloud.com/generate_204', interval: 60}}
 # url 里填写自己的订阅,名称不能重复
 proxy-providers: 
-  我的节点:
-    url: ''
-    <<: *NodeParam
+provider:
+    url: ""
+    type: http
+    interval: 86400
+    health-check: {enable: true,url: "https://www.gstatic.com/generate_204",interval: 300}
+    override:
+      additional-prefix: "[provider]"
 # 锚点 - 节点筛选组
 FilterHK: &FilterHK '^(?=.*((?i)🇭🇰|香港|(\b(HK|Hong)\b))).*$'
 FilterJP: &FilterJP '^(?=.*((?i)🇯🇵|日本|川日|东京|大阪|泉日|埼玉|(\b(JP|Japan)\b))).*$'
