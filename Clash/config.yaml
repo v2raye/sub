@@ -87,7 +87,6 @@ proxy-providers:
   我的节点:
     url: ''
     <<: *NodeParam
-    path: './proxy_provider/providers.yaml'
 # 锚点 - 节点筛选组
 FilterHK: &FilterHK '^(?=.*((?i)🇭🇰|香港|(\b(HK|Hong)\b))).*$'
 FilterJP: &FilterJP '^(?=.*((?i)🇯🇵|日本|川日|东京|大阪|泉日|埼玉|(\b(JP|Japan)\b))).*$'
