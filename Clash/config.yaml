@@ -81,12 +81,15 @@ dns:
 #hosts:
 # '*.mcdn.bilivideo.cn': 127.0.0.1    
 # url 里填写自己的订阅,名称不能重复
-proxy-providers: 
-provider:
+proxy-providers:
+  provider:
     url: ""
     type: http
     interval: 86400
-    health-check: {enable: true,url: "https://www.gstatic.com/generate_204",interval: 300}
+    health-check:
+      enable: true
+      url: "https://www.gstatic.com/generate_204"
+      interval: 300
     override:
       additional-prefix: "[provider]"
 # 锚点 - 节点筛选组
