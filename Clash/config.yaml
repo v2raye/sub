@@ -1,5 +1,5 @@
 mixed-port: 7890
-scoks-port:7891
+scoks-port: 7891
 ipv6: true
 udp: true
 mode: rule
@@ -43,7 +43,7 @@ tun:
 
 dns:
   enable: true
-  listen:127.0.0.1:5450
+  listen: 127.0.0.1:5450
   ipv6: true
   prefer-h3: false
   respect-rules: false
