@@ -95,12 +95,12 @@ proxy-groups:
   - {name: OpenAI, type: select, proxies: [香港节点, 日本节点, 新加坡节点, 美国节点, 欧盟节点, 台湾节点]}
   - {name: Telegram, type: select, proxies: [香港节点, 日本节点, 新加坡节点, 美国节点, 欧盟节点, 台湾节点]}
 
-  - {name: 香港节点, <<: *smart, filter: *FilterHK}
-  - {name: 台湾节点, <<: *smart, filter: *FilterTW}
-  - {name: 日本节点, <<: *smart, filter: *FilterJP}
-  - {name: 新加坡节点, <<: *smart, filter: *FilterSG}
-  - {name: 美国节点, <<: *smart, filter: *FilterUS}
-  - {name: 欧盟节点, <<: *smart, filter: *FilterEU}
+  - {name: 香港节点, <<: *smart, include-all: true,uselightgbm: true,collectdata: false,interval: 3600,filter: *FilterHK}
+  - {name: 台湾节点, <<: *smart, include-all: true,uselightgbm: true,collectdata: false,interval: 3600,filter: *FilterTW}
+  - {name: 日本节点, <<: *smart, include-all: true,uselightgbm: true,collectdata: false,interval: 3600,filter: *FilterJP}
+  - {name: 新加坡节点, <<: *smart, include-all: true,uselightgbm: true,collectdata: false,interval: 3600,filter: *FilterSG}
+  - {name: 美国节点, <<: *smart, include-all: true,uselightgbm: true,collectdata: false,interval: 3600,filter: *FilterUS}
+  - {name: 欧盟节点, <<: *smart, include-all: true,uselightgbm: true,collectdata: false,interval: 3600,filter: *FilterEU}
 rules:
     - DOMAIN,local.adguard.org,REJECT
     - DOMAIN,injections.adguard.org,Outside
