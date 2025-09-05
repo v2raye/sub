@@ -81,6 +81,7 @@ proxy-groups:
   - {name: Outside, type: select, proxies: [香港节点, 日本节点, 新加坡节点, 美国节点, 欧盟节点, 台湾节点,DIRECT]}
   - {name: YouTube, type: select, proxies: [香港节点, 日本节点, 新加坡节点, 美国节点, 欧盟节点, 台湾节点]}
   - {name: Google, type: select, proxies: [香港节点, 日本节点, 新加坡节点, 美国节点, 欧盟节点, 台湾节点]}
+  - {name: Apple, type: select, proxies: [香港节点, 日本节点, 新加坡节点, 美国节点, 欧盟节点, 台湾节点]}  
   - {name: OpenAI, type: select, proxies: [香港节点, 日本节点, 新加坡节点, 美国节点, 欧盟节点, 台湾节点]}
   - {name: Telegram, type: select, proxies: [香港节点, 日本节点, 新加坡节点, 美国节点, 欧盟节点, 台湾节点]}
 
@@ -97,6 +98,7 @@ rules:
     - RULE-SET,Private_domain,DIRECT
     - RULE-SET,OpenAI,OpenAI
     - RULE-SET,Google_domain,Google
+    - RULE-SET,Apple_domain,Apple
     - RULE-SET,Telegram,Telegram
     - RULE-SET,CN_domain,DIRECT
     - RULE-SET,Proxy,Outside
@@ -106,6 +108,7 @@ rules:
     - OR,((IP-ASN,44907),(IP-ASN,62041),(IP-CIDR,149.154.160.0/20),(IP-CIDR,91.108.4.0/22),(IP-CIDR,91.108.8.0/22),(IP-CIDR6,2001:67c:4e8::/48),(IP-CIDR6,2001:b28:f23c::/48)),欧盟节点
     - OR,((IP-ASN,59930),(IP-ASN,21157),(IP-CIDR,91.108.12.0/22),(IP-CIDR6,2001:b28:f23d::/48)),OpenAI
     - RULE-SET,Google_ip,Google
+    - RULE-SET,Apple_ip,Apple
     - RULE-SET,CN_ip,DIRECT
     - MATCH,Outside
 rule-anchor:
@@ -128,6 +131,9 @@ rule-providers:
   Telegram:
     <<: *domain
     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo-lite/geosite/telegram.mrs"
+  Apple:
+    <<: *domain
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo-lite/geosite/apple.mrs"    
   Proxy:
     <<: *domain
     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geosite/geolocation-!cn.mrs"
@@ -141,4 +147,6 @@ rule-providers:
   Google_ip:
     <<: *ip
     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geoip/google.mrs"
-
+  Apple_ip:
+    <<: *ip
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo-lite/geoip/apple.mrs"
