@@ -76,17 +76,6 @@ proxy-providers:
     <<: *NodeParam
     path: './proxy_provider/Providers.yaml'
 
-# 锚点 - 节点筛选组
-FilterHK: &FilterHK '^(?=.*((?i)🇭🇰|香港|(\b(HK|Hong)\b))).*$'
-FilterJP: &FilterJP '^(?=.*((?i)🇯🇵|日本|川日|东京|大阪|泉日|埼玉|(\b(JP|Japan)\b))).*$'
-FilterSG: &FilterSG '^(?=.*((?i)🇸🇬|新加坡|狮|(\b(SG|Singapore)\b))).*$'
-FilterUS: &FilterUS '^(?=.*((?i)🇺🇸|美国|波特兰|达拉斯|俄勒冈|凤凰城|费利蒙|硅谷|拉斯维加斯|洛杉矶|圣何塞|圣克拉拉|西雅图|芝加哥|(\b(US|United States)\b))).*$'
-FilterTW: &FilterTW '^(?=.*((?i)🇹🇼|台湾|(\b(TW|Taiwan)\b))).*$'
-FilterEU: &FilterEU '^(?!.*(🇺🇸|US|us|美国|美|United States|🇸🇬|SG|sg|新加坡|狮|Singapore|🇯🇵|JP|jp|日本|日|Japan|🇹🇼|TW|tw|台湾|臺灣|台|Taiwan|🇭🇰|HK|hk|香港|港)).*$'
-FilterAll: &FilterAll '^(?=.*(.)).*$'
-# 策略组参数锚点
-# 锚点 - 负载均衡参数 [每 6 秒一次惰性健康检查，时延超过 2 秒判定为失败，失败 3 次则自动触发健康检查]
-Select: &Select {type: select, url: 'http://connectivitycheck.platform.hicloud.com/generate_204', disable-udp: false, hidden: false, include-all: true}
 # 策略组
 proxy-groups: 
   - {name: Outside, type: select, proxies: [香港节点, 日本节点, 新加坡节点, 美国节点, 欧盟节点, 台湾节点,DIRECT]}
@@ -95,12 +84,12 @@ proxy-groups:
   - {name: OpenAI, type: select, proxies: [香港节点, 日本节点, 新加坡节点, 美国节点, 欧盟节点, 台湾节点]}
   - {name: Telegram, type: select, proxies: [香港节点, 日本节点, 新加坡节点, 美国节点, 欧盟节点, 台湾节点]}
 
-  - {name: 香港节点, <<: *smart, include-all: true,uselightgbm: true,collectdata: false,interval: 3600,filter: *FilterHK}
-  - {name: 台湾节点, <<: *smart, include-all: true,uselightgbm: true,collectdata: false,interval: 3600,filter: *FilterTW}
-  - {name: 日本节点, <<: *smart, include-all: true,uselightgbm: true,collectdata: false,interval: 3600,filter: *FilterJP}
-  - {name: 新加坡节点, <<: *smart, include-all: true,uselightgbm: true,collectdata: false,interval: 3600,filter: *FilterSG}
-  - {name: 美国节点, <<: *smart, include-all: true,uselightgbm: true,collectdata: false,interval: 3600,filter: *FilterUS}
-  - {name: 欧盟节点, <<: *smart, include-all: true,uselightgbm: true,collectdata: false,interval: 3600,filter: *FilterEU}
+  - {name: 香港节点, type: smart, include-all: true,uselightgbm: true,collectdata: false,interval: 3600,filter: "^(?=.*((?i)🇭🇰|香港|(\b(HK|Hong)\b))).*$"}
+  - {name: 台湾节点, type: smart, include-all: true,uselightgbm: true,collectdata: false,interval: 3600,filter: "^(?=.*((?i)🇹🇼|台湾|(\b(TW|Taiwan)\b))).*$"}
+  - {name: 日本节点, type: smart, include-all: true,uselightgbm: true,collectdata: false,interval: 3600,filter: "^(?=.*((?i)🇯🇵|日本|川日|东京|大阪|泉日|埼玉|(\b(JP|Japan)\b))).*$"}
+  - {name: 新加坡节点, type: smart, include-all: true,uselightgbm: true,collectdata: false,interval: 3600,filter: "^(?=.*((?i)🇸🇬|新加坡|狮|(\b(SG|Singapore)\b))).*$"}
+  - {name: 美国节点, type: smart, include-all: true,uselightgbm: true,collectdata: false,interval: 3600,filter: "^(?=.*((?i)🇺🇸|美国|(\b(US|United States)\b))).*$"}
+  - {name: 欧盟节点, type: smart, include-all: true,uselightgbm: true,collectdata: false,interval: 3600,filter: "^(?!.*(🇺🇸|US|us|美国|美|United States|🇸🇬|SG|sg|新加坡|狮|Singapore|🇯🇵|JP|jp|日本|日|Japan|🇹🇼|TW|tw|台湾|臺灣|台|Taiwan|🇭🇰|HK|hk|香港|港)).*$"}
 rules:
     - DOMAIN,local.adguard.org,REJECT
     - DOMAIN,injections.adguard.org,Outside
