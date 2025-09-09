@@ -85,12 +85,12 @@ proxy-groups:
   - {name: OpenAI, type: select, proxies: [香港节点, 日本节点, 新加坡节点, 美国节点, 欧盟节点, 台湾节点]}
   - {name: Telegram, type: select, proxies: [香港节点, 日本节点, 新加坡节点, 美国节点, 欧盟节点, 台湾节点]}
 
-  - {name: 香港节点, type: smart, include-all: true,uselightgbm: true,collectdata: false,interval: 3600,filter: "^(?=.*((?i)🇭🇰|香港|(\b(HK|Hong)\b))).*$"}
-  - {name: 台湾节点, type: smart, include-all: true,uselightgbm: true,collectdata: false,interval: 3600,filter: "^(?=.*((?i)🇹🇼|台湾|(\b(TW|Taiwan)\b))).*$"}
-  - {name: 日本节点, type: smart, include-all: true,uselightgbm: true,collectdata: false,interval: 3600,filter: "^(?=.*((?i)🇯🇵|日本|川日|东京|大阪|泉日|埼玉|(\b(JP|Japan)\b))).*$"}
-  - {name: 新加坡节点, type: smart, include-all: true,uselightgbm: true,collectdata: false,interval: 3600,filter: "^(?=.*((?i)🇸🇬|新加坡|狮|(\b(SG|Singapore)\b))).*$"}
-  - {name: 美国节点, type: smart, include-all: true,uselightgbm: true,collectdata: false,interval: 3600,filter: "^(?=.*((?i)🇺🇸|美国|(\b(US|United States)\b))).*$"}
-  - {name: 欧盟节点, type: smart, include-all: true,uselightgbm: true,collectdata: false,interval: 3600,filter: "^(?!.*(🇺🇸|US|us|美国|美|United States|🇸🇬|SG|sg|新加坡|狮|Singapore|🇯🇵|JP|jp|日本|日|Japan|🇹🇼|TW|tw|台湾|臺灣|台|Taiwan|🇭🇰|HK|hk|香港|港)).*$"}
+  - {name: 香港节点, type: smart, policy-priority: "DlerCloud:1.2;Enet:1.0;LinkCube:0.8",include-all: true,uselightgbm: true,collectdata: false,strategy: sticky-sessions,interval: 3600,filter: "^(?=.*((?i)🇭🇰|香港|(\b(HK|Hong)\b))).*$"}
+  - {name: 台湾节点, type: smart, policy-priority: "DlerCloud:1.2;Enet:1.0;LinkCube:0.8",include-all: true,uselightgbm: true,collectdata: false,strategy: sticky-sessions,interval: 3600,filter: "^(?=.*((?i)🇹🇼|台湾|(\b(TW|Taiwan)\b))).*$"}
+  - {name: 日本节点, type: smart, policy-priority: "DlerCloud:1.2;Enet:1.0;LinkCube:0.8",include-all: true,uselightgbm: true,collectdata: false,strategy: sticky-sessions,interval: 3600,filter: "^(?=.*((?i)🇯🇵|日本|川日|东京|大阪|泉日|埼玉|(\b(JP|Japan)\b))).*$"}
+  - {name: 新加坡节点, type: smart, policy-priority: "DlerCloud:1.2;Enet:1.0;LinkCube:0.8",include-all: true,uselightgbm: true,collectdata: false,strategy: sticky-sessions,interval: 3600,filter: "^(?=.*((?i)🇸🇬|新加坡|狮|(\b(SG|Singapore)\b))).*$"}
+  - {name: 美国节点, type: smart, policy-priority: "DlerCloud:1.2;Enet:1.0;LinkCube:0.8",include-all: true,uselightgbm: true,collectdata: false,strategy: sticky-sessions,interval: 3600,filter: "^(?=.*((?i)🇺🇸|美国|(\b(US|United States)\b))).*$"}
+  - {name: 欧盟节点, type: smart, policy-priority: "DlerCloud:1.2;Enet:1.0;LinkCube:0.8",include-all: true,uselightgbm: true,collectdata: false,strategy: sticky-sessions,interval: 3600,filter: "^(?!.*(🇺🇸|US|us|美国|美|United States|🇸🇬|SG|sg|新加坡|狮|Singapore|🇯🇵|JP|jp|日本|日|Japan|🇹🇼|TW|tw|台湾|臺灣|台|Taiwan|🇭🇰|HK|hk|香港|港)).*$"}
 rules:
     - RULE-SET,adblock,REJECT
     - DOMAIN,local.adguard.org,REJECT
