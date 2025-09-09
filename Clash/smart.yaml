@@ -92,6 +92,7 @@ proxy-groups:
   - {name: 美国节点, type: smart, include-all: true,uselightgbm: true,collectdata: false,interval: 3600,filter: "^(?=.*((?i)🇺🇸|美国|(\b(US|United States)\b))).*$"}
   - {name: 欧盟节点, type: smart, include-all: true,uselightgbm: true,collectdata: false,interval: 3600,filter: "^(?!.*(🇺🇸|US|us|美国|美|United States|🇸🇬|SG|sg|新加坡|狮|Singapore|🇯🇵|JP|jp|日本|日|Japan|🇹🇼|TW|tw|台湾|臺灣|台|Taiwan|🇭🇰|HK|hk|香港|港)).*$"}
 rules:
+    - RULE-SET,adblock,REJECT
     - DOMAIN,local.adguard.org,REJECT
     - OR,((DOMAIN,injections.adguard.org),(DOMAIN,cf.bili.rip),(DOMAIN,hxd.as174.de)),Outside
     - AND,(AND,(DST-PORT,443),(NETWORK,UDP)),(NOT,((RULE-SET,CN_ip))),REJECT
@@ -119,6 +120,9 @@ rule-providers:
   Private_domain:
     <<: *domain
     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geosite/private.mrs"
+  adblock:
+    <<: *domain
+    url: "https://raw.githubusercontent.com/REIJI007/AdBlock_Rule_For_Clash/main/adblock_reject.mrs"
   CN_domain:
     <<: *domain
     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geosite/cn.mrs"  
