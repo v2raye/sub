@@ -107,6 +107,7 @@ proxy-groups:
 rules:
     - DOMAIN,local.adguard.org,REJECT
     - DOMAIN,injections.adguard.org,Outside
+    - OR,((DOMAIN,media.micu.hk),(DOMAIN,cf.bili.rip),(DOMAIN,hxd.as174.de),(DOMAIN,emby.as174.de)),Outside
     - AND,(AND,(DST-PORT,443),(NETWORK,UDP)),(NOT,((RULE-SET,CN_ip))),REJECT
     - RULE-SET,Private_domain,DIRECT
     - RULE-SET,OpenAI,OpenAI
