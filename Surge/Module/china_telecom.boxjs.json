@@ -1,11 +1,14 @@
 {
+  "id": "lanber.boxjs.china_telecom",
+  "name": "中国电信订阅",
+  "author": "@lanber",
+  "icon": "https://raw.githubusercontent.com/anker1209/icon/main/zgdx.png",
   "apps": [
     {
       "id": "lanber.china_telecom",
       "name": "中国电信",
       "keys": ["ChinaTelecomCookie"],
       "author": "@lanber",
-      "repo": "https://github.com/lanber",
       "icons": [
         "https://raw.githubusercontent.com/anker1209/icon/main/zgdx.png",
         "https://raw.githubusercontent.com/anker1209/icon/main/zgdx-big.png"
@@ -16,8 +19,12 @@
           "name": "用户 Cookie",
           "val": "",
           "type": "text",
-          "desc": "填入完整的 Cookie（SSON + JSESSIONID），或抓包自动获取"
+          "desc": "填入完整 Cookie（形如：SSON=...; JSESSIONID=...），或者用抓包脚本自动写入"
         }
+      ],
+      "descs_html": [
+        "<p>中国电信 Scriptable 小组件专用配置。</p>",
+        "<p>⚡ 支持自动抓包写入 Cookie，也可以在 BoxJS 内手动修改。</p>"
       ]
     }
   ]
