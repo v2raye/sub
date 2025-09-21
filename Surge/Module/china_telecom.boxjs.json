@@ -2,6 +2,8 @@
   "id": "lanber.boxjs.china_telecom",
   "name": "中国电信订阅",
   "author": "@lanber",
+  "repo": "https://github.com/lanber", 
+  "docs": "https://chavyleung.gitbook.io/boxjs/", 
   "icon": "https://raw.githubusercontent.com/anker1209/icon/main/zgdx.png",
   "apps": [
     {
