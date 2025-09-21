@@ -1,29 +1,22 @@
 {
   "id": "lanber.china_telecom",
-  "name": "中国电信小组件",
-  "keys": ["ChinaTelecomCookie"],
+  "name": "中国电信",
   "author": "@lanber",
   "repo": "https://github.com/lanber",
-  "apps": [
+  "icons": [
+    "https://raw.githubusercontent.com/anker1209/icon/main/zgdx.png",
+    "https://raw.githubusercontent.com/anker1209/icon/main/zgdx-big.png"
+  ],
+  "keys": [
+    "ChinaTelecomCookie"
+  ],
+  "settings": [
     {
-      "id": "china_telecom",
-      "name": "中国电信",
-      "keys": ["ChinaTelecomCookie"],
-      "settings": [
-        {
-          "id": "ChinaTelecomCookie",
-          "name": "用户 Cookie",
-          "val": "",
-          "type": "text",
-          "desc": "填入 SSON+JSESSIONID，或抓包自动获取"
-        }
-      ],
-      "author": "@lanber",
-      "repo": "https://github.com/lanber",
-      "icons": [
-        "https://raw.githubusercontent.com/anker1209/icon/main/zgdx.png",
-        "https://raw.githubusercontent.com/anker1209/icon/main/zgdx-big.png"
-      ]
+      "id": "ChinaTelecomCookie",
+      "name": "用户 Cookie",
+      "val": "",
+      "type": "text",
+      "desc": "填入完整的 Cookie（SSON + JSESSIONID），或抓包自动获取"
     }
   ]
 }
