@@ -84,6 +84,7 @@ FilterSG: &FilterSG '(?i)(🇸🇬|新加坡|SG|Singapore)'
 FilterUS: &FilterUS '(?i)(🇺🇸|美国|US|United States|洛杉矶|硅谷)'
 FilterTW: &FilterTW '(?i)(🇹🇼|台湾|TW|Taiwan)'
 FilterEU: &FilterEU '(?i)(🇬🇧|UK|英国|🇩🇪|DE|德国|🇫🇷|FR|法国|🇳🇱|NL|荷兰|🇮🇹|IT|意大利|🇪🇸|ES|西班牙|🇨🇭|CH|瑞士|🇸🇪|SE|瑞典|🇳🇴|NO|挪威|🇵🇱|PL|波兰|🇫🇮|FI|芬兰)'
+FilterEM: &FilterEM '^(?=.*DlerCloud)(?=.*(🇭🇰|HK|Hong|🇺🇸|US|United States))'
 
 Select: &Select
   type: select
@@ -98,6 +99,7 @@ proxy-groups:
   - {name: OpenAI, type: select, proxies: [香港节点,日本节点,新加坡节点,美国节点,欧盟节点,台湾节点]}
   - {name: Samsung, type: select, proxies: [香港节点,日本节点,新加坡节点,美国节点,欧盟节点,台湾节点,DIRECT]} 
   - {name: Telegram, type: select, proxies: [香港节点,日本节点,新加坡节点,美国节点,欧盟节点,台湾节点]}
+  - {name: Emby, type: select, proxies: [EM节点,DIRECT]}
 
   - {name: 香港节点, <<: *Select, filter: *FilterHK}
   - {name: 台湾节点, <<: *Select, filter: *FilterTW}
@@ -105,10 +107,11 @@ proxy-groups:
   - {name: 新加坡节点, <<: *Select, filter: *FilterSG}
   - {name: 美国节点, <<: *Select, filter: *FilterUS}
   - {name: 欧盟节点, <<: *Select, filter: *FilterEU}
+  - {name: EM节点, <<: *Select, filter: *FilterEM}
 
 rules:
   - DOMAIN,local.adguard.org,REJECT
-  - OR,((DOMAIN,media.micu.hk),(DOMAIN,rfc.uhdnow.com),(DOMAIN,cf.bili.rip),(DOMAIN,emby.as174.de)),Outside
+  - OR,((DOMAIN,media.micu.hk),(DOMAIN,rfc.uhdnow.com),(DOMAIN,cf.bili.rip),(DOMAIN,emby.as174.de)),Emby
   - DOMAIN,injections.adguard.org,Outside
   - RULE-SET,Private_domain,DIRECT
   - RULE-SET,OpenAI,OpenAI
