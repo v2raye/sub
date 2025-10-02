@@ -68,7 +68,7 @@ dns:
 # '*.mcdn.bilivideo.cn': 127.0.0.1    
 # url 里填写自己的订阅,名称不能重复
 # 锚点 - 节点订阅的参数 [每24小时更新一次订阅节点，每 60 秒一次健康检查]
-NodeParam: &NodeParam {type: http, interval: 86400, health-check: {enable: true, url: 'http://www.google.com/generate_204', interval: 60}}
+NodeParam: &NodeParam {type: http, interval: 86400, health-check: {enable: true, url: 'http://www.google.com/generate_204', interval: 600}}
 # 锚点 - 节点订阅
 proxy-providers: 
   我的节点:
@@ -93,7 +93,7 @@ proxy-groups:
   - {name: 欧盟节点, type: smart, policy-priority: "DlerCloud:1.2;Enet:1.0;LinkCube:0.8",include-all: true,uselightgbm: true,collectdata: false,strategy: sticky-sessions,interval: 3600,filter: "^(?!.*(🇺🇸|US|us|美国|美|United States|🇸🇬|SG|sg|新加坡|狮|Singapore|🇯🇵|JP|jp|日本|日|Japan|🇹🇼|TW|tw|台湾|臺灣|台|Taiwan|🇭🇰|HK|hk|香港|港)).*$"}
 rules:
     - RULE-SET,adblock,REJECT
-    - OR,((DOMAIN,media.micu.hk),(DOMAIN,rfc.uhdnow.com),(DOMAIN,hxd.as174.de),(DOMAIN,emby.as174.de)),Outside
+    - OR,((DOMAIN,media.micu.hk),(DOMAIN,rfc.uhdnow.com),(DOMAIN,cf.bili.rip),(DOMAIN,emby.as174.de)),Outside
     - AND,(AND,(DST-PORT,443),(NETWORK,UDP)),(NOT,((RULE-SET,CN_ip))),REJECT
     - RULE-SET,Private_domain,DIRECT
     - RULE-SET,OpenAI,OpenAI
