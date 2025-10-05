@@ -103,7 +103,7 @@ proxy-groups:
 rules:
     - RULE-SET,adblock,REJECT
     - AND,(AND,(DST-PORT,443),(NETWORK,UDP)),(NOT,((RULE-SET,CN_ip))),REJECT
-    - OR,((DOMAIN,media.micu.hk),(DOMAIN,rfc.uhdnow.com),(DOMAIN,cf.bili.rip),(DOMAIN,emby.as174.de)),Emby
+    - OR,((DOMAIN-SUFFIX,micu.hk),(DOMAIN,rfc.uhdnow.com),(DOMAIN,cf.bili.rip),(DOMAIN,emby.as174.de)),Emby
     - RULE-SET,Private_domain,DIRECT
     - RULE-SET,OpenAI,OpenAI
     - RULE-SET,Google_domain,Google
