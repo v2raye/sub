@@ -108,6 +108,7 @@ rules:
     - RULE-SET,OpenAI,OpenAI
     - RULE-SET,Google_domain,Google
     - RULE-SET,Apple_domain,Apple
+    - RULE-SET,Microsoft,Microsoft
     - RULE-SET,Telegram,Telegram
     - RULE-SET,CN_domain,DIRECT
     - RULE-SET,Proxy,Outside
