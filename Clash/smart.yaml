@@ -3,7 +3,6 @@ socks-port: 7891
 mixed-port: 7892
 
 ipv6: true
-udp: true
 mode: rule
 log-level: warning
 allow-lan: true
@@ -66,7 +65,7 @@ dns:
  
 # url 里填写自己的订阅,名称不能重复
 # 锚点 - 节点订阅的参数 [每24小时更新一次订阅节点，每 60 秒一次健康检查]
-NodeParam: &NodeParam {type: http, interval: 86400, health-check: {enable: true, url: 'http://www.google.com/generate_204', interval: 600}}
+NodeParam: &NodeParam {type: http, interval: 86400, health-check: {enable: true, url: 'http://captive.apple.com/generate_204', interval: 600}}
 # 锚点 - 节点订阅
 proxy-providers: 
   我的节点:
