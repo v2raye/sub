@@ -1,7 +1,6 @@
 mixed-port: 7890
 socks-port: 7891
 ipv6: true
-udp: true
 mode: rule
 log-level: warning
 allow-lan: true
@@ -60,11 +59,6 @@ dns:
   nameserver:
     - https://doh.pub/dns-query
     - https://dns.alidns.com/dns-query
-  nameserver-policy:
-    "rule-set:Private_domain,CN_domain":
-      - https://dns.alidns.com/dns-query
-    "rule-set:Proxy":
-      - https://dns.google/dns-query
 
 proxy-providers: 
   我的节点:
@@ -74,7 +68,7 @@ proxy-providers:
     interval: 86400
     health-check:
       enable: true
-      url: http://www.google.com/generate_204
+      url: http://captive.apple.com/generate_204
       interval: 60
 
 # 节点筛选正则（优化后）
@@ -85,12 +79,6 @@ FilterUS: &FilterUS '(?i)(🇺🇸|美国|US|United States|洛杉矶|硅谷)'
 FilterTW: &FilterTW '(?i)(🇹🇼|台湾|TW|Taiwan)'
 FilterEU: &FilterEU '(?i)(🇬🇧|UK|英国|🇩🇪|DE|德国|🇫🇷|FR|法国|🇳🇱|NL|荷兰|🇮🇹|IT|意大利|🇪🇸|ES|西班牙|🇨🇭|CH|瑞士|🇸🇪|SE|瑞典|🇳🇴|NO|挪威|🇵🇱|PL|波兰|🇫🇮|FI|芬兰)'
 FilterEM: &FilterEM '^(?=.*DlerCloud)(?=.*(🇭🇰|HK|Hong|🇺🇸|US|United States))'
-
-Select: &Select
-  type: select
-  url: http://connectivitycheck.platform.hicloud.com/generate_204
-  disable-udp: false
-  include-all: true
 
 proxy-groups: 
   - {name: Outside, type: select, proxies: [香港节点,日本节点,新加坡节点,美国节点,欧盟节点,台湾节点,DIRECT]}
