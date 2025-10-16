@@ -88,13 +88,13 @@ proxy-groups:
   - {name: Samsung, type: select, proxies: [香港节点,日本节点,新加坡节点,美国节点,欧盟节点,台湾节点,DIRECT]} 
   - {name: Telegram, type: select, proxies: [香港节点,日本节点,新加坡节点,美国节点,欧盟节点,台湾节点]}
   - {name: Emby, type: select, proxies: [EM节点,DIRECT]
-  - {name: 香港节点, <<: *Select, filter: *FilterHK}
-  - {name: 台湾节点, <<: *Select, filter: *FilterTW}
-  - {name: 日本节点, <<: *Select, filter: *FilterJP}
-  - {name: 新加坡节点, <<: *Select, filter: *FilterSG}
-  - {name: 美国节点, <<: *Select, filter: *FilterUS}
-  - {name: 欧盟节点, <<: *Select, filter: *FilterEU}
-  - {name: EM节点, <<: *Select, filter: *FilterEM}
+  - {name: 香港节点, <<: *select, filter: *FilterHK}
+  - {name: 台湾节点, <<: *select, filter: *FilterTW}
+  - {name: 日本节点, <<: *select, filter: *FilterJP}
+  - {name: 新加坡节点, <<: *select, filter: *FilterSG}
+  - {name: 美国节点, <<: *select, filter: *FilterUS}
+  - {name: 欧盟节点, <<: *select, filter: *FilterEU}
+  - {name: EM节点, <<: *select, filter: *FilterEM}
 
 rules:
   - DOMAIN,local.adguard.org,REJECT
