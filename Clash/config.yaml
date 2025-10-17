@@ -80,21 +80,43 @@ FilterTW: &FilterTW '(?i)(🇹🇼|台湾|TW|Taiwan)'
 FilterEU: &FilterEU '(?i)(🇬🇧|UK|英国|🇩🇪|DE|德国|🇫🇷|FR|法国|🇳🇱|NL|荷兰|🇮🇹|IT|意大利|🇪🇸|ES|西班牙|🇨🇭|CH|瑞士|🇸🇪|SE|瑞典|🇳🇴|NO|挪威|🇵🇱|PL|波兰|🇫🇮|FI|芬兰)'
 FilterEM: &FilterEM '^(?=.*DlerCloud)(?=.*(🇭🇰|HK|Hong|🇺🇸|US|United States))'
 
-proxy-groups: 
-  - {name: Outside, type: select, proxies: [香港节点,日本节点,新加坡节点,美国节点,欧盟节点,台湾节点,DIRECT]}
-  - {name: YouTube, type: select, proxies: [香港节点,日本节点,新加坡节点,美国节点,欧盟节点,台湾节点]}
-  - {name: Google, type: select, proxies: [香港节点,日本节点,新加坡节点,美国节点,欧盟节点,台湾节点]}
-  - {name: OpenAI, type: select, proxies: [香港节点,日本节点,新加坡节点,美国节点,欧盟节点,台湾节点]}
-  - {name: Samsung, type: select, proxies: [香港节点,日本节点,新加坡节点,美国节点,欧盟节点,台湾节点,DIRECT]} 
-  - {name: Telegram, type: select, proxies: [香港节点,日本节点,新加坡节点,美国节点,欧盟节点,台湾节点]}
-  - {name: Emby, type: select, proxies: [EM节点,DIRECT]}
-  - {name: 香港节点, <<: *Select, filter: *FilterHK}
-  - {name: 台湾节点, <<: *Select, filter: *FilterTW}
-  - {name: 日本节点, <<: *Select, filter: *FilterJP}
-  - {name: 新加坡节点, <<: *Select, filter: *FilterSG}
-  - {name: 美国节点, <<: *Select, filter: *FilterUS}
-  - {name: 欧盟节点, <<: *Select, filter: *FilterEU}
-  - {name: EM节点, <<: *Select, filter: *FilterEM}
+proxy-groups:
+  - {name: Outside,  type: select, proxies: [香港节点, 日本节点, 新加坡节点, 美国节点, 欧盟节点, 台湾节点, DIRECT]}
+  - {name: YouTube,  type: select, proxies: [香港节点, 日本节点, 新加坡节点, 美国节点, 欧盟节点, 台湾节点]}
+  - {name: Google,   type: select, proxies: [香港节点, 日本节点, 新加坡节点, 美国节点, 欧盟节点, 台湾节点]}
+  - {name: OpenAI,   type: select, proxies: [香港节点, 日本节点, 新加坡节点, 美国节点, 欧盟节点, 台湾节点]}
+  - {name: Samsung,  type: select, proxies: [香港节点, 日本节点, 新加坡节点, 美国节点, 欧盟节点, 台湾节点, DIRECT]}
+  - {name: Telegram, type: select, proxies: [香港节点, 日本节点, 新加坡节点, 美国节点, 欧盟节点, 台湾节点]}
+  - {name: Emby,     type: select, proxies: [EM节点, DIRECT]}
+
+  - name: 香港节点
+    <<: *Select
+    filter: *FilterHK
+
+  - name: 台湾节点
+    <<: *Select
+    filter: *FilterTW
+
+  - name: 日本节点
+    <<: *Select
+    filter: *FilterJP
+
+  - name: 新加坡节点
+    <<: *Select
+    filter: *FilterSG
+
+  - name: 美国节点
+    <<: *Select
+    filter: *FilterUS
+
+  - name: 欧盟节点
+    <<: *Select
+    filter: *FilterEU
+
+  - name: EM节点
+    <<: *Select
+    filter: *FilterEM
+
 
 rules:
   - DOMAIN,local.adguard.org,REJECT
