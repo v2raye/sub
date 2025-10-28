@@ -1,13 +1,13 @@
-port: 7890
-socks-port: 7891
-mixed-port: 7892
-
+mixed-port: 7890
+scoks-port: 7891
 ipv6: true
+udp: true
 mode: rule
-log-level: warning
+log-level: info
 allow-lan: true
 unified-delay: true
 tcp-concurrent: true
+
 find-process-mode: strict
 global-client-fingerprint: chrome
 
@@ -29,12 +29,14 @@ sniffer:
 tun:
   enable: true
   stack: system
+  device: mihomo
   dns-hijack:
     - "any:53"
     - "tcp://any:53"
   auto-route: true
+  auto-redirect: true
   auto-detect-interface: true
-  strict-route: true
+  strict-route: true 
 
 dns:
   enable: true
@@ -62,59 +64,50 @@ dns:
 #    - https://dns.alidns.com/dns-query
 #    "rule-set:Proxy":
 #    - https://dns.google/dns-query
- 
+# 类似于 /etc/hosts, 仅支持配置单个 IP
+#hosts:
+# '*.mcdn.bilivideo.cn': 127.0.0.1    
 # url 里填写自己的订阅,名称不能重复
 # 锚点 - 节点订阅的参数 [每24小时更新一次订阅节点，每 60 秒一次健康检查]
-NodeParam: &NodeParam {type: http, interval: 86400, health-check: {enable: true, url: 'http://captive.apple.com/generate_204', interval: 600}}
+NodeParam: &NodeParam {type: http, interval: 86400, health-check: {enable: true, url: 'http://www.google.com/generate_204', interval: 600}}
 # 锚点 - 节点订阅
 proxy-providers: 
   我的节点:
     url: ''
     <<: *NodeParam
     path: './proxy_provider/Providers.yaml'
-# =================== 节点筛选规则 ===================
-FilterHK: &FilterHK '(?i)(🇭🇰|香港|HK|Hong)'
-FilterJP: &FilterJP '(?i)(🇯🇵|日本|东京|大阪|JP|Japan)'
-FilterSG: &FilterSG '(?i)(🇸🇬|新加坡|SG|Singapore)'
-FilterUS: &FilterUS '(?i)(🇺🇸|美国|US|United States|洛杉矶|硅谷)'
-FilterTW: &FilterTW '(?i)(🇹🇼|台湾|TW|Taiwan)'
-FilterEU: &FilterEU '(?i)(🇬🇧|UK|英国|🇩🇪|DE|德国|🇫🇷|FR|法国|🇳🇱|NL|荷兰)'
-FilterEM: &FilterEM '^(?=.*DlerCloud)(?=.*(🇭🇰|HK|Hong|香港|🇹🇼|TW|Taiwan|台湾|臺灣|台北|🇺🇸|US|United States|美国))'
 
-Smart: &Smart {type: smart, policy-priority: 'DlerCloud:1.5;LinkCube:1;Enet:0.5', uselightgbm: true, collectdata: false, strategy: sticky-sessions, include-all: true}
+# 策略组
+proxy-groups: 
+  - {name: Outside, type: select, proxies: [香港节点, 日本节点, 新加坡节点, 美国节点, 欧盟节点, 台湾节点,DIRECT]}
+  - {name: YouTube, type: select, proxies: [香港节点, 日本节点, 新加坡节点, 美国节点, 欧盟节点, 台湾节点]}
+  - {name: Google, type: select, proxies: [香港节点, 日本节点, 新加坡节点, 美国节点, 欧盟节点, 台湾节点]}
+  - {name: Apple, type: select, proxies: [香港节点, 日本节点, 新加坡节点, 美国节点, 欧盟节点, 台湾节点]}  
+  - {name: OpenAI, type: select, proxies: [香港节点, 日本节点, 新加坡节点, 美国节点, 欧盟节点, 台湾节点]}
+  - {name: Telegram, type: select, proxies: [香港节点, 日本节点, 新加坡节点, 美国节点, 欧盟节点, 台湾节点]}
 
-# =================== 策略组 ===================
-proxy-groups:
-  - {name: Outside, type: select, proxies: [HK, JP, SG, US, EU, TW, DIRECT]}
-  - {name: OpenAI, type: select, proxies: [JP, US]}
-  - {name: Apple, type: select, proxies: [HK, JP, SG, US, EU, TW, DIRECT]}
-  - {name: Telegram, type: select, proxies: [HK, JP, SG, US, EU, TW]}
-  - {name: Microsoft, type: select, proxies: [HK, JP, SG, US, EU, TW, DIRECT]}
-  - {name: Google, type: select, proxies: [HK, JP, SG, US, EU, TW]}
-  - {name: Emby, type: select, proxies: [EM, DIRECT]}
-  - {name: HK, <<: *Smart, filter: *FilterHK}
-  - {name: JP, <<: *Smart, filter: *FilterJP}
-  - {name: SG, <<: *Smart, filter: *FilterSG}
-  - {name: US, <<: *Smart, filter: *FilterUS}
-  - {name: TW, <<: *Smart, filter: *FilterTW}
-  - {name: EU, <<: *Smart, filter: *FilterEU}
-  - {name: EM, <<: *Smart, filter: *FilterEM}
+  - {name: 香港节点, type: smart, policy-priority: "DlerCloud:1.2;Enet:1.0;LinkCube:0.8",include-all: true,uselightgbm: true,collectdata: false,strategy: sticky-sessions,interval: 3600,filter: "^(?=.*((?i)🇭🇰|香港|(\b(HK|Hong)\b))).*$"}
+  - {name: 台湾节点, type: smart, policy-priority: "DlerCloud:1.2;Enet:1.0;LinkCube:0.8",include-all: true,uselightgbm: true,collectdata: false,strategy: sticky-sessions,interval: 3600,filter: "^(?=.*((?i)🇹🇼|台湾|台|(\b(TW|tw|Taiwan)\b))).*$"}
+  - {name: 日本节点, type: smart, policy-priority: "DlerCloud:1.2;Enet:1.0;LinkCube:0.8",include-all: true,uselightgbm: true,collectdata: false,strategy: sticky-sessions,interval: 3600,filter: "^(?=.*((?i)🇯🇵|日本|川日|东京|大阪|泉日|埼玉|(\b(JP|Japan)\b))).*$"}
+  - {name: 新加坡节点, type: smart, policy-priority: "DlerCloud:1.2;Enet:1.0;LinkCube:0.8",include-all: true,uselightgbm: true,collectdata: false,strategy: sticky-sessions,interval: 3600,filter: "^(?=.*((?i)🇸🇬|新加坡|狮|(\b(SG|Singapore)\b))).*$"}
+  - {name: 美国节点, type: smart, policy-priority: "DlerCloud:1.2;Enet:1.0;LinkCube:0.8",include-all: true,uselightgbm: true,collectdata: false,strategy: sticky-sessions,interval: 3600,filter: "^(?=.*((?i)🇺🇸|美国|(\b(US|United States)\b))).*$"}
+  - {name: 欧盟节点, type: smart, policy-priority: "DlerCloud:1.2;Enet:1.0;LinkCube:0.8",include-all: true,uselightgbm: true,collectdata: false,strategy: sticky-sessions,interval: 3600,filter: "^(?!.*(🇺🇸|US|us|美国|美|United States|🇸🇬|SG|sg|新加坡|狮|Singapore|🇯🇵|JP|jp|日本|日|Japan|🇹🇼|TW|tw|台湾|臺灣|台|Taiwan|🇭🇰|HK|hk|香港|港)).*$"}
 rules:
+    - DOMAIN,cloud.v2raye.com,DIRECT
     - RULE-SET,adblock,REJECT
+    - OR,((DOMAIN,media.micu.hk),(DOMAIN,rfc.uhdnow.com),(DOMAIN,cf.bili.rip),(DOMAIN,emby.as174.de)),Outside
     - AND,(AND,(DST-PORT,443),(NETWORK,UDP)),(NOT,((RULE-SET,CN_ip))),REJECT
-    - OR,((DOMAIN-SUFFIX,micu.hk),(DOMAIN,rfc.uhdnow.com),(DOMAIN,cf.bili.rip),(DOMAIN,emby.as174.de)),Emby
     - RULE-SET,Private_domain,DIRECT
     - RULE-SET,OpenAI,OpenAI
     - RULE-SET,Google_domain,Google
     - RULE-SET,Apple_domain,Apple
-    - RULE-SET,Microsoft,Microsoft
     - RULE-SET,Telegram,Telegram
     - RULE-SET,CN_domain,DIRECT
     - RULE-SET,Proxy,Outside
       
     - RULE-SET,Private_ip,DIRECT,no-resolve
     - OR,((IP-ASN,62014),(IP-CIDR,91.108.16.0/22),(IP-CIDR,91.108.56.0/22),(IP-CIDR6,2001:b28:f23f::/48)),Telegram
-    - OR,((IP-ASN,44907),(IP-ASN,62041),(IP-CIDR,149.154.160.0/20),(IP-CIDR,91.108.4.0/22),(IP-CIDR,91.108.8.0/22),(IP-CIDR6,2001:67c:4e8::/48),(IP-CIDR6,2001:b28:f23c::/48)),EU
+    - OR,((IP-ASN,44907),(IP-ASN,62041),(IP-CIDR,149.154.160.0/20),(IP-CIDR,91.108.4.0/22),(IP-CIDR,91.108.8.0/22),(IP-CIDR6,2001:67c:4e8::/48),(IP-CIDR6,2001:b28:f23c::/48)),欧盟节点
     - OR,((IP-ASN,59930),(IP-ASN,21157),(IP-CIDR,91.108.12.0/22),(IP-CIDR6,2001:b28:f23d::/48)),OpenAI
     - RULE-SET,Google_ip,Google
     - RULE-SET,Apple_ip,Apple
@@ -130,7 +123,7 @@ rule-providers:
     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geosite/private.mrs"
   adblock:
     <<: *domain
-    url: "https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockmihomo.mrs"
+    url: "https://raw.githubusercontent.com/REIJI007/AdBlock_Rule_For_Clash/main/adblock_reject.mrs"
   CN_domain:
     <<: *domain
     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geosite/cn.mrs"  
@@ -145,10 +138,7 @@ rule-providers:
     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo-lite/geosite/telegram.mrs"
   Apple_domain:
     <<: *domain
-    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo-lite/geosite/apple.mrs"
-  Microsoft:
-    <<: *domain
-    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geosite/microsoft.mrs"
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo-lite/geosite/apple.mrs"    
   Proxy:
     <<: *domain
     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geosite/geolocation-!cn.mrs"
