@@ -63,7 +63,12 @@ proxy-providers:
     path: './proxy_provider/Providers.yaml'
 
 Smart: &Smart {type: smart,uselightgbm: true,collectdata: false,strategy: sticky-sessions,include-all: true}
-
+FilterHK: &FilterHK '(?i)(🇭🇰|香港|HK|Hong)'
+FilterJP: &FilterJP '(?i)(🇯🇵|日本|东京|大阪|JP|Japan)'
+FilterSG: &FilterSG '(?i)(🇸🇬|新加坡|SG|Singapore)'
+FilterUS: &FilterUS '(?i)(🇺🇸|美国|US|United States|洛杉矶|硅谷)'
+FilterTW: &FilterTW '(?i)(🇹🇼|台湾|TW|Taiwan)'
+FilterEU: &FilterEU '(?i)(🇬🇧|UK|英国|🇩🇪|DE|德国|🇫🇷|FR|法国|🇳🇱|NL|荷兰|🇮🇹|IT|意大利|🇪🇸|ES|西班牙|🇨🇭|CH|瑞士|🇸🇪|SE|瑞典|🇳🇴|NO|挪威|🇵🇱|PL|波兰|🇫🇮|FI|芬兰)'
 proxy-groups: 
   - {name: Outside, type: select, proxies: [HK, JP, SG, US, EU, TW, DIRECT]}
   - {name: YouTube, type: select, proxies: [HK, JP, SG, US, EU, TW]}
@@ -73,9 +78,9 @@ proxy-groups:
   - {name: Telegram, type: select, proxies: [HK, JP, SG, US, EU, TW]}
   - {name: Emby, type: select, proxies: [HK, TW]}
 
-  - {name: HK, <<: *Smart, filter: "^(?=.*((?i)🇭🇰|香港|(\b(HK|Hong)\b))).*$"}
-  - {name: TW, <<: *Smart, filter: "^(?=.*((?i)🇹🇼|台湾|台|(\b(TW|tw|Taiwan)\b))).*$"}
-  - {name: JP, <<: *Smart, filter: "^(?=.*((?i)🇯🇵|日本|川日|东京|大阪|泉日|埼玉|(\b(JP|Japan)\b))).*$"}
+  - {name: HK, <<: *Smart, filter: *FilterHK}
+  - {name: TW, <<: *Smart, filter: *FilterTW}
+  - {name: JP, <<: *Smart, filter: *FilterJP}
   - {name: SG, <<: *Smart, filter: "^(?=.*((?i)🇸🇬|新加坡|狮|(\b(SG|Singapore)\b))).*$"}
   - {name: US, <<: *Smart, filter: "^(?=.*((?i)🇺🇸|美国|(\b(US|United States)\b))).*$"}
   - {name: EU, <<: *Smart, filter: "^(?!.*(🇺🇸|US|us|美国|美|United States|🇸🇬|SG|sg|新加坡|狮|Singapore|🇯🇵|JP|jp|日本|日|Japan|🇹🇼|TW|tw|台湾|臺灣|台|Taiwan|🇭🇰|HK|hk|香港|港)).*$"}
