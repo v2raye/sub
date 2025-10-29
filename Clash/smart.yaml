@@ -83,7 +83,7 @@ proxy-groups:
 rules:
     - DOMAIN,cloud.v2raye.com,DIRECT
     - RULE-SET,adblock,REJECT
-    - OR,((DOMAIN,media.micu.hk),(DOMAIN,rfc.uhdnow.com),(DOMAIN,cf.bili.rip),(DOMAIN,emby.as174.de)),Outside
+    - OR,((DOMAIN,media.micu.hk),(DOMAIN,cf.bili.rip),(DOMAIN,emby.as174.de)),Emby
     - AND,(AND,(DST-PORT,443),(NETWORK,UDP)),(NOT,((RULE-SET,CN_ip))),REJECT
     - RULE-SET,Private_domain,DIRECT
     - RULE-SET,OpenAI,OpenAI
