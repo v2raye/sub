@@ -73,12 +73,12 @@ proxy-groups:
   - {name: Telegram, type: select, proxies: [HK, JP, SG, US, EU, TW]}
   - {name: Emby, type: select, proxies: [HK, TW]}
 
-  - {name: HK, type: smart,filter: "^(?=.*((?i)🇭🇰|香港|(\b(HK|Hong)\b))).*$"}
-  - {name: TW, type: smart,filter: "^(?=.*((?i)🇹🇼|台湾|台|(\b(TW|tw|Taiwan)\b))).*$"}
-  - {name: JP, type: smart,filter: "^(?=.*((?i)🇯🇵|日本|川日|东京|大阪|泉日|埼玉|(\b(JP|Japan)\b))).*$"}
-  - {name: SG, type: smart,filter: "^(?=.*((?i)🇸🇬|新加坡|狮|(\b(SG|Singapore)\b))).*$"}
-  - {name: US, type: smart,filter: "^(?=.*((?i)🇺🇸|美国|(\b(US|United States)\b))).*$"}
-  - {name: EU, type: smart,filter: "^(?!.*(🇺🇸|US|us|美国|美|United States|🇸🇬|SG|sg|新加坡|狮|Singapore|🇯🇵|JP|jp|日本|日|Japan|🇹🇼|TW|tw|台湾|臺灣|台|Taiwan|🇭🇰|HK|hk|香港|港)).*$"}
+  - {name: HK, <<: *Smart, filter: "^(?=.*((?i)🇭🇰|香港|(\b(HK|Hong)\b))).*$"}
+  - {name: TW, <<: *Smart, filter: "^(?=.*((?i)🇹🇼|台湾|台|(\b(TW|tw|Taiwan)\b))).*$"}
+  - {name: JP, <<: *Smart, filter: "^(?=.*((?i)🇯🇵|日本|川日|东京|大阪|泉日|埼玉|(\b(JP|Japan)\b))).*$"}
+  - {name: SG, <<: *Smart, filter: "^(?=.*((?i)🇸🇬|新加坡|狮|(\b(SG|Singapore)\b))).*$"}
+  - {name: US, <<: *Smart, filter: "^(?=.*((?i)🇺🇸|美国|(\b(US|United States)\b))).*$"}
+  - {name: EU, <<: *Smart, filter: "^(?!.*(🇺🇸|US|us|美国|美|United States|🇸🇬|SG|sg|新加坡|狮|Singapore|🇯🇵|JP|jp|日本|日|Japan|🇹🇼|TW|tw|台湾|臺灣|台|Taiwan|🇭🇰|HK|hk|香港|港)).*$"}
 
 rules:
     - DOMAIN,cloud.v2raye.com,DIRECT
