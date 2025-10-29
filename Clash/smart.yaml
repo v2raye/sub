@@ -54,7 +54,7 @@ dns:
     - https://doh.pub/dns-query
     - https://dns.alidns.com/dns-query
 
-NodeParam: &NodeParam {type: http, interval: 86400, health-check: {enable: true, url: 'http://www.google.com/generate_204', interval: 600}}
+NodeParam: &NodeParam {type: http, interval: 43200, health-check: {enable: true, url: 'http://www.google.com/generate_204', interval: 600}}
 
 proxy-providers: 
   我的节点:
