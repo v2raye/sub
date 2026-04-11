@@ -123,8 +123,7 @@ LoadBalance: &LoadBalance {type: load-balance, interval: 6, lazy: true, url: 'ht
 
 proxy-groups: 
   - {name: Outside, type: select, proxies: [HK, JP, SG, US, EU, TW,Other,DIRECT]}
-  - {name: Microsoft, type: select, proxies: [HK, JP, SG, US, EU, TW,DIRECT]}  
-  - {name: Apple, type: select, proxies: [HK, JP, SG, US, EU, TW,DIRECT]}
+  - {name: Samsung, type: select, proxies: [HK, JP, SG, US, EU, TW,DIRECT]}
   - {name: Google, type: select, proxies: [HK, JP, SG, US, EU, TW]}
   - {name: Telegram, type: select, proxies: [HK, JP, SG, US, EU, TW]}
   - {name: OpenAI, type: select, proxies: [JP, US]}
@@ -146,9 +145,8 @@ rules:
     - RULE-SET,Private_domain,DIRECT
     - DOMAIN,injections.adguard.org,Outside
     - OR,((DOMAIN,media.micu.hk),(DOMAIN,emby.as174.de),(DOMAIN,cf.bili.rip),(DOMAIN,cdn.sexemby.com)),Emby
-    - RULE-SET,OpenAI,OpenAI    
-    - RULE-SET,Microsoft,Microsoft
-    - RULE-SET,Apple_domain,Apple
+    - RULE-SET,OpenAI,OpenAI
+    - RULE-SET,Samsung_domain,Apple
     - RULE-SET,Telegram,Telegram
     - RULE-SET,Google_domain,Google
     - RULE-SET,CN_domain,DIRECT
@@ -157,7 +155,6 @@ rules:
     - OR,((IP-ASN,62014),(IP-CIDR,91.108.16.0/22),(IP-CIDR,91.108.56.0/22),(IP-CIDR6,2001:b28:f23f::/48)),Telegram
     - OR,((IP-ASN,44907),(IP-ASN,62041),(IP-CIDR,149.154.160.0/20),(IP-CIDR,91.108.4.0/22),(IP-CIDR,91.108.8.0/22),(IP-CIDR6,2001:67c:4e8::/48),(IP-CIDR6,2001:b28:f23c::/48)),EU
     - OR,((IP-ASN,59930),(IP-ASN,21157),(IP-CIDR,91.108.12.0/22),(IP-CIDR6,2001:b28:f23d::/48)),OpenAI
-    - RULE-SET,Apple_ip,Apple
     - RULE-SET,Google_ip,Google
     - RULE-SET,CN_ip,DIRECT
     - RULE-SET,Private_ip,DIRECT
@@ -173,12 +170,9 @@ rule-providers:
   CN_domain:
     <<: *domain
     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geosite/cn.mrs"
-  Microsoft:
+  Samsung_domain:
     <<: *domain
-    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geosite/microsoft.mrs"
-  Apple_domain:
-    <<: *domain
-    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geosite/apple.mrs"       
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geosite/samsung.mrs"       
   OpenAI:
     <<: *domain
     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geosite/openai.mrs"         
@@ -198,9 +192,6 @@ rule-providers:
   CN_ip:
     <<: *ip
     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geoip/cn.mrs"
-  Apple_ip:
-    <<: *ip
-    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo-lite/geoip/apple.mrs"
   Google_ip:
     <<: *ip
     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geoip/google.mrs"   
