@@ -6,13 +6,12 @@ mixed-port: 7892
 # 运行基线
 #############################################
 mode: rule                      # 分流模式：rule / global / direct
-log-level: info                 # 日志：silent/error/warning/info/debug
+log-level: warning              # 日志：silent/error/warning/info/debug
 ipv6: true                      # 总开关（关闭会屏蔽 AAAA）
 allow-lan: true                 # 允许局域网设备连接（共享给手机必须开启）
 bind-address: "*"               # allow-lan=true 时，"*" 等同 0.0.0.0
 unified-delay: true             # 并发测速取最先返回
 tcp-concurrent: true            # TCP 并发握手
-find-process-mode: strict       # 严格匹配进程（Windows 客户端推荐）
 global-client-fingerprint: chrome  # 全局 TLS 指纹（节点内可单独覆盖）
 
 profile:
@@ -34,11 +33,6 @@ sniffer:
   skip-domain:
     - "Mijia Cloud"
     - "+.push.apple.com"
-hosts:
-   dns.alidns.com: [223.5.5.5,223.6.6.6,2400:3200::1,2400:3200:baba::1]
-   dns.google: [8.8.8.8,8.8.4.4,2001:4860:4860::8888,2001:4860:4860::8844]
-   dns11.quad9.net: [9.9.9.11,149.112.112.11,2620:fe::11,2620:fe::fe:11]
-   security.cloudflare-dns.com: [1.1.1.2,1.0.0.2,2606:4700:4700::1112,2606:4700:4700::1002]
 tun:
   enable: true
   stack: system
@@ -66,7 +60,7 @@ dns:
     - 'ntp.*'
     # 引用 RuleSet
 #    - 'rule-set:CN_domain'
-    - 'rule-set:Private_domain'
+#    - 'rule-set:Private_domain'
   default-nameserver:
     - 223.5.5.5
     - 119.29.29.29
@@ -93,10 +87,10 @@ dns:
 #    'rule-set:Proxy':
 #      - https://dns.google/dns-query
 #      - https://dns11.quad9.net/dns-query
- #     - https://security.cloudflare-dns.com/dns-query
+#     - https://security.cloudflare-dns.com/dns-query
+proxies:
 # 锚点 - 节点订阅的参数 [每小时更新一次订阅节点，每 6 秒一次健康检查]
-NodeParam: &NodeParam {type: http, interval: 86400, health-check: {enable: true, url: 'http://captive.apple.com/generate_204', interval: 1800}}
-
+NodeParam: &NodeParam {type: http, interval: 86400, health-check: {enable: true, url: 'https://cp.cloudflare.com/generate_204', interval: 1800}}
 # 锚点 - 节点订阅
 proxy-providers: 
   Clash_Meta:
@@ -104,31 +98,38 @@ proxy-providers:
     <<: *NodeParam
     path: './proxy_providers/Clash_Meta.yaml'
 # 锚点 - 节点筛选组
+# 锚点 - 节点筛选组
 FilterEM: &FilterEM '(?i)(🇭🇰|香港|HK|Hong|🇹🇼|台湾|TW|Taiwan)'
 FilterHK: &FilterHK '(?i)(🇭🇰|香港|HK|Hong)'
-FilterJP: &FilterJP '(?i)(🇯🇵|日本|JP|Japan)'
+FilterJP: &FilterJP '(?i)(🇯🇵|日本|东京|大阪|JP|Japan)'
 FilterSG: &FilterSG '(?i)(🇸🇬|新加坡|SG|Singapore)'
-FilterUS: &FilterUS '(?i)(🇺🇸|美国|US|United States)'
+FilterUS: &FilterUS '(?i)(🇺🇸|美国|US|United States|洛杉矶|硅谷)'
 FilterTW: &FilterTW '(?i)(🇹🇼|台湾|TW|Taiwan)'
-FilterEU: &FilterEU '(?i)(🇬🇧|UK|英国|🇩🇪|DE|德国|🇫🇷|FR|法国|🇳🇱|NL|荷兰|🇮🇹|IT|意大利|🇪🇸|ES|西班牙|🇨🇭|CH|瑞士|🇸🇪|SE|瑞典|🇳🇴|NO|挪威|🇵🇱|PL|波兰|🇫🇮|FI|芬兰)'
+FilterEU: &FilterEU '(?i)\b(UK|GB|DE|FR|NL|IT|ES|CH|SE|NO|PL|FI|AT|BE|DK|IE|PT|CZ|GR|HU|RO|IS|EE|LV|LT|SK|SI|HR|BG|LU)\b|英国|德国|法国|荷兰|意大利|西班牙|瑞士|瑞典|挪威|波兰|芬兰|奥地利|比利时|丹麦|爱尔兰|葡萄牙|捷克|希腊|匈牙利|罗马尼亚|冰岛|爱沙尼亚|拉脱维亚|立陶宛|斯洛伐克|斯洛文尼亚|克罗地亚|保加利亚|卢森堡|🇬🇧|🇩🇪|🇫🇷|🇳🇱|🇮🇹|🇪🇸|🇨🇭|🇸🇪|🇳🇴|🇵🇱|🇫🇮|🇦🇹|🇧🇪|🇩🇰|🇮🇪|🇵🇹|🇨🇿|🇬🇷|🇭🇺|🇷🇴|🇮🇸|🇪🇪|🇱🇻|🇱🇹|🇸🇰|🇸🇮|🇭🇷|🇧🇬|🇱🇺🇺'
+FilterOther: &FilterOther '(?i)^(?!.*(香港|🇭🇰|\bHK\b|HongKong|台湾|🇹🇼|\bTW\b|Taiwan|日本|🇯🇵|\bJP\b|Japan|东京|大阪|新加坡|🇸🇬|\bSG\b|Singapore|美国|🇺🇸|\bUS\b|United States|洛杉矶|硅谷|英国|🇬🇧|\bUK\b|德国|🇩🇪|\bDE\b|法国|🇫🇷|\bFR\b|荷兰|🇳🇱|\bNL\b|意大利|🇮🇹|\bIT\b|西班牙|🇪🇸|\bES\b|瑞士|🇨🇭|\bCH\b|瑞典|🇸🇪|\bSE\b|挪威|🇳🇴|\bNO\b|波兰|🇵🇱|\bPL\b|芬兰|🇫🇮|\bFI\b|奥地利|🇦🇹|\bAT\b|比利时|🇧🇪|\bBE\b|丹麦|🇩🇰|\bDK\b|爱尔兰|🇮🇪|\bIE\b|葡萄牙|🇵🇹|\bPT\b|捷克|🇨🇿|\bCZ\b|希腊|🇬🇷|\bGR\b|匈牙利|🇭🇺|\bHU\b|罗马尼亚|🇷🇴|\bRO\b|冰岛|🇮🇸|\bIS\b|爱沙尼亚|🇪🇪|\bEE\b|拉脱维亚|🇱🇻|\bLV\b|立陶宛|🇱🇹|\bLT\b|斯洛伐克|🇸🇰|\bSK\b|斯洛文尼亚|🇸🇮|\bSI\b|克罗地亚|🇭🇷|\bHR\b|保加利亚|🇧🇬|\bBG\b|卢森堡|🇱🇺|\bLU\b|欧洲|🇪🇺|\bEU\b)).*'
+FilterRelay: &FilterRelay ^(?i).*?(🇯🇵|日本|JP|Japan).*$
 # 策略组参数锚点
-Smart: &Smart {type: smart,uselightgbm: true, collectdata: false, strategy: sticky-sessions, interval: 30, tolerance: 30, lazy: true, url: 'http://www.google.com/blank.html', include-all: true}
+Smart: &Smart {type: smart,uselightgbm: true, collectdata: false, include-all: true}
+# 锚点 - 负载均衡参数 [每 6 秒一次惰性健康检查，时延超过 2 秒判定为失败，失败 3 次则自动触发健康检查]
+LoadBalance: &LoadBalance {type: load-balance, interval: 6, lazy: true, url: 'https://cp.cloudflare.com/generate_204', disable-udp: false, strategy: consistent-hashing, timeout: 2000, max-failed-times: 3, hidden: true, include-all-providers: true}
 
 proxy-groups: 
-  - {name: Outside, type: select, proxies: [HK, JP, SG, US, EU, TW,DIRECT]}
+  - {name: Outside, type: select, proxies: [HK, JP, SG, US, EU, TW,Other,DIRECT]}
   - {name: Microsoft, type: select, proxies: [HK, JP, SG, US, EU, TW,DIRECT]}  
   - {name: Apple, type: select, proxies: [HK, JP, SG, US, EU, TW,DIRECT]}
   - {name: Google, type: select, proxies: [HK, JP, SG, US, EU, TW]}
   - {name: Telegram, type: select, proxies: [HK, JP, SG, US, EU, TW]}
   - {name: OpenAI, type: select, proxies: [JP, US]}
-  - {name: Emby, type: select, proxies: [EM,DIRECT]} 
+  - {name: Emby, type: select, proxies: [EM,DIRECT]}
   - {name: HK, <<: *Smart, filter: *FilterHK}
   - {name: TW, <<: *Smart, filter: *FilterTW}
   - {name: SG, <<: *Smart, filter: *FilterSG}
   - {name: JP, <<: *Smart, filter: *FilterJP}
   - {name: US, <<: *Smart, filter: *FilterUS}
   - {name: EU, <<: *Smart, filter: *FilterEU}
-  - {name: EM, <<: *Smart, filter: *FilterEM}  
+  - {name: EM, <<: *Smart, filter: *FilterEM}
+  - {name: Other, <<: *Smart, filter: *FilterOther}
+  - {name: Relay, <<: *LoadBalance, filter: *FilterRelay} 
 
 
 rules:
