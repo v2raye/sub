@@ -1,20 +1,32 @@
-mixed-port: 7890
+port: 7890
 socks-port: 7891
-ipv6: true
-mode: rule
-log-level: warning
-allow-lan: true
-unified-delay: true
-tcp-concurrent: true
-find-process-mode: strict
-global-client-fingerprint: chrome
+mixed-port: 7892
 
+#############################################
+# 运行基线
+#############################################
+mode: rule                      # 分流模式：rule / global / direct
+log-level: warning              # 日志：silent/error/warning/info/debug
+ipv6: true
+udp: true                       
+allow-lan: true                 
+bind-address: "*"               
+unified-delay: true             
+tcp-concurrent: true            
+global-client-fingerprint: chrome  
+geox-url:
+#  geoip: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.dat"
+#  geosite: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat"
+  mmdb: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/country-lite.mmdb"
+#  asn: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb"
 profile:
   store-selected: true
   store-fake-ip: true
-
 sniffer:
   enable: true
+  override-destination: false
+  force-dns-mapping: true
+  parse-pure-ip: true  
   sniff:
     HTTP:
       ports: [80, 8080-8880]
@@ -23,108 +35,173 @@ sniffer:
       ports: [443, 8443]
     QUIC:
       ports: [443, 8443]
-
+  skip-domain:
+    - "Mijia Cloud"
+    - "+.push.apple.com"
 tun:
   enable: true
-  stack: gvisor   # 安卓更推荐 gvisor
+  stack: system
+  device: Meta
   dns-hijack:
-    - any:53
+    - "any:53"
+    - "tcp://any:53"
   auto-route: true
-  auto-redirect: true
   auto-detect-interface: true
-
+  strict-route: true
 dns:
   enable: true
-  listen: 127.0.0.1:5450
   ipv6: true
+  respect-rules: true
   enhanced-mode: fake-ip
   fake-ip-filter:
-    - "*.lan"
-    - "*.local"
-    - "*.cn"
-    - "*.168.192.in-addr.arpa"
-    - "*.10.in-addr.arpa"
-    - "*.100.in-addr.arpa"
-    - "*.1.in-addr.arpa"
-    - "stun.*"
-    - "stun.*.*"
-    - "time.*"
-    - "ntp.*"
-    - "localhost"
-    - "*.pool.ntp.org"
+      # 静态域名规则
+    - '*.lan'
+    - '*.local'
+    - '*.localdomain'
+    - '*.arpa'
+    - 'stun.*.*'
+    - 'stun.*.*.*'
+    - 'time.*'
+    - 'ntp.*'
+    - "+.v2raye.com"
+    # 引用 RuleSet
+#    - 'rule-set:CN_domain'
+#    - 'rule-set:Private_domain'
   default-nameserver:
     - 223.5.5.5
     - 119.29.29.29
-    - system
+    - 2400:3200::1
   nameserver:
-    - https://doh.pub/dns-query
     - https://dns.alidns.com/dns-query
-
+    - https://dns.google/dns-query
+    - https://dns11.quad9.net/dns-query
+    - https://security.cloudflare-dns.com/dns-query
+  proxy-server-nameserver:
+    - https://dns.alidns.com/dns-query
+    - https://dns.google/dns-query
+    - https://dns11.quad9.net/dns-query
+    - https://security.cloudflare-dns.com/dns-query
+#  nameserver-policy:
+#    'rule-set:CN_domain':
+#      - https://dns.alidns.com/dns-query
+#    'rule-set:Private_domain':
+#      - https://dns.alidns.com/dnys-quer
+#    'rule-set:OpenAI':
+#      - https://dns.google/dns-query
+#      - https://dns11.quad9.net/dns-query
+#      - https://security.cloudflare-dns.com/dns-query
+#    'rule-set:Proxy':
+#      - https://dns.google/dns-query
+#      - https://dns11.quad9.net/dns-query
+#     - https://security.cloudflare-dns.com/dns-query
+proxies:
+# 锚点 - 节点订阅的参数 [每小时更新一次订阅节点，每 6 秒一次健康检查]
+NodeParam: &NodeParam {type: http, interval: 86400, health-check: {enable: true, url: 'https://cp.cloudflare.com/generate_204', interval: 1800}}
+# 锚点 - 节点订阅
 proxy-providers: 
-  我的节点:
-    url: ""   # 在这里填你的订阅地址
-    path: ./proxy_provider/Providers.yaml
-    type: http
-    interval: 86400
-    health-check:
-      enable: true
-      url: http://captive.apple.com/generate_204
-      interval: 60
-
-# 节点筛选正则（优化后）
+  Clash_Meta:
+    url: ''
+    <<: *NodeParam
+    path: './proxy_providers/Clash_Meta.yaml'
+# 锚点 - 节点筛选组
+FilterEM: &FilterEM '(?i)(🇭🇰|香港|HK|Hong|🇹🇼|台湾|TW|Taiwan)'
 FilterHK: &FilterHK '(?i)(🇭🇰|香港|HK|Hong)'
 FilterJP: &FilterJP '(?i)(🇯🇵|日本|东京|大阪|JP|Japan)'
 FilterSG: &FilterSG '(?i)(🇸🇬|新加坡|SG|Singapore)'
 FilterUS: &FilterUS '(?i)(🇺🇸|美国|US|United States|洛杉矶|硅谷)'
 FilterTW: &FilterTW '(?i)(🇹🇼|台湾|TW|Taiwan)'
-FilterEU: &FilterEU '(?i)(🇬🇧|UK|英国|🇩🇪|DE|德国|🇫🇷|FR|法国|🇳🇱|NL|荷兰|🇮🇹|IT|意大利|🇪🇸|ES|西班牙|🇨🇭|CH|瑞士|🇸🇪|SE|瑞典|🇳🇴|NO|挪威|🇵🇱|PL|波兰|🇫🇮|FI|芬兰)'
-FilterEM: &FilterEM '^(?=.*DlerCloud)(?=.*(🇭🇰|HK|Hong|🇺🇸|US|United States))'
-Select: &Select {type: select, include-all: true}
-proxy-groups:
-  - {name: Outside,  type: select, proxies: [香港节点, 日本节点, 新加坡节点, 美国节点, 欧盟节点, 台湾节点, DIRECT]}
-  - {name: YouTube,  type: select, proxies: [香港节点, 日本节点, 新加坡节点, 美国节点, 欧盟节点, 台湾节点]}
-  - {name: Google,   type: select, proxies: [香港节点, 日本节点, 新加坡节点, 美国节点, 欧盟节点, 台湾节点]}
-  - {name: OpenAI,   type: select, proxies: [香港节点, 日本节点, 新加坡节点, 美国节点, 欧盟节点, 台湾节点]}
-  - {name: Samsung,  type: select, proxies: [香港节点, 日本节点, 新加坡节点, 美国节点, 欧盟节点, 台湾节点, DIRECT]}
-  - {name: Telegram, type: select, proxies: [香港节点, 日本节点, 新加坡节点, 美国节点, 欧盟节点, 台湾节点]}
-  - {name: Emby, type: select, proxies: [EM节点,DIRECT]} 
-  - {name: 香港节点, <<: *Select, filter: *FilterHK} 
-  - {name: 台湾节点, <<: *Select, filter: *FilterTW} 
-  - {name: 日本节点, <<: *Select, filter: *FilterJP} 
-  - {name: 新加坡节点, <<: *Select, filter: *FilterSG} 
-  - {name: 美国节点, <<: *Select, filter: *FilterUS} 
-  - {name: 欧盟节点, <<: *Select, filter: *FilterEU} 
-  - {name: EM节点, <<: *Select, filter: *FilterEM}
+FilterEU: &FilterEU '(?i)\b(UK|GB|DE|FR|NL|IT|ES|CH|SE|NO|PL|FI|AT|BE|DK|IE|PT|CZ|GR|HU|RO|IS|EE|LV|LT|SK|SI|HR|BG|LU)\b|英国|德国|法国|荷兰|意大利|西班牙|瑞士|瑞典|挪威|波兰|芬兰|奥地利|比利时|丹麦|爱尔兰|葡萄牙|捷克|希腊|匈牙利|罗马尼亚|冰岛|爱沙尼亚|拉脱维亚|立陶宛|斯洛伐克|斯洛文尼亚|克罗地亚|保加利亚|卢森堡|🇬🇧|🇩🇪|🇫🇷|🇳🇱|🇮🇹|🇪🇸|🇨🇭|🇸🇪|🇳🇴|🇵🇱|🇫🇮|🇦🇹|🇧🇪|🇩🇰|🇮🇪|🇵🇹|🇨🇿|🇬🇷|🇭🇺|🇷🇴|🇮🇸|🇪🇪|🇱🇻|🇱🇹|🇸🇰|🇸🇮|🇭🇷|🇧🇬|🇱🇺🇺'
+FilterOther: &FilterOther '(?i)^(?!.*(香港|🇭🇰|\bHK\b|HongKong|台湾|🇹🇼|\bTW\b|Taiwan|日本|🇯🇵|\bJP\b|Japan|东京|大阪|新加坡|🇸🇬|\bSG\b|Singapore|美国|🇺🇸|\bUS\b|United States|洛杉矶|硅谷|英国|🇬🇧|\bUK\b|德国|🇩🇪|\bDE\b|法国|🇫🇷|\bFR\b|荷兰|🇳🇱|\bNL\b|意大利|🇮🇹|\bIT\b|西班牙|🇪🇸|\bES\b|瑞士|🇨🇭|\bCH\b|瑞典|🇸🇪|\bSE\b|挪威|🇳🇴|\bNO\b|波兰|🇵🇱|\bPL\b|芬兰|🇫🇮|\bFI\b|奥地利|🇦🇹|\bAT\b|比利时|🇧🇪|\bBE\b|丹麦|🇩🇰|\bDK\b|爱尔兰|🇮🇪|\bIE\b|葡萄牙|🇵🇹|\bPT\b|捷克|🇨🇿|\bCZ\b|希腊|🇬🇷|\bGR\b|匈牙利|🇭🇺|\bHU\b|罗马尼亚|🇷🇴|\bRO\b|冰岛|🇮🇸|\bIS\b|爱沙尼亚|🇪🇪|\bEE\b|拉脱维亚|🇱🇻|\bLV\b|立陶宛|🇱🇹|\bLT\b|斯洛伐克|🇸🇰|\bSK\b|斯洛文尼亚|🇸🇮|\bSI\b|克罗地亚|🇭🇷|\bHR\b|保加利亚|🇧🇬|\bBG\b|卢森堡|🇱🇺|\bLU\b|欧洲|🇪🇺|\bEU\b)).*'
+FilterRelay: &FilterRelay ^(?i).*?(🇯🇵|日本|JP|Japan).*$
+# 策略组参数锚点
+# 锚点 - 时延优选参数 [每 6 秒一次惰性健康检查，容差 20ms，时延超过 2 秒判定为失败，失败 3 次则自动触发健康检查]
+UrlTest: &UrlTest {type: url-test, interval: 6, tolerance: 20, lazy: true, url: 'http://www.google.com/blank.html', disable-udp: false, timeout: 2000, max-failed-times: 3, hidden: true, include-all-providers: true}
+# 锚点 - 故障转移参数 [每 6 秒一次惰性健康检查，时延超过 2 秒判定为失败，失败 3 次则自动触发健康检查]
+FallBack: &FallBack {type: fallback, interval: 6, lazy: true, url: 'http://www.google.com/blank.html', disable-udp: false, timeout: 2000, max-failed-times: 3, hidden: true, include-all-providers: true}
+# 锚点 - 负载均衡参数 [每 6 秒一次惰性健康检查，时延超过 2 秒判定为失败，失败 3 次则自动触发健康检查]
+LoadBalance: &LoadBalance {type: load-balance, interval: 6, lazy: true, url: 'http://www.google.com/blank.html', disable-udp: false, strategy: consistent-hashing, timeout: 2000, max-failed-times: 3, hidden: true, include-all-providers: true}
+
+proxy-groups: 
+  - {name: Outside, type: select, proxies: [HK, JP, SG, US, EU, TW,Other,DIRECT]}
+  - {name: Microsoft, type: select, proxies: [HK, JP, SG, US, EU, TW,DIRECT]}  
+  - {name: Apple, type: select, proxies: [HK, JP, SG, US, EU, TW,DIRECT]}
+  - {name: Google, type: select, proxies: [HK, JP, SG, US, EU, TW]}
+  - {name: Telegram, type: select, proxies: [HK, JP, SG, US, EU, TW]}
+  - {name: OpenAI, type: select, proxies: [JP, US]}
+  - {name: Emby, type: select, proxies: [EM,DIRECT]}
+  - {name: HK, <<: *UrlTest, filter: *FilterHK}
+  - {name: TW, <<: *UrlTest, filter: *FilterTW}
+  - {name: SG, <<: *UrlTest, filter: *FilterSG}
+  - {name: JP, <<: *UrlTest, filter: *FilterJP}
+  - {name: US, type: select, filter: *FilterUS}
+  - {name: EU, <<: *UrlTest, filter: *FilterEU}
+  - {name: EM, <<: *UrlTest, filter: *FilterEM}
+  - {name: Other, <<: *Smart, filter: *FilterOther}
+  - {name: Relay, <<: *LoadBalance, filter: *FilterRelay} 
+
 
 rules:
-  - DOMAIN,local.adguard.org,REJECT
-  - OR,((DOMAIN,media.micu.hk),(DOMAIN,rfc.uhdnow.com),(DOMAIN,cf.bili.rip),(DOMAIN,emby.as174.de)),Emby
-  - DOMAIN,injections.adguard.org,Outside
-  - RULE-SET,Private_domain,DIRECT
-  - RULE-SET,OpenAI,OpenAI
-  - RULE-SET,Google_domain,Google
-  - RULE-SET,Samsung_domain,Samsung
-  - RULE-SET,Telegram,Telegram
-  - RULE-SET,CN_domain,DIRECT
-  - RULE-SET,Proxy,Outside
-  - RULE-SET,Private_ip,DIRECT,no-resolve
-  - RULE-SET,Google_ip,Google
-  - RULE-SET,CN_ip,DIRECT
-  - MATCH,Outside
-
+    - OR,((IP-CIDR,0.0.0.0/32), (IP-CIDR6,::/128)),REJECT
+    - OR,((DOMAIN-KEYWORD, adobe),(DOMAIN-SUFFIX,adobe.com),(DOMAIN-SUFFIX,adobe.io),(DOMAIN,local.adguard.org)),REJECT
+    - RULE-SET,Private_domain,DIRECT
+    - DOMAIN,injections.adguard.org,Outside
+    - OR,((DOMAIN,media.micu.hk),(DOMAIN,emby.as174.de),(DOMAIN,cf.bili.rip),(DOMAIN,cdn.sexemby.com)),Emby
+    - RULE-SET,OpenAI,OpenAI    
+    - RULE-SET,Microsoft,Microsoft
+    - RULE-SET,Apple_domain,Apple
+    - RULE-SET,Telegram,Telegram
+    - RULE-SET,Google_domain,Google
+    - RULE-SET,CN_domain,DIRECT
+    - RULE-SET,Proxy,Outside
+      
+    - OR,((IP-ASN,62014),(IP-CIDR,91.108.16.0/22),(IP-CIDR,91.108.56.0/22),(IP-CIDR6,2001:b28:f23f::/48)),Telegram
+    - OR,((IP-ASN,44907),(IP-ASN,62041),(IP-CIDR,149.154.160.0/20),(IP-CIDR,91.108.4.0/22),(IP-CIDR,91.108.8.0/22),(IP-CIDR6,2001:67c:4e8::/48),(IP-CIDR6,2001:b28:f23c::/48)),EU
+    - OR,((IP-ASN,59930),(IP-ASN,21157),(IP-CIDR,91.108.12.0/22),(IP-CIDR6,2001:b28:f23d::/48)),OpenAI
+    - RULE-SET,Apple_ip,Apple
+    - RULE-SET,Google_ip,Google
+    - RULE-SET,CN_ip,DIRECT
+    - RULE-SET,Private_ip,DIRECT
+    - MATCH,Outside
 rule-anchor:
   ip: &ip {type: http, interval: 43200, behavior: ipcidr, format: mrs}
   domain: &domain {type: http, interval: 43200, behavior: domain, format: mrs}
-
 rule-providers:
-  Private_domain: {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geosite/private.mrs"}
-  CN_domain: {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geosite/cn.mrs"}
-  Samsung_domain: {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geosite/samsung.mrs"}
-  OpenAI: {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geosite/openai.mrs"}
-  Google_domain: {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geosite/google.mrs"}
-  Telegram: {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo-lite/geosite/telegram.mrs"}
-  Proxy: {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geosite/geolocation-!cn.mrs"}
+#域名类
+  Private_domain:
+    <<: *domain
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geosite/private.mrs"
+  CN_domain:
+    <<: *domain
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geosite/cn.mrs"
+  Microsoft:
+    <<: *domain
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geosite/microsoft.mrs"
+  Apple_domain:
+    <<: *domain
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geosite/apple.mrs"       
+  OpenAI:
+    <<: *domain
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geosite/openai.mrs"         
+  Telegram:
+    <<: *domain
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo-lite/geosite/telegram.mrs"
+  Proxy:
+    <<: *domain
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geosite/geolocation-!cn.mrs"
+  Google_domain:
+    <<: *domain
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google.mrs"  
+#IP类
+  Private_ip:
+    <<: *ip
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geoip/private.mrs"
+  CN_ip:
+    <<: *ip
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geoip/cn.mrs"
+  Apple_ip:
+    <<: *ip
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo-lite/geoip/apple.mrs"
+  Google_ip:
+    <<: *ip
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geoip/google.mrs"   
 
-  Private_ip: {<<: *ip, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geoip/private.mrs"}
-  CN_ip: {<<: *ip, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geoip/cn.mrs"}
-  Google_ip: {<<: *ip, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geoip/google.mrs"}
