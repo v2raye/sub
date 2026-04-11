@@ -104,15 +104,15 @@ proxy-providers:
     <<: *NodeParam
     path: './proxy_providers/Clash_Meta.yaml'
 # 锚点 - 节点筛选组
-FilterEM: &FilterEM '(?i)(🇭🇰|香港|HK|Hong|🇹🇼|台湾|TW|Taiwan)'
-FilterHK: &FilterHK '(?i)(🇭🇰|香港|HK|Hong)'
-FilterJP: &FilterJP '(?i)(🇯🇵|日本|东京|大阪|JP|Japan)'
-FilterSG: &FilterSG '(?i)(🇸🇬|新加坡|SG|Singapore)'
-FilterUS: &FilterUS '(?i)(🇺🇸|美国|US|United States)'
-FilterTW: &FilterTW '(?i)(🇹🇼|台湾|TW|Taiwan)'
-FilterEU: &FilterEU '(?i)\b(UK|GB|DE|FR|NL|IT|ES|CH|SE|NO|PL|FI|AT|BE|DK|IE|PT|CZ|GR|HU|RO|IS|EE|LV|LT|SK|SI|HR|BG|LU)\b|英国|德国|法国|荷兰|意大利|西班牙|瑞士|瑞典|挪威|波兰|芬兰|奥地利|比利时|丹麦|爱尔兰|葡萄牙|捷克|希腊|匈牙利|罗马尼亚|冰岛|爱沙尼亚|拉脱维亚|立陶宛|斯洛伐克|斯洛文尼亚|克罗地亚|保加利亚|卢森堡|🇬🇧|🇩🇪|🇫🇷|🇳🇱|🇮🇹|🇪🇸|🇨🇭|🇸🇪|🇳🇴|🇵🇱|🇫🇮|🇦🇹|🇧🇪|🇩🇰|🇮🇪|🇵🇹|🇨🇿|🇬🇷|🇭🇺|🇷🇴|🇮🇸|🇪🇪|🇱🇻|🇱🇹|🇸🇰|🇸🇮|🇭🇷|🇧🇬|🇱🇺🇺'
-FilterOther: &FilterOther '(?i)^(?!.*(香港|🇭🇰|\bHK\b|HongKong|台湾|🇹🇼|\bTW\b|Taiwan|日本|🇯🇵|\bJP\b|Japan|东京|大阪|新加坡|🇸🇬|\bSG\b|Singapore|美国|🇺🇸|\bUS\b|United States|洛杉矶|硅谷|英国|🇬🇧|\bUK\b|德国|🇩🇪|\bDE\b|法国|🇫🇷|\bFR\b|荷兰|🇳🇱|\bNL\b|意大利|🇮🇹|\bIT\b|西班牙|🇪🇸|\bES\b|瑞士|🇨🇭|\bCH\b|瑞典|🇸🇪|\bSE\b|挪威|🇳🇴|\bNO\b|波兰|🇵🇱|\bPL\b|芬兰|🇫🇮|\bFI\b|奥地利|🇦🇹|\bAT\b|比利时|🇧🇪|\bBE\b|丹麦|🇩🇰|\bDK\b|爱尔兰|🇮🇪|\bIE\b|葡萄牙|🇵🇹|\bPT\b|捷克|🇨🇿|\bCZ\b|希腊|🇬🇷|\bGR\b|匈牙利|🇭🇺|\bHU\b|罗马尼亚|🇷🇴|\bRO\b|冰岛|🇮🇸|\bIS\b|爱沙尼亚|🇪🇪|\bEE\b|拉脱维亚|🇱🇻|\bLV\b|立陶宛|🇱🇹|\bLT\b|斯洛伐克|🇸🇰|\bSK\b|斯洛文尼亚|🇸🇮|\bSI\b|克罗地亚|🇭🇷|\bHR\b|保加利亚|🇧🇬|\bBG\b|卢森堡|🇱🇺|\bLU\b|欧洲|🇪🇺|\bEU\b)).*'
-FilterRelay: &FilterRelay ^(?i).*?(🇯🇵|日本|JP|Japan).*$
+FilterEM: &FilterEM '(?i)(🇭🇰|香港|\bHK\b|Hong(?:\s?Kong)?|🇹🇼|台湾|\bTW\b|Taiwan)'
+FilterHK: &FilterHK '(?i)(🇭🇰|香港|\bHK\b|Hong(?:\s?Kong)?)'
+FilterJP: &FilterJP '(?i)(🇯🇵|日本|东京|大阪|\bJP\b|Japan)'
+FilterSG: &FilterSG '(?i)(🇸🇬|新加坡|\bSG\b|Singapore)'
+FilterUS: &FilterUS '(?i)(🇺🇸|美国|美國|\bUS\b|\bUSA\b|United States)'
+FilterTW: &FilterTW '(?i)(🇹🇼|台湾|\bTW\b|Taiwan)'
+FilterEU: &FilterEU '(?i)(\bUK\b|\bGB\b|\bDE\b|\bFR\b|\bNL\b|\bIT\b|\bES\b|\bCH\b|\bSE\b|\bNO\b|\bPL\b|\bFI\b|\bAT\b|\bBE\b|\bDK\b|\bIE\b|\bPT\b|\bCZ\b|\bGR\b|\bHU\b|\bRO\b|\bIS\b|\bEE\b|\bLV\b|\bLT\b|\bSK\b|\bSI\b|\bHR\b|\bBG\b|\bLU\b|英国|德国|法国|荷兰|意大利|西班牙|瑞士|瑞典|挪威|波兰|芬兰|奥地利|比利时|丹麦|爱尔兰|葡萄牙|捷克|希腊|匈牙利|罗马尼亚|冰岛|爱沙尼亚|拉脱维亚|立陶宛|斯洛伐克|斯洛文尼亚|克罗地亚|保加利亚|卢森堡|🇬🇧|🇩🇪|🇫🇷|🇳🇱|🇮🇹|🇪🇸|🇨🇭|🇸🇪|🇳🇴|🇵🇱|🇫🇮|🇦🇹|🇧🇪|🇩🇰|🇮🇪|🇵🇹|🇨🇿|🇬🇷|🇭🇺|🇷🇴|🇮🇸|🇪🇪|🇱🇻|🇱🇹|🇸🇰|🇸🇮|🇭🇷|🇧🇬|🇱🇺|欧洲|🇪🇺|\bEU\b)'
+FilterOther: &FilterOther '(?i)^(?!.*(🇭🇰|香港|\bHK\b|Hong(?:\s?Kong)?|🇹🇼|台湾|\bTW\b|Taiwan|🇯🇵|日本|东京|大阪|\bJP\b|Japan|🇸🇬|新加坡|\bSG\b|Singapore|🇺🇸|美国|美國|\bUS\b|\bUSA\b|United States|英国|德国|法国|荷兰|意大利|西班牙|瑞士|瑞典|挪威|波兰|芬兰|奥地利|比利时|丹麦|爱尔兰|葡萄牙|捷克|希腊|匈牙利|罗马尼亚|冰岛|爱沙尼亚|拉脱维亚|立陶宛|斯洛伐克|斯洛文尼亚|克罗地亚|保加利亚|卢森堡|🇬🇧|🇩🇪|🇫🇷|🇳🇱|🇮🇹|🇪🇸|🇨🇭|🇸🇪|🇳🇴|🇵🇱|🇫🇮|🇦🇹|🇧🇪|🇩🇰|🇮🇪|🇵🇹|🇨🇿|🇬🇷|🇭🇺|🇷🇴|🇮🇸|🇪🇪|🇱🇻|🇱🇹|🇸🇰|🇸🇮|🇭🇷|🇧🇬|🇱🇺|欧洲|🇪🇺|\bUK\b|\bGB\b|\bDE\b|\bFR\b|\bNL\b|\bIT\b|\bES\b|\bCH\b|\bSE\b|\bNO\b|\bPL\b|\bFI\b|\bAT\b|\bBE\b|\bDK\b|\bIE\b|\bPT\b|\bCZ\b|\bGR\b|\bHU\b|\bRO\b|\bIS\b|\bEE\b|\bLV\b|\bLT\b|\bSK\b|\bSI\b|\bHR\b|\bBG\b|\bLU\b|\bEU\b)).*'
+FilterRelay: &FilterRelay '(?i)(🇯🇵|日本|\bJP\b|Japan)'
 # 策略组参数锚点
 # 锚点 - 时延优选参数 [每 6 秒一次惰性健康检查，容差 20ms，时延超过 2 秒判定为失败，失败 3 次则自动触发健康检查]
 UrlTest: &UrlTest {type: url-test, interval: 6, tolerance: 20, lazy: true, url: 'http://www.google.com/blank.html', disable-udp: false, timeout: 2000, max-failed-times: 3, hidden: true, include-all-providers: true}
