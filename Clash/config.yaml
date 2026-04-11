@@ -108,7 +108,7 @@ FilterEM: &FilterEM '(?i)(🇭🇰|香港|HK|Hong|🇹🇼|台湾|TW|Taiwan)'
 FilterHK: &FilterHK '(?i)(🇭🇰|香港|HK|Hong)'
 FilterJP: &FilterJP '(?i)(🇯🇵|日本|东京|大阪|JP|Japan)'
 FilterSG: &FilterSG '(?i)(🇸🇬|新加坡|SG|Singapore)'
-FilterUS: &FilterUS '(?i)(🇺🇸|美国|US|United States|洛杉矶|硅谷)'
+FilterUS: &FilterUS '(?i)(🇺🇸|美国|US|United States)'
 FilterTW: &FilterTW '(?i)(🇹🇼|台湾|TW|Taiwan)'
 FilterEU: &FilterEU '(?i)\b(UK|GB|DE|FR|NL|IT|ES|CH|SE|NO|PL|FI|AT|BE|DK|IE|PT|CZ|GR|HU|RO|IS|EE|LV|LT|SK|SI|HR|BG|LU)\b|英国|德国|法国|荷兰|意大利|西班牙|瑞士|瑞典|挪威|波兰|芬兰|奥地利|比利时|丹麦|爱尔兰|葡萄牙|捷克|希腊|匈牙利|罗马尼亚|冰岛|爱沙尼亚|拉脱维亚|立陶宛|斯洛伐克|斯洛文尼亚|克罗地亚|保加利亚|卢森堡|🇬🇧|🇩🇪|🇫🇷|🇳🇱|🇮🇹|🇪🇸|🇨🇭|🇸🇪|🇳🇴|🇵🇱|🇫🇮|🇦🇹|🇧🇪|🇩🇰|🇮🇪|🇵🇹|🇨🇿|🇬🇷|🇭🇺|🇷🇴|🇮🇸|🇪🇪|🇱🇻|🇱🇹|🇸🇰|🇸🇮|🇭🇷|🇧🇬|🇱🇺🇺'
 FilterOther: &FilterOther '(?i)^(?!.*(香港|🇭🇰|\bHK\b|HongKong|台湾|🇹🇼|\bTW\b|Taiwan|日本|🇯🇵|\bJP\b|Japan|东京|大阪|新加坡|🇸🇬|\bSG\b|Singapore|美国|🇺🇸|\bUS\b|United States|洛杉矶|硅谷|英国|🇬🇧|\bUK\b|德国|🇩🇪|\bDE\b|法国|🇫🇷|\bFR\b|荷兰|🇳🇱|\bNL\b|意大利|🇮🇹|\bIT\b|西班牙|🇪🇸|\bES\b|瑞士|🇨🇭|\bCH\b|瑞典|🇸🇪|\bSE\b|挪威|🇳🇴|\bNO\b|波兰|🇵🇱|\bPL\b|芬兰|🇫🇮|\bFI\b|奥地利|🇦🇹|\bAT\b|比利时|🇧🇪|\bBE\b|丹麦|🇩🇰|\bDK\b|爱尔兰|🇮🇪|\bIE\b|葡萄牙|🇵🇹|\bPT\b|捷克|🇨🇿|\bCZ\b|希腊|🇬🇷|\bGR\b|匈牙利|🇭🇺|\bHU\b|罗马尼亚|🇷🇴|\bRO\b|冰岛|🇮🇸|\bIS\b|爱沙尼亚|🇪🇪|\bEE\b|拉脱维亚|🇱🇻|\bLV\b|立陶宛|🇱🇹|\bLT\b|斯洛伐克|🇸🇰|\bSK\b|斯洛文尼亚|🇸🇮|\bSI\b|克罗地亚|🇭🇷|\bHR\b|保加利亚|🇧🇬|\bBG\b|卢森堡|🇱🇺|\bLU\b|欧洲|🇪🇺|\bEU\b)).*'
@@ -131,9 +131,9 @@ proxy-groups:
   - {name: Emby, type: select, proxies: [EM,DIRECT]}
   - {name: HK, <<: *UrlTest, filter: *FilterHK}
   - {name: TW, <<: *UrlTest, filter: *FilterTW}
-  - {name: SG, <<: *UrlTest, filter: *FilterSG}
+  - {name: SG, <<: *UrlTest, filter: *FilterSG} 
   - {name: JP, <<: *UrlTest, filter: *FilterJP}
-  - {name: US, type: select, filter: *FilterUS}
+  - {name: US, type: select, include-all: true, filter:'(?i)(🇺🇸|美国|US|United States)'}
   - {name: EU, <<: *UrlTest, filter: *FilterEU}
   - {name: EM, <<: *UrlTest, filter: *FilterEM}
   - {name: Other, <<: *UrlTest, filter: *FilterOther}
