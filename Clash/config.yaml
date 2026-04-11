@@ -136,7 +136,7 @@ proxy-groups:
   - {name: US, type: select, filter: *FilterUS}
   - {name: EU, <<: *UrlTest, filter: *FilterEU}
   - {name: EM, <<: *UrlTest, filter: *FilterEM}
-  - {name: Other, <<: *Smart, filter: *FilterOther}
+  - {name: Other, <<: *UrlTest, filter: *FilterOther}
   - {name: Relay, <<: *LoadBalance, filter: *FilterRelay} 
 
 
