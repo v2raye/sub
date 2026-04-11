@@ -136,7 +136,6 @@ rules:
     - OR,((IP-CIDR,0.0.0.0/32), (IP-CIDR6,::/128)),REJECT
     - OR,((DOMAIN-KEYWORD, adobe),(DOMAIN-SUFFIX,adobe.com),(DOMAIN-SUFFIX,adobe.io),(DOMAIN,local.adguard.org)),REJECT
     - RULE-SET,Private_domain,DIRECT
-    - PROCESS-NAME,aria2c.exe,DIRECT
     - DOMAIN,injections.adguard.org,Outside
     - OR,((DOMAIN,media.micu.hk),(DOMAIN,emby.as174.de),(DOMAIN,cf.bili.rip),(DOMAIN,cdn.sexemby.com)),Emby
     - RULE-SET,OpenAI,OpenAI    
