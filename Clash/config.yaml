@@ -133,7 +133,7 @@ proxy-groups:
   - {name: TW, <<: *UrlTest, filter: *FilterTW}
   - {name: SG, <<: *UrlTest, filter: *FilterSG} 
   - {name: JP, <<: *UrlTest, filter: *FilterJP}
-  - {name: US, type: select, include-all: true, filter:'(?i)(🇺🇸|美国|US|United States)'}
+  - {name: US, type: select, include-all: true, filter: '(?i)(🇺🇸|美国|美國|\bUS\b|\bUSA\b|\bUnited States\b)'}
   - {name: EU, <<: *UrlTest, filter: *FilterEU}
   - {name: EM, <<: *UrlTest, filter: *FilterEM}
   - {name: Other, <<: *UrlTest, filter: *FilterOther}
