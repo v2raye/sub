@@ -58,6 +58,7 @@ dns:
     - 'stun.*.*.*'
     - 'time.*'
     - 'ntp.*'
+    - "+.v2raye.com"
     # 引用 RuleSet
 #    - 'rule-set:CN_domain'
 #    - 'rule-set:Private_domain'
