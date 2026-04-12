@@ -109,9 +109,9 @@ FilterEU: &FilterEU '(?i)(\bUK\b|\bGB\b|\bDE\b|\bFR\b|\bNL\b|\bIT\b|\bES\b|\bCH\
 FilterOther: &FilterOther '(?i)^(?!.*(🇭🇰|香港|\bHK\b|Hong(?:\s?Kong)?|🇹🇼|台湾|\bTW\b|Taiwan|🇯🇵|日本|东京|大阪|\bJP\b|Japan|🇸🇬|新加坡|\bSG\b|Singapore|🇺🇸|美国|美國|\bUS\b|\bUSA\b|United States|英国|德国|法国|荷兰|意大利|西班牙|瑞士|瑞典|挪威|波兰|芬兰|奥地利|比利时|丹麦|爱尔兰|葡萄牙|捷克|希腊|匈牙利|罗马尼亚|冰岛|爱沙尼亚|拉脱维亚|立陶宛|斯洛伐克|斯洛文尼亚|克罗地亚|保加利亚|卢森堡|🇬🇧|🇩🇪|🇫🇷|🇳🇱|🇮🇹|🇪🇸|🇨🇭|🇸🇪|🇳🇴|🇵🇱|🇫🇮|🇦🇹|🇧🇪|🇩🇰|🇮🇪|🇵🇹|🇨🇿|🇬🇷|🇭🇺|🇷🇴|🇮🇸|🇪🇪|🇱🇻|🇱🇹|🇸🇰|🇸🇮|🇭🇷|🇧🇬|🇱🇺|欧洲|🇪🇺|\bUK\b|\bGB\b|\bDE\b|\bFR\b|\bNL\b|\bIT\b|\bES\b|\bCH\b|\bSE\b|\bNO\b|\bPL\b|\bFI\b|\bAT\b|\bBE\b|\bDK\b|\bIE\b|\bPT\b|\bCZ\b|\bGR\b|\bHU\b|\bRO\b|\bIS\b|\bEE\b|\bLV\b|\bLT\b|\bSK\b|\bSI\b|\bHR\b|\bBG\b|\bLU\b|\bEU\b)).*'
 FilterRelay: &FilterRelay '(?i)(🇯🇵|日本|\bJP\b|Japan)'
 # 策略组参数锚点
-Smart: &Smart {type: smart,uselightgbm: true, collectdata: false, include-all: true}
+Smart: &Smart {type: smart,uselightgbm: true, collectdata: false, prefer-asn: true, include-all: true}
 # 锚点 - 负载均衡参数 [每 6 秒一次惰性健康检查，时延超过 2 秒判定为失败，失败 3 次则自动触发健康检查]
-LoadBalance: &LoadBalance {type: load-balance, interval: 6, lazy: true, url: 'https://cp.cloudflare.com/generate_204', disable-udp: false, strategy: consistent-hashing, timeout: 2000, max-failed-times: 3, hidden: true, include-all-providers: true}
+LoadBalance: &LoadBalance {type: load-balance, interval: 6, lazy: true, url: 'https://cp.cloudflare.com/generate_204', disable-udp: false, strategy: consistent-hashing, timeout: 2000, max-failed-times: 3, hidden: true, include-all: true}
 
 proxy-groups: 
   - {name: Outside, type: select, proxies: [HK, JP, SG, US, EU, TW,Other,DIRECT]}
