@@ -9,12 +9,12 @@ mode: rule                      # 分流模式：rule / global / direct
 log-level: warning              # 日志：silent/error/warning/info/debug
 ipv6: true
 udp: true                       
-allow-lan: false                 
-bind-address: "*"               
-unified-delay: true             
+allow-lan: false             
+unified-delay: true           
 tcp-concurrent: true
 keep-alive-interval: 15
 keep-alive-idle: 15
+disable-keep-alive: true
 
 geox-url:
 #  geoip: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.dat"
@@ -44,8 +44,7 @@ sniffer:
     - "+.push.apple.com"
 tun:
   enable: true
-  stack: mixed
-  device: Meta
+  stack: system
   dns-hijack:
     - "any:53"
     - "tcp://any:53"
@@ -56,8 +55,10 @@ dns:
   enable: true
   listen: '127.0.0.1:5450'
   ipv6: true
-  respect-rules: true
   enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  fake-ip-range6: fdfe:dcba:9876::1/64
+  fake-ip-filter-mode: blacklist
   fake-ip-filter:
       # 静态域名规则
     - '*.lan'
