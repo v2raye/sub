@@ -9,18 +9,23 @@ mode: rule                      # 分流模式：rule / global / direct
 log-level: warning              # 日志：silent/error/warning/info/debug
 ipv6: true
 udp: true                       
-allow-lan: true                 
+allow-lan: false                 
 bind-address: "*"               
 unified-delay: true             
 tcp-concurrent: true
+keep-alive-interval: 15
+keep-alive-idle: 15
+
 geox-url:
 #  geoip: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.dat"
 #  geosite: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat"
   mmdb: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/country-lite.mmdb"
 #  asn: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb"
+
 profile:
   store-selected: true
   store-fake-ip: true
+
 sniffer:
   enable: true
   override-destination: false
@@ -39,7 +44,7 @@ sniffer:
     - "+.push.apple.com"
 tun:
   enable: true
-  stack: system
+  stack: mixed
   device: Meta
   dns-hijack:
     - "any:53"
