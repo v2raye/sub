@@ -112,12 +112,12 @@ proxy-providers:
 # 锚点 - 节点筛选组
 FilterEM: &FilterEM '(?i)(🇭🇰|香港|\bHK\b|Hong(?:\s?Kong)?|🇹🇼|台湾|\bTW\b|Taiwan)'
 FilterHK: &FilterHK '(?i)(🇭🇰|香港|\bHK\b|Hong(?:\s?Kong)?)'
-FilterJP: &FilterJP '(?i)(🇯🇵|日本|东京|大阪|\bJP\b|Japan)'
+FilterJP: &FilterJP '(?i)(🇯🇵|日本|\bJP\b|Japan)'
 FilterSG: &FilterSG '(?i)(🇸🇬|新加坡|\bSG\b|Singapore)'
 FilterUS: &FilterUS '(?i)(🇺🇸|美国|美國|\bUS\b|\bUSA\b|United States)'
 FilterTW: &FilterTW '(?i)(🇹🇼|台湾|\bTW\b|Taiwan)'
 FilterEU: &FilterEU '(?i)(\bUK\b|\bGB\b|\bDE\b|\bFR\b|\bNL\b|\bIT\b|\bES\b|\bCH\b|\bSE\b|\bNO\b|\bPL\b|\bFI\b|\bAT\b|\bBE\b|\bDK\b|\bIE\b|\bPT\b|\bCZ\b|\bGR\b|\bHU\b|\bRO\b|\bIS\b|\bEE\b|\bLV\b|\bLT\b|\bSK\b|\bSI\b|\bHR\b|\bBG\b|\bLU\b|英国|德国|法国|荷兰|意大利|西班牙|瑞士|瑞典|挪威|波兰|芬兰|奥地利|比利时|丹麦|爱尔兰|葡萄牙|捷克|希腊|匈牙利|罗马尼亚|冰岛|爱沙尼亚|拉脱维亚|立陶宛|斯洛伐克|斯洛文尼亚|克罗地亚|保加利亚|卢森堡|🇬🇧|🇩🇪|🇫🇷|🇳🇱|🇮🇹|🇪🇸|🇨🇭|🇸🇪|🇳🇴|🇵🇱|🇫🇮|🇦🇹|🇧🇪|🇩🇰|🇮🇪|🇵🇹|🇨🇿|🇬🇷|🇭🇺|🇷🇴|🇮🇸|🇪🇪|🇱🇻|🇱🇹|🇸🇰|🇸🇮|🇭🇷|🇧🇬|🇱🇺|欧洲|🇪🇺|\bEU\b)'
-FilterOther: &FilterOther '(?i)^(?!.*(🇭🇰|香港|\bHK\b|Hong(?:\s?Kong)?|🇹🇼|台湾|\bTW\b|Taiwan|🇯🇵|日本|东京|大阪|\bJP\b|Japan|🇸🇬|新加坡|\bSG\b|Singapore|🇺🇸|美国|美國|\bUS\b|\bUSA\b|United States|英国|德国|法国|荷兰|意大利|西班牙|瑞士|瑞典|挪威|波兰|芬兰|奥地利|比利时|丹麦|爱尔兰|葡萄牙|捷克|希腊|匈牙利|罗马尼亚|冰岛|爱沙尼亚|拉脱维亚|立陶宛|斯洛伐克|斯洛文尼亚|克罗地亚|保加利亚|卢森堡|🇬🇧|🇩🇪|🇫🇷|🇳🇱|🇮🇹|🇪🇸|🇨🇭|🇸🇪|🇳🇴|🇵🇱|🇫🇮|🇦🇹|🇧🇪|🇩🇰|🇮🇪|🇵🇹|🇨🇿|🇬🇷|🇭🇺|🇷🇴|🇮🇸|🇪🇪|🇱🇻|🇱🇹|🇸🇰|🇸🇮|🇭🇷|🇧🇬|🇱🇺|欧洲|🇪🇺|\bUK\b|\bGB\b|\bDE\b|\bFR\b|\bNL\b|\bIT\b|\bES\b|\bCH\b|\bSE\b|\bNO\b|\bPL\b|\bFI\b|\bAT\b|\bBE\b|\bDK\b|\bIE\b|\bPT\b|\bCZ\b|\bGR\b|\bHU\b|\bRO\b|\bIS\b|\bEE\b|\bLV\b|\bLT\b|\bSK\b|\bSI\b|\bHR\b|\bBG\b|\bLU\b|\bEU\b)).*'
+FilterOther: &FilterOther '(?i)^(?!.*(🇭🇰|香港|\bHK\b|Hong(?:\s?Kong)?|🇹🇼|台湾|\bTW\b|Taiwan|🇯🇵|日本|\bJP\b|Japan|🇸🇬|新加坡|\bSG\b|Singapore|🇺🇸|美国|美國|\bUS\b|\bUSA\b|United States|英国|德国|法国|荷兰|意大利|西班牙|瑞士|瑞典|挪威|波兰|芬兰|奥地利|比利时|丹麦|爱尔兰|葡萄牙|捷克|希腊|匈牙利|罗马尼亚|冰岛|爱沙尼亚|拉脱维亚|立陶宛|斯洛伐克|斯洛文尼亚|克罗地亚|保加利亚|卢森堡|🇬🇧|🇩🇪|🇫🇷|🇳🇱|🇮🇹|🇪🇸|🇨🇭|🇸🇪|🇳🇴|🇵🇱|🇫🇮|🇦🇹|🇧🇪|🇩🇰|🇮🇪|🇵🇹|🇨🇿|🇬🇷|🇭🇺|🇷🇴|🇮🇸|🇪🇪|🇱🇻|🇱🇹|🇸🇰|🇸🇮|🇭🇷|🇧🇬|🇱🇺|欧洲|🇪🇺|\bUK\b|\bGB\b|\bDE\b|\bFR\b|\bNL\b|\bIT\b|\bES\b|\bCH\b|\bSE\b|\bNO\b|\bPL\b|\bFI\b|\bAT\b|\bBE\b|\bDK\b|\bIE\b|\bPT\b|\bCZ\b|\bGR\b|\bHU\b|\bRO\b|\bIS\b|\bEE\b|\bLV\b|\bLT\b|\bSK\b|\bSI\b|\bHR\b|\bBG\b|\bLU\b|\bEU\b)).*'
 FilterRelay: &FilterRelay '(?i)(🇯🇵|日本|\bJP\b|Japan)'
 # 策略组参数锚点
 # 锚点 - 时延优选参数
