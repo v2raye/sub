@@ -1,28 +1,87 @@
-# >> YouTube
-DOMAIN-KEYWORD,youtube
+# =====================================================
+# Google Final Ruleset - Surge
+# 最佳平衡版，不带策略
+# =====================================================
+
+# --- exact hosts ---
+DOMAIN,voice.google.com
+DOMAIN,voice.telephony.goog
+
+# --- core Google / Workspace / Account / Play / Maps / Docs / Drive / Photos ---
+DOMAIN-SUFFIX,google.com
+DOMAIN-SUFFIX,google.com.hk
+DOMAIN-SUFFIX,google.com.tw
+DOMAIN-SUFFIX,google
+DOMAIN-SUFFIX,gmail.com
+DOMAIN-SUFFIX,googlemail.com
+DOMAIN-SUFFIX,googleapis.com
+DOMAIN-SUFFIX,googleusercontent.com
+DOMAIN-SUFFIX,gstatic.com
+DOMAIN-SUFFIX,1e100.net
+DOMAIN-SUFFIX,gvt1.com
+DOMAIN-SUFFIX,gvt2.com
+DOMAIN-SUFFIX,gvt3.com
 DOMAIN-SUFFIX,ggpht.com
-DOMAIN-SUFFIX,ytimg.com
-DOMAIN-SUFFIX,youtu.be
-DOMAIN-SUFFIX,yt.be
-
-USER-AGENT,com.google.ios.youtube*
-USER-AGENT,YouTube*
-
-# >> YouTubeMusic
-DOMAIN,music.youtube.com
-USER-AGENT,com.google.ios.youtubemusic*
-USER-AGENT,YouTubeMusic*
-
-IP-CIDR,172.110.32.0/21,no-resolve
-IP-CIDR,216.73.80.0/20,no-resolve
-IP-CIDR6,2620:120:e000::/40,no-resolve
-
-# Google
-DOMAIN-KEYWORD,google
-DOMAIN-KEYWORD,gmail
-DOMAIN-SUFFIX,abc.xyz
 DOMAIN-SUFFIX,android.com
-DOMAIN-SUFFIX,androidify.com
-DOMAIN-SUFFIX,chrome.com
+DOMAIN-SUFFIX,g.co
+DOMAIN-SUFFIX,g.page
+DOMAIN-SUFFIX,googlehosted.com
+DOMAIN-SUFFIX,googlezip.net
+DOMAIN-SUFFIX,googlesource.com
+DOMAIN-SUFFIX,withgoogle.com
+
+# --- YouTube / YouTube Music ---
+DOMAIN-SUFFIX,youtube.com
+DOMAIN-SUFFIX,youtu.be
+DOMAIN-SUFFIX,youtubeeducation.com
+DOMAIN-SUFFIX,ytimg.com
+DOMAIN-SUFFIX,googlevideo.com
+
+# --- ads / analytics / commerce / captcha ---
+DOMAIN-SUFFIX,doubleclick.net
+DOMAIN-SUFFIX,google-analytics.com
+DOMAIN-SUFFIX,googleadapis.com
+DOMAIN-SUFFIX,googleadservices.com
+DOMAIN-SUFFIX,googlecommerce.com
+DOMAIN-SUFFIX,googlesyndication.com
+DOMAIN-SUFFIX,googletagmanager.com
+DOMAIN-SUFFIX,googletagservices.com
+DOMAIN-SUFFIX,recaptcha.net
+
+# --- other Google product-family domains ---
+DOMAIN-SUFFIX,ampproject.org
+DOMAIN-SUFFIX,blogger.com
+DOMAIN-SUFFIX,blogspot.com
 
 
+# --------------------
+# X / Twitter
+# --------------------
+DOMAIN-SUFFIX,periscope.tv
+DOMAIN-SUFFIX,pscp.tv
+DOMAIN-SUFFIX,t.co
+DOMAIN-SUFFIX,twimg.com
+DOMAIN-SUFFIX,twitter.com
+DOMAIN-SUFFIX,x.com
+
+# --------------------
+# UltraMobile / T-Mobile
+# --------------------
+DOMAIN-SUFFIX,ultramobile.com
+DOMAIN-SUFFIX,t-mobile.com
+DOMAIN-SUFFIX,amplitude.com
+DOMAIN-SUFFIX,braze.com
+DOMAIN-SUFFIX,launchdarkly.com
+DOMAIN-SUFFIX,ipqualityscore.com
+
+
+# --- optional aggressive block ---
+# 下面这组是 Google Cloud / Firebase / Hosting 平台默认域。
+# 打开后覆盖更广，但会把很多“托管在 Google 平台上的第三方/客户应用”一起卷进去。
+# DOMAIN-SUFFIX,appspot.com
+# DOMAIN-SUFFIX,cloudfunctions.net
+# DOMAIN-SUFFIX,firebaseapp.com
+# DOMAIN-SUFFIX,firebaseio.com
+# DOMAIN-SUFFIX,run.app
+# DOMAIN-SUFFIX,web.app
+# DOMAIN-SUFFIX,hosted.app
