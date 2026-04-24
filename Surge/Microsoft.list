@@ -1,0 +1,386 @@
+payload:
+  # ================================
+  # Microsoft Core
+  # ================================
+  - DOMAIN-SUFFIX,microsoft.com
+  - DOMAIN-SUFFIX,microsoft.net
+  - DOMAIN-SUFFIX,microsoft.org
+  - DOMAIN-SUFFIX,microsoftstore.com
+  - DOMAIN-SUFFIX,microsofttranslator.com
+  - DOMAIN-SUFFIX,microsoftusercontent.com
+  - DOMAIN-SUFFIX,microsoftapp.net
+  - DOMAIN-SUFFIX,msft.net
+  - DOMAIN-SUFFIX,msftauth.net
+  - DOMAIN-SUFFIX,msftauthimages.net
+  - DOMAIN-SUFFIX,msftidentity.com
+  - DOMAIN-SUFFIX,msidentity.com
+  - DOMAIN-SUFFIX,msauth.net
+  - DOMAIN-SUFFIX,msauthimages.net
+  - DOMAIN-SUFFIX,msecnd.net
+  - DOMAIN-SUFFIX,msocdn.com
+  - DOMAIN-SUFFIX,msn.com
+  - DOMAIN-SUFFIX,msftconnecttest.com
+  - DOMAIN-SUFFIX,msftncsi.com
+  - DOMAIN-SUFFIX,akadns.net
+  - DOMAIN-SUFFIX,aka.ms
+  - DOMAIN-SUFFIX,sfx.ms
+  - DOMAIN-SUFFIX,live.com
+  - DOMAIN-SUFFIX,live.net
+  - DOMAIN-SUFFIX,hotmail.com
+  - DOMAIN-SUFFIX,outlook.com
+  - DOMAIN-SUFFIX,windows.com
+  - DOMAIN-SUFFIX,windows.net
+  - DOMAIN-SUFFIX,windowsupdate.com
+
+  # ================================
+  # Microsoft .microsoft TLD / Cloud Microsoft
+  # Microsoft 365 正在迁移到 cloud.microsoft
+  # ================================
+  - DOMAIN-SUFFIX,cloud.microsoft
+  - DOMAIN-SUFFIX,outlook.cloud.microsoft
+  - DOMAIN-SUFFIX,teams.cloud.microsoft
+  - DOMAIN-SUFFIX,mx.microsoft
+
+  # ================================
+  # Microsoft Account / Login / Entra ID
+  # ================================
+  - DOMAIN-SUFFIX,login.live.com
+  - DOMAIN-SUFFIX,login.microsoft.com
+  - DOMAIN-SUFFIX,login.microsoftonline.com
+  - DOMAIN-SUFFIX,login.microsoftonline-p.com
+  - DOMAIN-SUFFIX,login.windows.net
+  - DOMAIN-SUFFIX,login-us.microsoftonline.com
+  - DOMAIN-SUFFIX,logincert.microsoftonline.com
+  - DOMAIN-SUFFIX,loginex.microsoftonline.com
+  - DOMAIN-SUFFIX,microsoftonline.com
+  - DOMAIN-SUFFIX,microsoftonline-p.com
+  - DOMAIN-SUFFIX,clientconfig.microsoftonline-p.net
+  - DOMAIN-SUFFIX,device.login.microsoftonline.com
+  - DOMAIN-SUFFIX,ccs.login.microsoftonline.com
+  - DOMAIN-SUFFIX,passwordreset.microsoftonline.com
+  - DOMAIN-SUFFIX,api.passwordreset.microsoftonline.com
+  - DOMAIN-SUFFIX,account.activedirectory.windowsazure.com
+  - DOMAIN-SUFFIX,accounts.accesscontrol.windows.net
+  - DOMAIN-SUFFIX,enterpriseregistration.windows.net
+  - DOMAIN-SUFFIX,autologon.microsoftazuread-sso.com
+  - DOMAIN-SUFFIX,nexus.microsoftonline-p.com
+  - DOMAIN-SUFFIX,provisioningapi.microsoftonline.com
+  - DOMAIN-SUFFIX,companymanager.microsoftonline.com
+  - DOMAIN-SUFFIX,adminwebservice.microsoftonline.com
+  - DOMAIN-SUFFIX,becws.microsoftonline.com
+  - DOMAIN-SUFFIX,phonefactor.net
+  - DOMAIN-SUFFIX,hip.live.com
+  - DOMAIN-SUFFIX,logincdn.msauth.net
+  - DOMAIN-SUFFIX,auth.gfx.ms
+  - DOMAIN-SUFFIX,gfx.ms
+
+  # ================================
+  # Microsoft 365 / Office / Office Online
+  # ================================
+  - DOMAIN-SUFFIX,microsoft365.com
+  - DOMAIN-SUFFIX,office.com
+  - DOMAIN-SUFFIX,office.net
+  - DOMAIN-SUFFIX,office365.com
+  - DOMAIN-SUFFIX,officeapps.live.com
+  - DOMAIN-SUFFIX,online.office.com
+  - DOMAIN-SUFFIX,office.live.com
+  - DOMAIN-SUFFIX,officeclient.microsoft.com
+  - DOMAIN-SUFFIX,appsforoffice.microsoft.com
+  - DOMAIN-SUFFIX,officecdn.microsoft.com
+  - DOMAIN-SUFFIX,officecdn.microsoft.com.edgesuite.net
+  - DOMAIN-SUFFIX,officehome.msocdn.com
+  - DOMAIN-SUFFIX,officehomeblobs.blob.core.windows.net
+  - DOMAIN-SUFFIX,blobs.officehome.msocdn.com
+  - DOMAIN-SUFFIX,roaming.officeapps.live.com
+  - DOMAIN-SUFFIX,ocws.officeapps.live.com
+  - DOMAIN-SUFFIX,odc.officeapps.live.com
+  - DOMAIN-SUFFIX,ecs.nel.measure.office.net
+  - DOMAIN-SUFFIX,tfl.nel.measure.office.net
+  - DOMAIN-SUFFIX,substrate.office.com
+  - DOMAIN-SUFFIX,o365weve.com
+  - DOMAIN-SUFFIX,prod.msocdn.com
+  - DOMAIN-SUFFIX,shellprod.msocdn.com
+
+  # ================================
+  # Outlook / Exchange Online
+  # ================================
+  - DOMAIN-SUFFIX,outlook.office.com
+  - DOMAIN-SUFFIX,outlook.office365.com
+  - DOMAIN-SUFFIX,smtp.office365.com
+  - DOMAIN-SUFFIX,protection.outlook.com
+  - DOMAIN-SUFFIX,mail.protection.outlook.com
+  - DOMAIN-SUFFIX,autodiscover.outlook.com
+  - DOMAIN-SUFFIX,autodiscover.onmicrosoft.com
+
+  # ================================
+  # OneDrive / SharePoint
+  # ================================
+  - DOMAIN-SUFFIX,onedrive.com
+  - DOMAIN-SUFFIX,www.onedrive.com
+  - DOMAIN-SUFFIX,onedrive.live.com
+  - DOMAIN-SUFFIX,api.onedrive.com
+  - DOMAIN-SUFFIX,admin.onedrive.com
+  - DOMAIN-SUFFIX,oneclient.sfx.ms
+  - DOMAIN-SUFFIX,sharepoint.com
+  - DOMAIN-SUFFIX,sharepointonline.com
+  - DOMAIN-SUFFIX,svc.ms
+  - DOMAIN-SUFFIX,storage.live.com
+  - DOMAIN-SUFFIX,settings.live.net
+  - DOMAIN-SUFFIX,skyapi.live.net
+  - DOMAIN-SUFFIX,skydrivesync.policies.live.net
+  - DOMAIN-SUFFIX,windows.policies.live.net
+  - DOMAIN-SUFFIX,spoprod-a.akamaihd.net
+
+  # ================================
+  # Teams / Skype / Lync
+  # ================================
+  - DOMAIN-SUFFIX,teams.microsoft.com
+  - DOMAIN-SUFFIX,config.teams.microsoft.com
+  - DOMAIN-SUFFIX,teams.live.com
+  - DOMAIN-SUFFIX,teams.events.data.microsoft.com
+  - DOMAIN-SUFFIX,statics.teams.cdn.live.net
+  - DOMAIN-SUFFIX,statics.teams.cdn.office.net
+  - DOMAIN-SUFFIX,lync.com
+  - DOMAIN-SUFFIX,skype.com
+  - DOMAIN-SUFFIX,skypeassets.com
+  - DOMAIN-SUFFIX,skypeforbusiness.com
+  - DOMAIN-SUFFIX,secure.skypeassets.com
+  - DOMAIN-SUFFIX,join.secure.skypeassets.com
+  - DOMAIN-SUFFIX,config.edge.skype.com
+  - DOMAIN-SUFFIX,edge.skype.com
+  - DOMAIN-SUFFIX,trouter.skype.com
+  - DOMAIN-SUFFIX,pipe.aria.microsoft.com
+  - DOMAIN-SUFFIX,mlccdnprod.azureedge.net
+  - DOMAIN-SUFFIX,keydelivery.mediaservices.windows.net
+  - DOMAIN-SUFFIX,streaming.mediaservices.windows.net
+
+  # ================================
+  # OneNote / To Do / Loop / Planner 等
+  # ================================
+  - DOMAIN-SUFFIX,onenote.com
+  - DOMAIN-SUFFIX,onenote.net
+  - DOMAIN-SUFFIX,cdn.onenote.net
+  - DOMAIN-SUFFIX,to-do.microsoft.com
+  - DOMAIN-SUFFIX,staging.to-do.microsoft.com
+  - DOMAIN-SUFFIX,tasks.office.com
+  - DOMAIN-SUFFIX,planner.cloud.microsoft
+  - DOMAIN-SUFFIX,loop.cloud.microsoft
+  - DOMAIN-SUFFIX,onenote.cloud.microsoft
+  - DOMAIN-SUFFIX,word.cloud.microsoft
+  - DOMAIN-SUFFIX,excel.cloud.microsoft
+  - DOMAIN-SUFFIX,powerpoint.cloud.microsoft
+
+  # ================================
+  # Windows Update / Microsoft Update / Store
+  # ================================
+  - DOMAIN-SUFFIX,update.microsoft.com
+  - DOMAIN-SUFFIX,windowsupdate.com
+  - DOMAIN-SUFFIX,download.windowsupdate.com
+  - DOMAIN-SUFFIX,download.microsoft.com
+  - DOMAIN-SUFFIX,dl.delivery.mp.microsoft.com
+  - DOMAIN-SUFFIX,delivery.mp.microsoft.com
+  - DOMAIN-SUFFIX,prod.do.dsp.mp.microsoft.com
+  - DOMAIN-SUFFIX,tsfe.trafficshaping.dsp.mp.microsoft.com
+  - DOMAIN-SUFFIX,adl.windows.com
+  - DOMAIN-SUFFIX,ctldl.windowsupdate.com
+  - DOMAIN-SUFFIX,definitionupdates.microsoft.com
+  - DOMAIN-SUFFIX,assets.onestore.ms
+  - DOMAIN-SUFFIX,onestore.ms
+  - DOMAIN-SUFFIX,storeedgefd.dsx.mp.microsoft.com
+  - DOMAIN-SUFFIX,displaycatalog.mp.microsoft.com
+  - DOMAIN-SUFFIX,licensing.mp.microsoft.com
+  - DOMAIN-SUFFIX,purchase.mp.microsoft.com
+
+  # ================================
+  # Windows / NCSI / Activity / Settings
+  # ================================
+  - DOMAIN-SUFFIX,activity.windows.com
+  - DOMAIN-SUFFIX,assets.activity.windows.com
+  - DOMAIN-SUFFIX,settings.data.microsoft.com
+  - DOMAIN-SUFFIX,settings-win.data.microsoft.com
+  - DOMAIN-SUFFIX,dmd.metaservices.microsoft.com
+  - DOMAIN-SUFFIX,fs.microsoft.com
+  - DOMAIN-SUFFIX,inference.location.live.net
+  - DOMAIN-SUFFIX,maps.windows.com
+  - DOMAIN-SUFFIX,virtualearth.net
+  - DOMAIN-SUFFIX,dev.virtualearth.net
+  - DOMAIN-SUFFIX,ecn.dev.virtualearth.net
+
+  # ================================
+  # Microsoft Defender / SmartScreen / Security / Purview
+  # ================================
+  - DOMAIN-SUFFIX,wdcp.microsoft.com
+  - DOMAIN-SUFFIX,wdcpalt.microsoft.com
+  - DOMAIN-SUFFIX,smartscreen.microsoft.com
+  - DOMAIN-SUFFIX,smartscreen-prod.microsoft.com
+  - DOMAIN-SUFFIX,checkappexec.microsoft.com
+  - DOMAIN-SUFFIX,security.microsoft.com
+  - DOMAIN-SUFFIX,defender.microsoft.com
+  - DOMAIN-SUFFIX,protection.office.com
+  - DOMAIN-SUFFIX,security.microsoft.com
+  - DOMAIN-SUFFIX,compliance.microsoft.com
+  - DOMAIN-SUFFIX,purview.microsoft.com
+  - DOMAIN-SUFFIX,portal.cloudappsecurity.com
+  - DOMAIN-SUFFIX,cloudappsecurity.com
+  - DOMAIN-SUFFIX,informationprotection.azure.com
+  - DOMAIN-SUFFIX,azurerms.com
+  - DOMAIN-SUFFIX,aadrm.com
+
+  # ================================
+  # Edge / Bing / MSN / Copilot 相关
+  # ================================
+  - DOMAIN-SUFFIX,bing.com
+  - DOMAIN-SUFFIX,bing.net
+  - DOMAIN-SUFFIX,bingapis.com
+  - DOMAIN-SUFFIX,bingads.com
+  - DOMAIN-SUFFIX,bingvisualsearch.com
+  - DOMAIN-SUFFIX,edgeservices.bing.com
+  - DOMAIN-SUFFIX,edge.microsoft.com
+  - DOMAIN-SUFFIX,microsoftedge.com
+  - DOMAIN-SUFFIX,microsoftedgeinsider.com
+  - DOMAIN-SUFFIX,msedge.net
+  - DOMAIN-SUFFIX,fp.msedge.net
+  - DOMAIN-SUFFIX,b-ring.msedge.net
+  - DOMAIN-SUFFIX,msedge.api.cdp.microsoft.com
+  - DOMAIN-SUFFIX,evoke-windowsservices-tas.msedge.net
+  - DOMAIN-SUFFIX,outlookmobile-office365-tas.msedge.net
+  - DOMAIN-SUFFIX,copilot.microsoft.com
+  - DOMAIN-SUFFIX,copilot.cloud.microsoft
+  - DOMAIN-SUFFIX,sydney.bing.com
+  - DOMAIN-SUFFIX,www.bing.com
+  - DOMAIN-SUFFIX,business.bing.com
+  - DOMAIN-SUFFIX,c.bing.com
+  - DOMAIN-SUFFIX,api.msn.com
+  - DOMAIN-SUFFIX,assets.msn.com
+  - DOMAIN-SUFFIX,arc.msn.com
+  - DOMAIN-SUFFIX,c.msn.com
+  - DOMAIN-SUFFIX,ntp.msn.com
+  - DOMAIN-SUFFIX,srtb.msn.com
+  - DOMAIN-SUFFIX,www.msn.com
+
+  # ================================
+  # Azure / Microsoft Cloud
+  # 注意：这部分会覆盖很多 Azure 托管服务
+  # ================================
+  - DOMAIN-SUFFIX,azure.com
+  - DOMAIN-SUFFIX,azure.net
+  - DOMAIN-SUFFIX,azureedge.net
+  - DOMAIN-SUFFIX,azurefd.net
+  - DOMAIN-SUFFIX,azurewebsites.net
+  - DOMAIN-SUFFIX,azure-api.net
+  - DOMAIN-SUFFIX,azurecontainer.io
+  - DOMAIN-SUFFIX,azurecr.io
+  - DOMAIN-SUFFIX,azuredatalakestore.net
+  - DOMAIN-SUFFIX,azurehdinsight.net
+  - DOMAIN-SUFFIX,azurestaticapps.net
+  - DOMAIN-SUFFIX,azurewebsites.windows.net
+  - DOMAIN-SUFFIX,cloudapp.net
+  - DOMAIN-SUFFIX,cloudapp.azure.com
+  - DOMAIN-SUFFIX,trafficmanager.net
+  - DOMAIN-SUFFIX,blob.core.windows.net
+  - DOMAIN-SUFFIX,table.core.windows.net
+  - DOMAIN-SUFFIX,queue.core.windows.net
+  - DOMAIN-SUFFIX,file.core.windows.net
+  - DOMAIN-SUFFIX,dfs.core.windows.net
+  - DOMAIN-SUFFIX,servicebus.windows.net
+  - DOMAIN-SUFFIX,documents.azure.com
+  - DOMAIN-SUFFIX,database.windows.net
+  - DOMAIN-SUFFIX,redis.cache.windows.net
+  - DOMAIN-SUFFIX,monitor.azure.com
+  - DOMAIN-SUFFIX,applicationinsights.azure.com
+  - DOMAIN-SUFFIX,dc.services.visualstudio.com
+  - DOMAIN-SUFFIX,management.azure.com
+  - DOMAIN-SUFFIX,portal.azure.com
+  - DOMAIN-SUFFIX,shell.azure.com
+  - DOMAIN-SUFFIX,graph.microsoft.com
+  - DOMAIN-SUFFIX,graph.windows.net
+
+  # ================================
+  # Visual Studio / VS Code / Developer
+  # ================================
+  - DOMAIN-SUFFIX,visualstudio.com
+  - DOMAIN-SUFFIX,visualstudio.microsoft.com
+  - DOMAIN-SUFFIX,vscode.dev
+  - DOMAIN-SUFFIX,vscode-cdn.net
+  - DOMAIN-SUFFIX,vsassets.io
+  - DOMAIN-SUFFIX,vsmarketplacebadge.apphb.com
+  - DOMAIN-SUFFIX,marketplace.visualstudio.com
+  - DOMAIN-SUFFIX,appcenter.ms
+  - DOMAIN-SUFFIX,nuget.org
+  - DOMAIN-SUFFIX,nugetstatic.com
+  - DOMAIN-SUFFIX,myget.org
+  - DOMAIN-SUFFIX,docs.microsoft.com
+  - DOMAIN-SUFFIX,learn.microsoft.com
+  - DOMAIN-SUFFIX,msdn.microsoft.com
+  - DOMAIN-SUFFIX,technet.microsoft.com
+  - DOMAIN-SUFFIX,support.microsoft.com
+
+  # ================================
+  # Xbox / Game Pass
+  # ================================
+  - DOMAIN-SUFFIX,xbox.com
+  - DOMAIN-SUFFIX,xboxlive.com
+  - DOMAIN-SUFFIX,xboxservices.com
+  - DOMAIN-SUFFIX,xboxab.com
+  - DOMAIN-SUFFIX,xboxgamepass.com
+  - DOMAIN-SUFFIX,gamepass.com
+  - DOMAIN-SUFFIX,dlassets-ssl.xboxlive.com
+  - DOMAIN-SUFFIX,assets.xboxlive.com
+  - DOMAIN-SUFFIX,images-eds-ssl.xboxlive.com
+  - DOMAIN-SUFFIX,title.mgt.xboxlive.com
+  - DOMAIN-SUFFIX,achievements.xboxlive.com
+  - DOMAIN-SUFFIX,peoplehub.xboxlive.com
+  - DOMAIN-SUFFIX,presence-heartbeat.xboxlive.com
+  - DOMAIN-SUFFIX,userpresence.xboxlive.com
+  - DOMAIN-SUFFIX,privacy.xboxlive.com
+  - DOMAIN-SUFFIX,profile.xboxlive.com
+  - DOMAIN-SUFFIX,xsts.auth.xboxlive.com
+  - DOMAIN-SUFFIX,device.auth.xboxlive.com
+  - DOMAIN-SUFFIX,da.xboxservices.com
+
+  # ================================
+  # Telemetry / Diagnostics
+  # 如你要隐私屏蔽，可单独放到 REJECT 规则，不建议混在 Microsoft 分流里
+  # ================================
+  - DOMAIN-SUFFIX,aria.microsoft.com
+  - DOMAIN-SUFFIX,events.data.microsoft.com
+  - DOMAIN-SUFFIX,functional.events.data.microsoft.com
+  - DOMAIN-SUFFIX,self.events.data.microsoft.com
+  - DOMAIN-SUFFIX,v10.events.data.microsoft.com
+  - DOMAIN-SUFFIX,watson.telemetry.microsoft.com
+  - DOMAIN-SUFFIX,watson.events.data.microsoft.com
+  - DOMAIN-SUFFIX,browser.events.data.msn.com
+
+  # ================================
+  # CDN / Third-party CDN used by Microsoft
+  # 谨慎：akamai / fastly / edgesuite 很泛，放太宽可能误伤其它网站
+  # ================================
+  - DOMAIN-SUFFIX,aspnetcdn.com
+  - DOMAIN-SUFFIX,ajax.aspnetcdn.com
+  - DOMAIN-SUFFIX,aspnetcdn.azureedge.net
+  - DOMAIN-SUFFIX,assets1.xboxlive.com
+  - DOMAIN-SUFFIX,assets2.xboxlive.com
+  - DOMAIN-SUFFIX,assets.onestore.ms
+# github系列
+  - DOMAIN-SUFFIX,github.com
+  - DOMAIN-SUFFIX,github.io
+  - DOMAIN-SUFFIX,githubapp.com
+  - DOMAIN-SUFFIX,githubassets.com
+  - DOMAIN-SUFFIX,githubusercontent.com
+  - DOMAIN-SUFFIX,githubpreview.dev
+  - DOMAIN-SUFFIX,github.dev
+  - DOMAIN-SUFFIX,git.io
+  - DOMAIN-SUFFIX,githubstatus.com
+  - DOMAIN-SUFFIX,github.blog
+  - DOMAIN-SUFFIX,githubcopilot.com
+
+  # GitHub 常用精确域名
+  - DOMAIN,github.com
+  - DOMAIN,api.github.com
+  - DOMAIN,raw.githubusercontent.com
+  - DOMAIN,avatars.githubusercontent.com
+  - DOMAIN,objects.githubusercontent.com
+  - DOMAIN,codeload.github.com
+  - DOMAIN,uploads.github.com
+  - DOMAIN,github-releases.githubusercontent.com
+  - DOMAIN,github-production-release-asset-2e65be.s3.amazonaws.com
