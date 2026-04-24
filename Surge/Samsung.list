@@ -1,0 +1,229 @@
+payload:
+  # ================================
+  # Samsung Core / 三星主域名
+  # ================================
+  - DOMAIN-SUFFIX,samsung.com
+  - DOMAIN-SUFFIX,samsung.net
+  - DOMAIN-SUFFIX,samsung.org
+  - DOMAIN-SUFFIX,samsungmobile.com
+  - DOMAIN-SUFFIX,samsungmobile.net
+  - DOMAIN-SUFFIX,samsungsemi.com
+  - DOMAIN-SUFFIX,samsungsemiconductor.com
+  - DOMAIN-SUFFIX,samsungelectronics.com
+  - DOMAIN-SUFFIX,samsungusa.com
+  - DOMAIN-SUFFIX,samsung.cn
+  - DOMAIN-SUFFIX,samsung.com.cn
+  - DOMAIN-SUFFIX,samsungapps.com
+  - DOMAIN-SUFFIX,samsungapp.com
+  - DOMAIN-SUFFIX,samsungosp.com
+  - DOMAIN-SUFFIX,samsungqbe.com
+  - DOMAIN-SUFFIX,samsungdm.com
+  - DOMAIN-SUFFIX,samsungotn.net
+  - DOMAIN-SUFFIX,samsungacr.com
+  - DOMAIN-SUFFIX,samsungsds.com
+  - DOMAIN-SUFFIX,samsungads.com
+  - DOMAIN-SUFFIX,samsungadhub.com
+
+  # ================================
+  # Samsung Account / 三星账号
+  # ================================
+  - DOMAIN,account.samsung.com
+  - DOMAIN,signin.samsung.com
+  - DOMAIN,account.samsung.cn
+  - DOMAIN,account.samsung.com.cn
+  - DOMAIN-SUFFIX,account.samsung.com
+  - DOMAIN-SUFFIX,samsungaccount.com
+  - DOMAIN-SUFFIX,samsungaccount.cn
+  - DOMAIN-SUFFIX,samsungosp.com
+  - DOMAIN-SUFFIX,ospserver.net
+  - DOMAIN-SUFFIX,auth.samsungosp.com
+  - DOMAIN-SUFFIX,eu-auth2.samsungosp.com
+  - DOMAIN-SUFFIX,us-auth2.samsungosp.com
+  - DOMAIN-SUFFIX,cn-auth.samsungosp.com
+
+  # ================================
+  # Galaxy Store / Samsung Apps
+  # ================================
+  - DOMAIN-SUFFIX,galaxystore.samsung.com
+  - DOMAIN-SUFFIX,samsungapps.com
+  - DOMAIN-SUFFIX,img.samsungapps.com
+  - DOMAIN-SUFFIX,vas.samsungapps.com
+  - DOMAIN-SUFFIX,seller.samsungapps.com
+  - DOMAIN-SUFFIX,odc.samsungapps.com
+  - DOMAIN-SUFFIX,cn-ms.samsungapps.com
+  - DOMAIN-SUFFIX,cn-ms-odc.samsungapps.com
+  - DOMAIN-SUFFIX,samsungapps.net
+  - DOMAIN-SUFFIX,samsungapps.cn
+  - DOMAIN-SUFFIX,samsungapps.com.cn
+  - DOMAIN-SUFFIX,galaxy.store
+  - DOMAIN-SUFFIX,galaxystore.com
+
+  # ================================
+  # Samsung Cloud / Backup / Sync
+  # ================================
+  - DOMAIN,samsungcloud.com
+  - DOMAIN,www.samsungcloud.com
+  - DOMAIN-SUFFIX,samsungcloud.com
+  - DOMAIN-SUFFIX,samsungcloudcdn.com
+  - DOMAIN-SUFFIX,samsungcloudsolution.com
+  - DOMAIN-SUFFIX,samsungcloudsolution.net
+  - DOMAIN-SUFFIX,samsungcloudsolution.cn
+  - DOMAIN-SUFFIX,scloud.samsung.com
+  - DOMAIN-SUFFIX,scloud.samsungcloud.com
+  - DOMAIN-SUFFIX,samsungcloudprint.com
+  - DOMAIN-SUFFIX,samsungcloudprint.net
+
+  # ================================
+  # Samsung Firmware / OTA / Update
+  # ================================
+  - DOMAIN-SUFFIX,samsung-firmware.org
+  - DOMAIN-SUFFIX,fota-cloud-dn.ospserver.net
+  - DOMAIN-SUFFIX,fota-secure-dn.ospserver.net
+  - DOMAIN-SUFFIX,fota-s3-dn.ospserver.net
+  - DOMAIN-SUFFIX,neofussvr.sslcs.cdngc.net
+  - DOMAIN-SUFFIX,nus.samsung.com
+  - DOMAIN-SUFFIX,update.samsung.com
+  - DOMAIN-SUFFIX,samsungotn.net
+  - DOMAIN-SUFFIX,otn.samsungcloudsolution.com
+  - DOMAIN-SUFFIX,notice.samsungcloudsolution.com
+  - DOMAIN-SUFFIX,config.samsungads.com
+  - DOMAIN-SUFFIX,dm.samsungosp.com
+
+  # ================================
+  # Samsung Push / Notification
+  # ================================
+  - DOMAIN-SUFFIX,push.samsungosp.com
+  - DOMAIN-SUFFIX,conn.samsungosp.com
+  - DOMAIN-SUFFIX,notice.samsungosp.com
+  - DOMAIN-SUFFIX,noticecdn.samsungcloudsolution.com
+  - DOMAIN-SUFFIX,noticecdn.samsungcloudsolution.net
+  - DOMAIN-SUFFIX,samsungpushservice.com
+  - DOMAIN-SUFFIX,samsungpush.com
+
+  # ================================
+  # SmartThings / IoT
+  # ================================
+  - DOMAIN-SUFFIX,smartthings.com
+  - DOMAIN-SUFFIX,smartthings.com.cn
+  - DOMAIN-SUFFIX,api.smartthings.com
+  - DOMAIN-SUFFIX,graph.api.smartthings.com
+  - DOMAIN-SUFFIX,auth-global.api.smartthings.com
+  - DOMAIN-SUFFIX,client.smartthings.com
+  - DOMAIN-SUFFIX,account.smartthings.com
+  - DOMAIN-SUFFIX,smartthingsfind.samsung.com
+  - DOMAIN-SUFFIX,findmymobile.samsung.com
+  - DOMAIN-SUFFIX,fmm.samsung.com
+  - DOMAIN-SUFFIX,samsungiotcloud.com
+  - DOMAIN-SUFFIX,artik.cloud
+  - DOMAIN-SUFFIX,artik.com
+
+  # ================================
+  # Samsung Knox / 企业安全
+  # ================================
+  - DOMAIN-SUFFIX,samsungknox.com
+  - DOMAIN-SUFFIX,knox.samsungknox.com
+  - DOMAIN-SUFFIX,admin.samsungknox.com
+  - DOMAIN-SUFFIX,api.samsungknox.com
+  - DOMAIN-SUFFIX,eu-api.samsungknox.com
+  - DOMAIN-SUFFIX,us-api.samsungknox.com
+  - DOMAIN-SUFFIX,cn-api.samsungknox.com
+  - DOMAIN-SUFFIX,knoxmanage.com
+  - DOMAIN-SUFFIX,knoxemm.com
+  - DOMAIN-SUFFIX,knoxguard.com
+  - DOMAIN-SUFFIX,seap.samsung.com
+  - DOMAIN-SUFFIX,secb2b.com
+  - DOMAIN-SUFFIX,samsungknox.cn
+  - DOMAIN-SUFFIX,samsungknox.com.cn
+
+  # ================================
+  # Samsung Pay / Wallet / Checkout
+  # ================================
+  - DOMAIN-SUFFIX,samsungpay.com
+  - DOMAIN-SUFFIX,samsungpay.cn
+  - DOMAIN-SUFFIX,samsungwallet.com
+  - DOMAIN-SUFFIX,samsungcheckout.com
+  - DOMAIN-SUFFIX,samsungbilling.com
+  - DOMAIN-SUFFIX,pay.samsung.com
+  - DOMAIN-SUFFIX,wallet.samsung.com
+  - DOMAIN-SUFFIX,checkout.samsung.com
+  - DOMAIN-SUFFIX,billing.samsung.com
+
+  # ================================
+  # Samsung Pass / Health / Members
+  # ================================
+  - DOMAIN-SUFFIX,samsungpass.com
+  - DOMAIN-SUFFIX,pass.samsung.com
+  - DOMAIN-SUFFIX,samsunghealth.com
+  - DOMAIN-SUFFIX,health.samsung.com
+  - DOMAIN-SUFFIX,shealth.samsung.com
+  - DOMAIN-SUFFIX,members.samsung.com
+  - DOMAIN-SUFFIX,samsungmembers.com
+  - DOMAIN-SUFFIX,samsungrewards.com
+  - DOMAIN-SUFFIX,rewards.samsung.com
+
+  # ================================
+  # Bixby / Voice / AI
+  # ================================
+  - DOMAIN-SUFFIX,bixby.samsung.com
+  - DOMAIN-SUFFIX,bixbyvoice.com
+  - DOMAIN-SUFFIX,bixbydevelopers.com
+  - DOMAIN-SUFFIX,samsungbixby.com
+  - DOMAIN-SUFFIX,samsungassistant.com
+  - DOMAIN-SUFFIX,voice.samsung.com
+  - DOMAIN-SUFFIX,dictation.samsung.com
+
+  # ================================
+  # Samsung TV / Smart TV / Tizen
+  # ================================
+  - DOMAIN-SUFFIX,samsungcloud.tv
+  - DOMAIN-SUFFIX,samsungcloudsolution.com
+  - DOMAIN-SUFFIX,samsungacr.com
+  - DOMAIN-SUFFIX,samsungotn.net
+  - DOMAIN-SUFFIX,tizen.org
+  - DOMAIN-SUFFIX,tizenstore.com
+  - DOMAIN-SUFFIX,tizenstore.net
+  - DOMAIN-SUFFIX,tizenstore.co.kr
+  - DOMAIN-SUFFIX,tvplus.com
+  - DOMAIN-SUFFIX,samsungtvplus.com
+  - DOMAIN-SUFFIX,samsungtvplus.com.cn
+
+  # ================================
+  # Samsung Browser / Internet / Galaxy AI
+  # ================================
+  - DOMAIN-SUFFIX,internet.samsung.com
+  - DOMAIN-SUFFIX,samsunginternet.com
+  - DOMAIN-SUFFIX,samsungbrowser.com
+  - DOMAIN-SUFFIX,galaxy.ai
+  - DOMAIN-SUFFIX,samsunggalaxyfriends.com
+
+  # ================================
+  # Samsung CDN / Static / Download
+  # ================================
+  - DOMAIN-SUFFIX,images.samsung.com
+  - DOMAIN-SUFFIX,images.samsung.com.cn
+  - DOMAIN-SUFFIX,images.samsungcdn.com
+  - DOMAIN-SUFFIX,samsungcdn.com
+  - DOMAIN-SUFFIX,samsung-cdn.com
+  - DOMAIN-SUFFIX,cdn.samsung.com
+  - DOMAIN-SUFFIX,downloadcenter.samsung.com
+  - DOMAIN-SUFFIX,org.downloadcenter.samsung.com
+  - DOMAIN-SUFFIX,downloadcenter.samsung.com.cn
+  - DOMAIN-SUFFIX,sslcs.cdngc.net
+  - DOMAIN-SUFFIX,cdngc.net
+
+  # ================================
+  # Samsung Ads / Analytics / Telemetry
+  # 如你注重隐私，可以单独拿去 REJECT，不建议放在 DIRECT
+  # ================================
+  - DOMAIN-SUFFIX,samsungads.com
+  - DOMAIN-SUFFIX,samsungadhub.com
+  - DOMAIN-SUFFIX,ads.samsung.com
+  - DOMAIN-SUFFIX,config.samsungads.com
+  - DOMAIN-SUFFIX,analytics.samsungknox.com
+  - DOMAIN-SUFFIX,metrics.samsung.com
+  - DOMAIN-SUFFIX,log-config.samsungacr.com
+  - DOMAIN-SUFFIX,log-ingestion.samsungacr.com
+  - DOMAIN-SUFFIX,rd.samsungadhub.com
+  - DOMAIN-SUFFIX,ssp.samsungads.com
+  - DOMAIN-SUFFIX,ad.samsungadhub.com
+  - DOMAIN-SUFFIX,tracking.samsung.com
