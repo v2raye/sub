@@ -54,26 +54,6 @@ DOMAIN-SUFFIX,blogger.com
 DOMAIN-SUFFIX,blogspot.com
 
 
-# --------------------
-# X / Twitter
-# --------------------
-DOMAIN-SUFFIX,periscope.tv
-DOMAIN-SUFFIX,pscp.tv
-DOMAIN-SUFFIX,t.co
-DOMAIN-SUFFIX,twimg.com
-DOMAIN-SUFFIX,twitter.com
-DOMAIN-SUFFIX,x.com
-
-# --------------------
-# UltraMobile / T-Mobile
-# --------------------
-DOMAIN-SUFFIX,ultramobile.com
-DOMAIN-SUFFIX,t-mobile.com
-DOMAIN-SUFFIX,amplitude.com
-DOMAIN-SUFFIX,braze.com
-DOMAIN-SUFFIX,launchdarkly.com
-DOMAIN-SUFFIX,ipqualityscore.com
-
 
 # --- optional aggressive block ---
 # 下面这组是 Google Cloud / Firebase / Hosting 平台默认域。
