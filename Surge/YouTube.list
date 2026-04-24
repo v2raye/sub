@@ -1,44 +1,121 @@
 # =====================================================
-# Google Final Ruleset - Surge
-# 最佳平衡版，不带策略
+# Google Mainstream Ruleset - Surge
+# 主流业务覆盖版，不带策略
+# Updated: 2026-04-24
+# Format: Surge Rule Set
 # =====================================================
 
-# --- exact hosts ---
-DOMAIN,voice.google.com
-DOMAIN,voice.telephony.goog
 
-# --- core Google / Workspace / Account / Play / Maps / Docs / Drive / Photos ---
+# =====================================================
+# Google Core / Search / Account
+# =====================================================
 DOMAIN-SUFFIX,google.com
 DOMAIN-SUFFIX,google.com.hk
 DOMAIN-SUFFIX,google.com.tw
+DOMAIN-SUFFIX,google.co.jp
+DOMAIN-SUFFIX,google.co.uk
+DOMAIN-SUFFIX,google.co.kr
+DOMAIN-SUFFIX,google.co.in
+DOMAIN-SUFFIX,google.com.au
+DOMAIN-SUFFIX,google.ca
+DOMAIN-SUFFIX,google.de
+DOMAIN-SUFFIX,google.fr
 DOMAIN-SUFFIX,google
+DOMAIN-SUFFIX,goog
+DOMAIN-SUFFIX,g.co
+DOMAIN-SUFFIX,g.page
+DOMAIN-SUFFIX,goo.gl
+
+
+# =====================================================
+# Gmail / Account / Workspace Basic
+# =====================================================
 DOMAIN-SUFFIX,gmail.com
 DOMAIN-SUFFIX,googlemail.com
-DOMAIN-SUFFIX,googleapis.com
+DOMAIN-SUFFIX,googlegroups.com
+DOMAIN-SUFFIX,googledrive.com
 DOMAIN-SUFFIX,googleusercontent.com
+DOMAIN-SUFFIX,googleapis.com
 DOMAIN-SUFFIX,gstatic.com
+
+
+# =====================================================
+# Google Infrastructure / Static / Update / Download
+# =====================================================
 DOMAIN-SUFFIX,1e100.net
 DOMAIN-SUFFIX,gvt1.com
 DOMAIN-SUFFIX,gvt2.com
 DOMAIN-SUFFIX,gvt3.com
 DOMAIN-SUFFIX,ggpht.com
-DOMAIN-SUFFIX,android.com
-DOMAIN-SUFFIX,g.co
-DOMAIN-SUFFIX,g.page
 DOMAIN-SUFFIX,googlehosted.com
 DOMAIN-SUFFIX,googlezip.net
 DOMAIN-SUFFIX,googlesource.com
 DOMAIN-SUFFIX,withgoogle.com
 
-# --- YouTube / YouTube Music ---
+
+# =====================================================
+# Google Voice / Telephony
+# =====================================================
+DOMAIN,voice.google.com
+DOMAIN,voice.telephony.goog
+DOMAIN-SUFFIX,telephony.goog
+
+
+# =====================================================
+# YouTube / YouTube Music
+# =====================================================
 DOMAIN-SUFFIX,youtube.com
 DOMAIN-SUFFIX,youtu.be
-DOMAIN-SUFFIX,youtubeeducation.com
+DOMAIN-SUFFIX,yt.be
 DOMAIN-SUFFIX,ytimg.com
 DOMAIN-SUFFIX,googlevideo.com
+DOMAIN-SUFFIX,youtube-nocookie.com
+DOMAIN-SUFFIX,youtubeeducation.com
+DOMAIN-SUFFIX,withyoutube.com
 
-# --- ads / analytics / commerce / captcha ---
+
+# =====================================================
+# Android / Google Play
+# =====================================================
+DOMAIN-SUFFIX,android.com
+DOMAIN-SUFFIX,androidify.com
+
+
+# =====================================================
+# Chrome / Chromium
+# =====================================================
+DOMAIN-SUFFIX,chrome.com
+DOMAIN-SUFFIX,chromium.org
+DOMAIN-SUFFIX,chromeexperiments.com
+
+
+# =====================================================
+# Google Docs / Drive / Meet / Shortcuts
+# 只保留 Google 官方常用 .new 快捷域，不使用 DOMAIN-SUFFIX,new
+# =====================================================
+DOMAIN-SUFFIX,docs.new
+DOMAIN-SUFFIX,sheets.new
+DOMAIN-SUFFIX,slides.new
+DOMAIN-SUFFIX,forms.new
+DOMAIN-SUFFIX,sites.new
+DOMAIN-SUFFIX,drive.new
+DOMAIN-SUFFIX,meet.new
+DOMAIN-SUFFIX,cal.new
+DOMAIN-SUFFIX,keep.new
+
+
+# =====================================================
+# Google Ads / Analytics / Commerce / Tag
+# 主流 Google 服务常见依赖；如你不想广告统计走代理，可单独拆出去
+# =====================================================
 DOMAIN-SUFFIX,doubleclick.net
+DOMAIN-SUFFIX,doubleclickbygoogle.com
+DOMAIN-SUFFIX,2mdn.net
+DOMAIN-SUFFIX,admob.com
+DOMAIN-SUFFIX,adsense.com
+DOMAIN-SUFFIX,adsense.net
+DOMAIN-SUFFIX,adwords.com
+DOMAIN-SUFFIX,adwords.net
 DOMAIN-SUFFIX,google-analytics.com
 DOMAIN-SUFFIX,googleadapis.com
 DOMAIN-SUFFIX,googleadservices.com
@@ -46,22 +123,77 @@ DOMAIN-SUFFIX,googlecommerce.com
 DOMAIN-SUFFIX,googlesyndication.com
 DOMAIN-SUFFIX,googletagmanager.com
 DOMAIN-SUFFIX,googletagservices.com
-DOMAIN-SUFFIX,recaptcha.net
 
-# --- other Google product-family domains ---
+
+# =====================================================
+# reCAPTCHA / Safe Browsing / Trust / PKI
+# =====================================================
+DOMAIN-SUFFIX,recaptcha.net
+DOMAIN-SUFFIX,gtsstatic.com
+DOMAIN-SUFFIX,pki.goog
+
+
+# =====================================================
+# AMP / Blogger / Blogspot
+# =====================================================
 DOMAIN-SUFFIX,ampproject.org
+DOMAIN-SUFFIX,ampproject.com
+DOMAIN-SUFFIX,ampproject.net
+DOMAIN-SUFFIX,amp.dev
 DOMAIN-SUFFIX,blogger.com
 DOMAIN-SUFFIX,blogspot.com
 
 
+# =====================================================
+# Google Developer / Open Source Mainstream
+# =====================================================
+DOMAIN-SUFFIX,dart.dev
+DOMAIN-SUFFIX,flutter.dev
+DOMAIN-SUFFIX,golang.org
+DOMAIN-SUFFIX,go.dev
+DOMAIN-SUFFIX,tensorflow.org
+DOMAIN-SUFFIX,tfhub.dev
+DOMAIN-SUFFIX,web.dev
+DOMAIN-SUFFIX,material.io
 
-# --- optional aggressive block ---
-# 下面这组是 Google Cloud / Firebase / Hosting 平台默认域。
-# 打开后覆盖更广，但会把很多“托管在 Google 平台上的第三方/客户应用”一起卷进去。
-# DOMAIN-SUFFIX,appspot.com
-# DOMAIN-SUFFIX,cloudfunctions.net
-# DOMAIN-SUFFIX,firebaseapp.com
-# DOMAIN-SUFFIX,firebaseio.com
-# DOMAIN-SUFFIX,run.app
-# DOMAIN-SUFFIX,web.app
-# DOMAIN-SUFFIX,hosted.app
+
+# =====================================================
+# Google AI / Gemini / DeepMind
+# =====================================================
+DOMAIN-SUFFIX,deepmind.com
+DOMAIN-SUFFIX,deepmind.google
+DOMAIN-SUFFIX,gemini.google
+DOMAIN-SUFFIX,generativeai.google
+DOMAIN-SUFFIX,notebooklm.google
+DOMAIN-SUFFIX,labs.google
+
+
+# =====================================================
+# Google / Alphabet Mainstream Products
+# 只保留常见用户侧产品，不加过多企业/云平台域
+# =====================================================
+DOMAIN-SUFFIX,waze.com
+DOMAIN-SUFFIX,fitbit.com
+DOMAIN-SUFFIX,nest.com
+DOMAIN-SUFFIX,kaggle.com
+DOMAIN-SUFFIX,looker.com
+DOMAIN-SUFFIX,mandiant.com
+DOMAIN-SUFFIX,virustotal.com
+
+
+# =====================================================
+# Google Connectivity
+# =====================================================
+DOMAIN-SUFFIX,googlefiber.net
+DOMAIN-SUFFIX,googlefiber.com
+DOMAIN-SUFFIX,fi.google.com
+
+
+# =====================================================
+# Google ASN Fallback
+# 只保留 Google / YouTube 主 ASN，不加入 Google Cloud 高误伤 ASN
+# =====================================================
+IP-ASN,15169
+IP-ASN,19527
+IP-ASN,36040
+IP-ASN,16550
