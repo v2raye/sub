@@ -71,8 +71,8 @@ IP-CIDR,109.239.140.0/24,no-resolve
 # Telegram ASN Fallback
 # 放最后作为兜底
 # --------------------
-IP-ASN,211157
-IP-ASN,44907
-IP-ASN,59930
-IP-ASN,62014
-IP-ASN,62041
+IP-ASN,211157,no-resolve
+IP-ASN,44907,no-resolve
+IP-ASN,59930,no-resolve
+IP-ASN,62014,no-resolve
+IP-ASN,62041,no-resolve
