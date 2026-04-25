@@ -39,8 +39,9 @@ DOMAIN,js.stripe.com
 DOMAIN-SUFFIX,ct.sendgrid.net
 
 # Diagnostics
-DOMAIN-SUFFIX,ingest.sentry.io
+DOMAIN-SUFFIX,sentry.io
 DOMAIN,rum.browser-intake-datadoghq.com
+DOMAIN-SUFFIX,nel.cloudflare.com
 
 # iOS App Attest
 DOMAIN,humb.apple.com
