@@ -44,7 +44,7 @@ DOMAIN-SUFFIX,yns-etc.com
 DOMAIN-SUFFIX,zhgkxt.com
 
 # --------------------
-# 金融 / 支付 / 银行 / 保险
+# 金融 / 支付 / 银行 / 保险 / 证券
 # --------------------
 DOMAIN-SUFFIX,139yf.com
 DOMAIN-SUFFIX,95504.net
@@ -79,6 +79,20 @@ DOMAIN-SUFFIX,spdb.com.cn
 DOMAIN-SUFFIX,tenpay.com
 DOMAIN-SUFFIX,unionpay.com
 DOMAIN-SUFFIX,unionpayintl.com
+
+DOMAIN-SUFFIX,eastmoney.com
+DOMAIN-SUFFIX,dfcfw.com
+DOMAIN-SUFFIX,10jqka.com.cn
+DOMAIN-SUFFIX,hexun.com
+DOMAIN-SUFFIX,xueqiu.com
+DOMAIN-SUFFIX,lu.com
+DOMAIN-SUFFIX,lufax.com
+DOMAIN-SUFFIX,lufaxcdn.com
+DOMAIN-SUFFIX,htsc.com.cn
+DOMAIN-SUFFIX,gtja.com
+DOMAIN-SUFFIX,csc108.com
+DOMAIN-SUFFIX,haitong.com
+DOMAIN-SUFFIX,essence.com.cn
 
 # --------------------
 # 电商 / 购物 / 本地生活
@@ -118,9 +132,12 @@ DOMAIN-SUFFIX,xiaohongshu.com
 DOMAIN-SUFFIX,yangkeduo.com
 DOMAIN-SUFFIX,yanxuan.com
 DOMAIN-SUFFIX,youzanyun.com
+DOMAIN-SUFFIX,dewu.com
+DOMAIN-SUFFIX,poizon.com
+DOMAIN-SUFFIX,xiachufang.com
 
 # --------------------
-# 出行 / 旅游 / 房产 / 招聘 / 物流
+# 出行 / 旅游 / 房产 / 招聘 / 物流 / 汽车
 # --------------------
 DOMAIN-SUFFIX,58.com
 DOMAIN-SUFFIX,58img.com
@@ -170,6 +187,24 @@ DOMAIN-SUFFIX,udache.com
 DOMAIN-SUFFIX,yto.net.cn
 DOMAIN-SUFFIX,yundaex.com
 DOMAIN-SUFFIX,zto.com
+
+DOMAIN-SUFFIX,kanzhun.com
+DOMAIN-SUFFIX,zhipin.com
+DOMAIN-SUFFIX,lagou.com
+DOMAIN-SUFFIX,maimai.cn
+DOMAIN-SUFFIX,maimai.com
+
+DOMAIN-SUFFIX,byd.com
+DOMAIN-SUFFIX,bydauto.com.cn
+DOMAIN-SUFFIX,nio.com
+DOMAIN-SUFFIX,xiaopeng.com
+DOMAIN-SUFFIX,xpeng.com
+DOMAIN-SUFFIX,lixiang.com
+DOMAIN-SUFFIX,leapmotor.com
+DOMAIN-SUFFIX,zeekrlife.com
+DOMAIN-SUFFIX,tesla.cn
+DOMAIN-SUFFIX,tesla.com.cn
+DOMAIN-SUFFIX,smart.cn
 
 # --------------------
 # 社交 / 通信 / 邮箱 / 办公协作
@@ -300,6 +335,14 @@ DOMAIN-SUFFIX,ximalaya.com
 DOMAIN-SUFFIX,xmcdn.com
 DOMAIN-SUFFIX,youku.com
 
+DOMAIN-SUFFIX,kuaishou.com
+DOMAIN-SUFFIX,gifshow.com
+DOMAIN-SUFFIX,yximgs.com
+DOMAIN-SUFFIX,ksapisrv.com
+DOMAIN-SUFFIX,kspkg.com
+DOMAIN-SUFFIX,kwaizt.com
+DOMAIN-SUFFIX,kwai.com
+
 # --------------------
 # 搜索 / 资讯 / 知识 / 技术社区
 # --------------------
@@ -354,6 +397,7 @@ DOMAIN-SUFFIX,sohu.com
 DOMAIN-SUFFIX,sohu.com.cn
 DOMAIN-SUFFIX,sohucs.com
 DOMAIN-SUFFIX,soso.com
+DOMAIN-SUFFIX,tianyancha.com
 DOMAIN-SUFFIX,tieba.com
 DOMAIN-SUFFIX,toutiao.com
 DOMAIN-SUFFIX,toutiaoapi.com
@@ -492,6 +536,18 @@ DOMAIN-SUFFIX,zijieurl.cn
 DOMAIN-SUFFIX,zijieurl.com
 
 # --------------------
+# 国内推送 / 统计 / App SDK
+# --------------------
+DOMAIN-SUFFIX,jpush.cn
+DOMAIN-SUFFIX,jiguang.cn
+DOMAIN-SUFFIX,getui.com
+DOMAIN-SUFFIX,igexin.com
+DOMAIN-SUFFIX,sensorsdata.cn
+DOMAIN-SUFFIX,sensorsdata.com
+DOMAIN-SUFFIX,talkingdata.com
+DOMAIN-SUFFIX,umengcloud.com
+
+# --------------------
 # 设备 / 厂商 / IoT / 应用商店
 # --------------------
 DOMAIN-SUFFIX,360.cn
@@ -559,7 +615,7 @@ DOMAIN-SUFFIX,cn
 USER-AGENT,%E6%89%8B%E6%9C%BA%E6%B7%98%E5%AE%9D*
 USER-AGENT,bili*
 USER-AGENT,MApi*
-USER-AGENT,MicroMessenger*
+USER-AGENT,MicroMessenger Client
 USER-AGENT,TIM*
 USER-AGENT,WeChat*
 
