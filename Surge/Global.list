@@ -78,10 +78,53 @@ DOMAIN-SUFFIX,unpkg.com
 DOMAIN-SUFFIX,readthedocs.io
 DOMAIN-SUFFIX,readthedocs.org
 DOMAIN-SUFFIX,mozilla.org
+DOMAIN-SUFFIX,firefox.com
 
 DOMAIN-SUFFIX,sourceforge.net
 DOMAIN-SUFFIX,fosshub.com
 DOMAIN-SUFFIX,softpedia.com
+
+# --------------------
+# Dev Tools / IDE / Monitoring / CI
+# --------------------
+DOMAIN-SUFFIX,jetbrains.com
+DOMAIN-SUFFIX,jetbrains.space
+DOMAIN-SUFFIX,toolbox.app
+
+DOMAIN-SUFFIX,postman.com
+DOMAIN-SUFFIX,getpostman.com
+DOMAIN-SUFFIX,insomnia.rest
+
+DOMAIN-SUFFIX,sentry.io
+DOMAIN-SUFFIX,sentry-cdn.com
+DOMAIN-SUFFIX,datadoghq.com
+DOMAIN-SUFFIX,datadoghq-browser-agent.com
+DOMAIN-SUFFIX,newrelic.com
+DOMAIN-SUFFIX,nr-data.net
+
+DOMAIN-SUFFIX,circleci.com
+DOMAIN-SUFFIX,travis-ci.com
+DOMAIN-SUFFIX,travis-ci.org
+DOMAIN-SUFFIX,buildkite.com
+DOMAIN-SUFFIX,snyk.io
+DOMAIN-SUFFIX,hashicorp.com
+DOMAIN-SUFFIX,terraform.io
+
+# --------------------
+# Database / Backend / API Platforms
+# --------------------
+DOMAIN-SUFFIX,mongodb.com
+DOMAIN-SUFFIX,mongodb.net
+DOMAIN-SUFFIX,supabase.com
+DOMAIN-SUFFIX,supabase.co
+DOMAIN-SUFFIX,planetscale.com
+DOMAIN-SUFFIX,neon.tech
+DOMAIN-SUFFIX,redis.com
+DOMAIN-SUFFIX,redis.io
+DOMAIN-SUFFIX,elastic.co
+DOMAIN-SUFFIX,elastic.com
+DOMAIN-SUFFIX,algolia.com
+DOMAIN-SUFFIX,algolianet.com
 
 # --------------------
 # Knowledge / Wiki / Archive
@@ -172,6 +215,11 @@ DOMAIN-SUFFIX,dropboxapi.com
 DOMAIN-SUFFIX,dropboxusercontent.com
 DOMAIN-SUFFIX,getdropbox.com
 
+DOMAIN-SUFFIX,box.com
+DOMAIN-SUFFIX,boxcdn.net
+DOMAIN-SUFFIX,sync.com
+DOMAIN-SUFFIX,pcloud.com
+
 DOMAIN-SUFFIX,mega.nz
 DOMAIN-SUFFIX,mega.co.nz
 
@@ -215,8 +263,14 @@ DOMAIN-SUFFIX,windsurf.com
 DOMAIN-SUFFIX,codeium.com
 DOMAIN-SUFFIX,continue.dev
 
+DOMAIN-SUFFIX,grammarly.com
+DOMAIN-SUFFIX,grammarly.io
+DOMAIN-SUFFIX,quillbot.com
+DOMAIN-SUFFIX,jasper.ai
+DOMAIN-SUFFIX,copy.ai
+
 # --------------------
-# Work / Productivity
+# Work / Productivity / SaaS
 # --------------------
 DOMAIN-SUFFIX,notion.so
 DOMAIN-SUFFIX,notion.site
@@ -226,6 +280,158 @@ DOMAIN-SUFFIX,slack-edge.com
 DOMAIN-SUFFIX,slack-imgs.com
 DOMAIN-SUFFIX,slack-files.com
 DOMAIN-SUFFIX,slackb.com
+
+DOMAIN-SUFFIX,atlassian.com
+DOMAIN-SUFFIX,atlassian.net
+DOMAIN-SUFFIX,atlassian.io
+DOMAIN-SUFFIX,jira.com
+DOMAIN-SUFFIX,confluence.com
+DOMAIN-SUFFIX,trello.com
+DOMAIN-SUFFIX,trello.services
+DOMAIN-SUFFIX,statuspage.io
+DOMAIN-SUFFIX,opsgenie.com
+
+DOMAIN-SUFFIX,zoom.us
+DOMAIN-SUFFIX,zoom.com
+DOMAIN-SUFFIX,zoomgov.com
+DOMAIN-SUFFIX,zoomcdn.com
+DOMAIN-SUFFIX,zoomcloud.com
+
+DOMAIN-SUFFIX,figma.com
+DOMAIN-SUFFIX,figma.site
+DOMAIN-SUFFIX,figma.app
+DOMAIN-SUFFIX,figmausercontent.com
+
+DOMAIN-SUFFIX,evernote.com
+DOMAIN-SUFFIX,evernote.com.cn
+DOMAIN-SUFFIX,obsidian.md
+DOMAIN-SUFFIX,logseq.com
+DOMAIN-SUFFIX,todoist.com
+DOMAIN-SUFFIX,ticktick.com
+DOMAIN-SUFFIX,airtable.com
+DOMAIN-SUFFIX,coda.io
+
+DOMAIN-SUFFIX,asana.com
+DOMAIN-SUFFIX,linear.app
+DOMAIN-SUFFIX,clickup.com
+DOMAIN-SUFFIX,monday.com
+DOMAIN-SUFFIX,mondaycdn.com
+DOMAIN-SUFFIX,basecamp.com
+DOMAIN-SUFFIX,miro.com
+DOMAIN-SUFFIX,mirostatic.com
+DOMAIN-SUFFIX,wrike.com
+
+# --------------------
+# CRM / Enterprise SaaS
+# --------------------
+DOMAIN-SUFFIX,salesforce.com
+DOMAIN-SUFFIX,force.com
+DOMAIN-SUFFIX,sfdcstatic.com
+DOMAIN-SUFFIX,service-now.com
+DOMAIN-SUFFIX,servicenow.com
+DOMAIN-SUFFIX,zendesk.com
+DOMAIN-SUFFIX,zendesk.com.cn
+DOMAIN-SUFFIX,zdassets.com
+DOMAIN-SUFFIX,freshworks.com
+DOMAIN-SUFFIX,freshdesk.com
+DOMAIN-SUFFIX,hubspot.com
+DOMAIN-SUFFIX,hubspot.net
+DOMAIN-SUFFIX,hsforms.com
+
+# --------------------
+# Design / Creative / Autodesk
+# --------------------
+DOMAIN-SUFFIX,adobe.com
+DOMAIN-SUFFIX,canva.com
+DOMAIN-SUFFIX,canva.cn
+DOMAIN-SUFFIX,canva.dev
+DOMAIN-SUFFIX,canvacdn.com
+DOMAIN-SUFFIX,framer.com
+DOMAIN-SUFFIX,sketch.com
+DOMAIN-SUFFIX,serif.com
+DOMAIN-SUFFIX,procreate.com
+DOMAIN-SUFFIX,clipstudio.net
+
+DOMAIN-SUFFIX,autodesk.com
+DOMAIN-SUFFIX,autodesk.net
+DOMAIN-SUFFIX,autodesk360.com
+DOMAIN-SUFFIX,autodeskstatic.com
+DOMAIN-SUFFIX,autocad.com
+DOMAIN-SUFFIX,bim360.com
+DOMAIN-SUFFIX,plangrid.com
+DOMAIN-SUFFIX,shotgridsoftware.com
+DOMAIN-SUFFIX,tinkercad.com
+DOMAIN-SUFFIX,sketchbook.com
+DOMAIN-SUFFIX,moldflow.com
+
+# --------------------
+# Remote Desktop / Remote Support
+# --------------------
+DOMAIN-SUFFIX,teamviewer.com
+DOMAIN-SUFFIX,teamviewer.cn
+DOMAIN-SUFFIX,anydesk.com
+DOMAIN-SUFFIX,anydesk.com.cn
+DOMAIN-SUFFIX,rustdesk.com
+DOMAIN-SUFFIX,splashtop.com
+DOMAIN-SUFFIX,parsec.app
+DOMAIN-SUFFIX,realvnc.com
+DOMAIN-SUFFIX,vnc.com
+
+# --------------------
+# Oracle / VMware / Enterprise Software
+# --------------------
+DOMAIN-SUFFIX,oracle.com
+DOMAIN-SUFFIX,oraclecloud.com
+DOMAIN-SUFFIX,java.com
+DOMAIN-SUFFIX,virtualbox.org
+DOMAIN-SUFFIX,vmware.com
+DOMAIN-SUFFIX,vmwarecloud.com
+DOMAIN-SUFFIX,broadcom.com
+DOMAIN-SUFFIX,broadcomsupport.com
+DOMAIN-SUFFIX,symantec.com
+DOMAIN-SUFFIX,symantecliveupdate.com
+
+# --------------------
+# Linux / Open Source Software Vendors
+# --------------------
+DOMAIN-SUFFIX,redhat.com
+DOMAIN-SUFFIX,fedoraproject.org
+DOMAIN-SUFFIX,centos.org
+DOMAIN-SUFFIX,canonical.com
+DOMAIN-SUFFIX,ubuntu.com
+DOMAIN-SUFFIX,debian.org
+DOMAIN-SUFFIX,archlinux.org
+DOMAIN-SUFFIX,kali.org
+DOMAIN-SUFFIX,opensuse.org
+DOMAIN-SUFFIX,gnome.org
+DOMAIN-SUFFIX,kde.org
+
+# --------------------
+# Security / Antivirus
+# --------------------
+DOMAIN-SUFFIX,malwarebytes.com
+DOMAIN-SUFFIX,eset.com
+DOMAIN-SUFFIX,bitdefender.com
+DOMAIN-SUFFIX,kaspersky.com
+DOMAIN-SUFFIX,kaspersky-labs.com
+DOMAIN-SUFFIX,avast.com
+DOMAIN-SUFFIX,avg.com
+DOMAIN-SUFFIX,sophos.com
+DOMAIN-SUFFIX,trendmicro.com
+DOMAIN-SUFFIX,mcafee.com
+DOMAIN-SUFFIX,f-secure.com
+DOMAIN-SUFFIX,crowdstrike.com
+
+# --------------------
+# Communication / Meeting / Webinar
+# --------------------
+DOMAIN-SUFFIX,webex.com
+DOMAIN-SUFFIX,ciscospark.com
+DOMAIN-SUFFIX,gotomeeting.com
+DOMAIN-SUFFIX,gotowebinar.com
+DOMAIN-SUFFIX,bluejeans.com
+DOMAIN-SUFFIX,whereby.com
+DOMAIN-SUFFIX,loom.com
 
 # --------------------
 # Streaming / Video / Music
@@ -309,7 +515,6 @@ DOMAIN-SUFFIX,unrealengine.com
 DOMAIN-SUFFIX,battle.net
 DOMAIN-SUFFIX,blizzard.com
 DOMAIN-SUFFIX,blz-contentstack.com
-DOMAIN-SUFFIX,blz-contentstack.com
 
 DOMAIN-SUFFIX,rockstargames.com
 DOMAIN-SUFFIX,rsg.sc
@@ -326,6 +531,8 @@ DOMAIN-SUFFIX,nssurge.com
 DOMAIN-SUFFIX,dler.io
 
 DOMAIN-SUFFIX,brave.com
+DOMAIN-SUFFIX,opera.com
+DOMAIN-SUFFIX,vivaldi.com
 DOMAIN-SUFFIX,gravatar.com
 
 DOMAIN-SUFFIX,speedtest.net
@@ -340,8 +547,22 @@ DOMAIN-SUFFIX,icanhazip.com
 DOMAIN-SUFFIX,ipapi.co
 DOMAIN-SUFFIX,ip.sb
 
-DOMAIN-SUFFIX,revenuecat.com
 DOMAIN-SUFFIX,sub.store
+
+# --------------------
+# Password / Payment / Subscription SDK
+# --------------------
+DOMAIN-SUFFIX,1password.com
+DOMAIN-SUFFIX,1passwordservices.com
+DOMAIN-SUFFIX,lastpass.com
+DOMAIN-SUFFIX,dashlane.com
+DOMAIN-SUFFIX,keepersecurity.com
+
+DOMAIN-SUFFIX,stripe.com
+DOMAIN-SUFFIX,stripe.network
+DOMAIN-SUFFIX,revenuecat.com
+DOMAIN-SUFFIX,paddle.com
+DOMAIN-SUFFIX,lemonsqueezy.com
 
 # --------------------
 # Search / Reference
@@ -356,6 +577,7 @@ DOMAIN-SUFFIX,kagi.com
 DOMAIN-SUFFIX,ecosia.org
 
 DOMAIN-SUFFIX,deepl.com
+DOMAIN-SUFFIX,deeplcdn.com
 DOMAIN-SUFFIX,cambridge.org
 
 # --------------------
@@ -430,7 +652,6 @@ DOMAIN-SUFFIX,awsstatic.com
 DOMAIN-SUFFIX,yahoo.com
 DOMAIN-SUFFIX,garmin.com
 DOMAIN-SUFFIX,duolingo.com
-DOMAIN-SUFFIX,adobe.com
 
 DOMAIN-SUFFIX,sony.com
 DOMAIN-SUFFIX,playstation.com
@@ -440,7 +661,6 @@ DOMAIN-SUFFIX,ndmdhs.com
 # --------------------
 # Analytics / Telemetry / App SDK
 # --------------------
-DOMAIN-SUFFIX,sentry.io
 DOMAIN-SUFFIX,segment.com
 DOMAIN-SUFFIX,amplitude.com
 DOMAIN-SUFFIX,mixpanel.com
