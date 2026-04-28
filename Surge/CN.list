@@ -79,7 +79,6 @@ DOMAIN-SUFFIX,spdb.com.cn
 DOMAIN-SUFFIX,tenpay.com
 DOMAIN-SUFFIX,unionpay.com
 DOMAIN-SUFFIX,unionpayintl.com
-
 DOMAIN-SUFFIX,eastmoney.com
 DOMAIN-SUFFIX,dfcfw.com
 DOMAIN-SUFFIX,10jqka.com.cn
@@ -109,13 +108,9 @@ DOMAIN-SUFFIX,ele.me
 DOMAIN-SUFFIX,goofish.com
 DOMAIN-SUFFIX,jd.com
 DOMAIN-SUFFIX,jingxi.com
-DOMAIN-SUFFIX,kaola.com
 DOMAIN-SUFFIX,meituan.com
 DOMAIN-SUFFIX,meituan.net
 DOMAIN-SUFFIX,meituanimg.com
-DOMAIN-SUFFIX,ofo.com
-DOMAIN-SUFFIX,ofo.so
-DOMAIN-SUFFIX,paipai.com
 DOMAIN-SUFFIX,pconline.com.cn
 DOMAIN-SUFFIX,pddpic.com
 DOMAIN-SUFFIX,pinduoduo.com
@@ -178,7 +173,6 @@ DOMAIN-SUFFIX,liepin.com
 DOMAIN-SUFFIX,lvmama.com
 DOMAIN-SUFFIX,ly.com
 DOMAIN-SUFFIX,mafengwo.cn
-DOMAIN-SUFFIX,mobike.com
 DOMAIN-SUFFIX,qunar.com
 DOMAIN-SUFFIX,sf-express.com
 DOMAIN-SUFFIX,sto.cn
@@ -188,12 +182,14 @@ DOMAIN-SUFFIX,yto.net.cn
 DOMAIN-SUFFIX,yundaex.com
 DOMAIN-SUFFIX,zto.com
 
+# 招聘 / 职场
 DOMAIN-SUFFIX,kanzhun.com
 DOMAIN-SUFFIX,zhipin.com
 DOMAIN-SUFFIX,lagou.com
 DOMAIN-SUFFIX,maimai.cn
 DOMAIN-SUFFIX,maimai.com
 
+# 新能源 / 自主车企
 DOMAIN-SUFFIX,byd.com
 DOMAIN-SUFFIX,bydauto.com.cn
 DOMAIN-SUFFIX,nio.com
@@ -205,6 +201,75 @@ DOMAIN-SUFFIX,zeekrlife.com
 DOMAIN-SUFFIX,tesla.cn
 DOMAIN-SUFFIX,tesla.com.cn
 DOMAIN-SUFFIX,smart.cn
+
+# Volkswagen / Audi
+DOMAIN-SUFFIX,faw-vw.com
+DOMAIN-SUFFIX,svw-volkswagen.com
+DOMAIN-SUFFIX,csvw.com
+DOMAIN-SUFFIX,volkswagen.com.cn
+DOMAIN-SUFFIX,vw.com.cn
+DOMAIN-SUFFIX,audi.cn
+DOMAIN-SUFFIX,audi.com.cn
+
+# Toyota / Lexus
+DOMAIN-SUFFIX,gac-toyota.com.cn
+DOMAIN-SUFFIX,faw-toyota.com
+DOMAIN-SUFFIX,tftm.com.cn
+DOMAIN-SUFFIX,toyota.com.cn
+DOMAIN-SUFFIX,lexus.com.cn
+
+# Honda
+DOMAIN-SUFFIX,honda.com.cn
+DOMAIN-SUFFIX,ghac.cn
+DOMAIN-SUFFIX,dongfeng-honda.com
+
+# Nissan / Infiniti
+DOMAIN-SUFFIX,dongfeng-nissan.com.cn
+DOMAIN-SUFFIX,nissan.com.cn
+DOMAIN-SUFFIX,infiniti.com.cn
+
+# GM / Buick / Chevrolet / Cadillac
+DOMAIN-SUFFIX,saic-gm.com
+DOMAIN-SUFFIX,shanghaigm.com
+DOMAIN-SUFFIX,buick.com.cn
+DOMAIN-SUFFIX,chevrolet.com.cn
+DOMAIN-SUFFIX,cadillac.com.cn
+
+# Ford / Lincoln
+DOMAIN-SUFFIX,ford.com.cn
+DOMAIN-SUFFIX,changanford.com
+DOMAIN-SUFFIX,lincoln.com.cn
+
+# Hyundai / Kia
+DOMAIN-SUFFIX,beijing-hyundai.com.cn
+DOMAIN-SUFFIX,hyundai.com.cn
+DOMAIN-SUFFIX,kia.com.cn
+
+# Mercedes-Benz / BMW / MINI
+DOMAIN-SUFFIX,mercedes-benz.com.cn
+DOMAIN-SUFFIX,bbac.com.cn
+DOMAIN-SUFFIX,bmw.com.cn
+DOMAIN-SUFFIX,bmw-brilliance.cn
+DOMAIN-SUFFIX,mini.com.cn
+
+# Peugeot / Citroen
+DOMAIN-SUFFIX,dpca.com.cn
+DOMAIN-SUFFIX,dongfeng-peugeot.com.cn
+DOMAIN-SUFFIX,dongfeng-citroen.com.cn
+DOMAIN-SUFFIX,peugeot.com.cn
+DOMAIN-SUFFIX,citroen.com.cn
+
+# Mazda
+DOMAIN-SUFFIX,mazda.com.cn
+DOMAIN-SUFFIX,changan-mazda.com.cn
+
+# Jaguar / Land Rover
+DOMAIN-SUFFIX,jaguar.com.cn
+DOMAIN-SUFFIX,landrover.com.cn
+DOMAIN-SUFFIX,cheryjaguarlandrover.com
+
+# Volvo
+DOMAIN-SUFFIX,volvocars.com.cn
 
 # --------------------
 # 社交 / 通信 / 邮箱 / 办公协作
@@ -261,7 +326,6 @@ DOMAIN-SUFFIX,yeah.net
 # 视频 / 直播 / 音乐 / 阅读 / 游戏 / 泛娱乐
 # --------------------
 DOMAIN-SUFFIX,17173.com
-DOMAIN-SUFFIX,56.com
 DOMAIN-SUFFIX,acfun.cn
 DOMAIN-SUFFIX,acfun.com
 DOMAIN-SUFFIX,acg.tv
@@ -313,7 +377,6 @@ DOMAIN-SUFFIX,kuwo.cn
 DOMAIN-SUFFIX,kuwo.com
 DOMAIN-SUFFIX,letv.com
 DOMAIN-SUFFIX,maoyan.com
-DOMAIN-SUFFIX,mcbbs.net
 DOMAIN-SUFFIX,mgtv.com
 DOMAIN-SUFFIX,migu.cn
 DOMAIN-SUFFIX,miguvideo.com
@@ -371,7 +434,6 @@ DOMAIN-SUFFIX,doubao.cn
 DOMAIN-SUFFIX,doubao.com
 DOMAIN-SUFFIX,duapp.com
 DOMAIN-SUFFIX,hao123.com
-DOMAIN-SUFFIX,haosou.com
 DOMAIN-SUFFIX,hellogithub.com
 DOMAIN-SUFFIX,ithome.com
 DOMAIN-SUFFIX,juejin.cn
@@ -396,7 +458,6 @@ DOMAIN-SUFFIX,sohu-inc.net
 DOMAIN-SUFFIX,sohu.com
 DOMAIN-SUFFIX,sohu.com.cn
 DOMAIN-SUFFIX,sohucs.com
-DOMAIN-SUFFIX,soso.com
 DOMAIN-SUFFIX,tianyancha.com
 DOMAIN-SUFFIX,tieba.com
 DOMAIN-SUFFIX,toutiao.com
@@ -563,7 +624,6 @@ DOMAIN-SUFFIX,dbankcloud.com
 DOMAIN-SUFFIX,flyme.cn
 DOMAIN-SUFFIX,ftms.com.cn
 DOMAIN-SUFFIX,gpstool.com
-DOMAIN-SUFFIX,hiapk.com
 DOMAIN-SUFFIX,hicloud.com
 DOMAIN-SUFFIX,hihonor.com
 DOMAIN-SUFFIX,honor.com
@@ -608,20 +668,3 @@ DOMAIN-SUFFIX,zte.com.cn
 # --------------------
 DOMAIN-SUFFIX,cnpc.com.cn
 DOMAIN-SUFFIX,cn
-
-# --------------------
-# USER-AGENT
-# --------------------
-USER-AGENT,%E6%89%8B%E6%9C%BA%E6%B7%98%E5%AE%9D*
-USER-AGENT,bili*
-USER-AGENT,MApi*
-USER-AGENT,MicroMessenger Client
-USER-AGENT,TIM*
-USER-AGENT,WeChat*
-
-# --------------------
-# PROCESS-NAME
-# --------------------
-PROCESS-NAME,QQ
-PROCESS-NAME,QQLive
-PROCESS-NAME,WeChat
