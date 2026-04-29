@@ -158,8 +158,8 @@ rules:
     - RULE-SET,Proxy,Outside
       
     - RULE-SET,Telegram_ip,Telegram
-    - RULE-SET,CN_ip,DIRECT
     - RULE-SET,Private_ip,DIRECT
+    - RULE-SET,CN_ip,DIRECT
     - MATCH,Outside
 rule-anchor:
   ip: &ip {type: http, interval: 43200, behavior: ipcidr, format: mrs}
