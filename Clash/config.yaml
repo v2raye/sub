@@ -132,7 +132,6 @@ proxy-groups:
   - {name: Samsung, type: select, proxies: [HK, JP, SG, US, EU, TW,DIRECT]}
   - {name: Google, type: select, proxies: [HK, JP, SG, US, EU, TW]}
   - {name: Telegram, type: select, proxies: [HK, JP, SG, US, EU, TW]}
-  - {name: OpenAI, type: select, proxies: [JP, US]}
   - {name: Emby, type: select, proxies: [EM,DIRECT]}
   - {name: HK, <<: *UrlTest, filter: *FilterHK}
   - {name: TW, <<: *UrlTest, filter: *FilterTW}
