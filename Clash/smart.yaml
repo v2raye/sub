@@ -150,15 +150,10 @@ rules:
     - RULE-SET,CN_domain,DIRECT
     - RULE-SET,Proxy,Outside
       
-    - OR,((IP-CIDR,91.108.12.0/22),(IP-CIDR,149.154.172.0/22),(IP-CIDR6,2001:b28:f23d::/48)),US
-    - OR,((IP-CIDR,91.108.4.0/22),(IP-CIDR,91.108.8.0/22),(IP-CIDR,95.161.64.0/20),(IP-CIDR,109.239.140.0/24),(IP-CIDR,149.154.160.0/22),(IP-CIDR,149.154.164.0/22),(IP-CIDR6,2001:67c:4e8::/48)),EU
-    - OR,((IP-CIDR,91.108.16.0/22),(IP-CIDR,91.108.56.0/22),(IP-CIDR,149.154.168.0/22),(IP-CIDR6,2001:b28:f23f::/48)),SG
-    - OR,((IP-CIDR,5.28.192.0/18),(IP-CIDR,91.105.192.0/23),(IP-CIDR,91.108.20.0/22),(IP-CIDR,185.76.151.0/24),(IP-CIDR,139.59.210.98/32),(IP-CIDR,196.55.216.167/32),(IP-CIDR6,2001:b28:f23c::/48),(IP-CIDR6,2a0a:f280::/32)),SG
-    - OR,((IP-ASN,211157),(IP-ASN,44907),(IP-ASN,59930),(IP-ASN,62014),(IP-ASN,62041)),SG
     - RULE-SET,Apple_ip,Apple
-    - RULE-SET,Google_ip,Google
-    - RULE-SET,CN_ip,DIRECT
+    - RULE-SET,Telegram_ip,Telegram
     - RULE-SET,Private_ip,DIRECT
+    - RULE-SET,CN_ip,DIRECT
     - MATCH,Outside
 rule-anchor:
   ip: &ip {type: http, interval: 43200, behavior: ipcidr, format: mrs}
@@ -170,36 +165,36 @@ rule-providers:
     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geosite/private.mrs"
   CN_domain:
     <<: *domain
-    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geosite/cn.mrs"
+    url: "https://raw.githubusercontent.com/v2raye/mihomo-rule/refs/heads/main/rule/mihomo/CN.mrs"
   Microsoft:
     <<: *domain
-    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geosite/microsoft.mrs"
+    url: "https://raw.githubusercontent.com/v2raye/mihomo-rule/refs/heads/main/rule/mihomo/Microsoft.mrs"
   Apple_domain:
     <<: *domain
-    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geosite/apple.mrs"       
+    url: "https://raw.githubusercontent.com/v2raye/mihomo-rule/refs/heads/main/rule/mihomo/Apple-domain.mrs"       
   OpenAI:
     <<: *domain
-    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geosite/openai.mrs"         
+    url: "https://raw.githubusercontent.com/v2raye/mihomo-rule/refs/heads/main/rule/mihomo/ai-domain.mrs"      
   Telegram:
     <<: *domain
-    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo-lite/geosite/telegram.mrs"
+    url: "https://raw.githubusercontent.com/v2raye/mihomo-rule/refs/heads/main/rule/mihomo/Telegram-domain.mrs"
   Proxy:
     <<: *domain
-    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geosite/geolocation-!cn.mrs"
+    url: "https://raw.githubusercontent.com/v2raye/mihomo-rule/refs/heads/main/rule/mihomo/Global.mrs"
   Google_domain:
     <<: *domain
-    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google.mrs"  
+    url: "https://raw.githubusercontent.com/v2raye/mihomo-rule/refs/heads/main/rule/mihomo/YouTube.mrs"  
 #IP类
   Private_ip:
     <<: *ip
     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geoip/private.mrs"
   CN_ip:
     <<: *ip
-    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geoip/cn.mrs"
+    url: "https://raw.githubusercontent.com/v2raye/mihomo-rule/refs/heads/main/rule/mihomo/cncidr.mrs"
   Apple_ip:
     <<: *ip
-    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo-lite/geoip/apple.mrs"
-  Google_ip:
+    url: "https://raw.githubusercontent.com/v2raye/mihomo-rule/refs/heads/main/rule/mihomo/Apple-ipcidr.mrs"
+  Telegram_ip:
     <<: *ip
-    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geoip/google.mrs"   
+    url: "https://raw.githubusercontent.com/v2raye/mihomo-rule/refs/heads/main/rule/mihomo/Telegram-ipcidr.mrs"   
 
