@@ -156,9 +156,9 @@ rules:
     - RULE-SET,CN_domain,DIRECT
     - RULE-SET,Proxy,Outside
       
-    - RULE-SET,Telegram_ip,Telegram
-    - RULE-SET,Private_ip,DIRECT
-    - RULE-SET,CN_ip,DIRECT
+    - RULE-SET,Telegram_ip,Telegram,no-resolve
+    - RULE-SET,Private_ip,DIRECT,no-resolve
+    - RULE-SET,CN_ip,DIRECT,no-resolve
     - MATCH,Outside
 rule-anchor:
   ip: &ip {type: http, interval: 43200, behavior: ipcidr, format: mrs}
