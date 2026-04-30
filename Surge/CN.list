@@ -1,7 +1,7 @@
 # --------------------
 # 精确保留
 # --------------------
-DOMAIN,api.mijia.tech
+DOMAIN-SUFFIX,api.mijia.tech
 DOMAIN,upos-hz-mirrorakam.akamaized.net
 
 # --------------------
@@ -666,5 +666,6 @@ DOMAIN-SUFFIX,zte.com.cn
 # --------------------
 # 其他通用国内
 # --------------------
+DOMAIN-SUFFIX,boowayun.com
 DOMAIN-SUFFIX,cnpc.com.cn
 DOMAIN-SUFFIX,cn
