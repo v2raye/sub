@@ -1,167 +1,129 @@
-# --------------------
-# Microsoft Core / Account
-# --------------------
-DOMAIN-SUFFIX,microsoft.com
-DOMAIN-SUFFIX,microsoft.com.cn
-DOMAIN-SUFFIX,microsoft.net
-DOMAIN-SUFFIX,msftauth.net
-DOMAIN-SUFFIX,msftauthimages.net
-DOMAIN-SUFFIX,msauth.net
-DOMAIN-SUFFIX,msauthimages.net
-DOMAIN-SUFFIX,msidentity.com
-DOMAIN-SUFFIX,live.com
-DOMAIN-SUFFIX,live.net
-DOMAIN-SUFFIX,account.live.com
-DOMAIN-SUFFIX,login.live.com
-
-# --------------------
-# Microsoft 365 / Office / Account
-# --------------------
-DOMAIN-SUFFIX,microsoft365.com
-DOMAIN-SUFFIX,office.com
-DOMAIN-SUFFIX,office.net
-DOMAIN-SUFFIX,office365.com
-DOMAIN-SUFFIX,officeppe.net
-DOMAIN-SUFFIX,o365filtering.com
-DOMAIN-SUFFIX,microsoftonline.com
-DOMAIN-SUFFIX,microsoftonline-p.com
-DOMAIN-SUFFIX,microsoftonline-p.net
-DOMAIN-SUFFIX,msocdn.com
-DOMAIN-SUFFIX,cloud.microsoft
-DOMAIN-SUFFIX,static.microsoft
-DOMAIN-SUFFIX,usercontent.microsoft
-
-# --------------------
-# Outlook / Hotmail / Exchange
-# --------------------
-DOMAIN-SUFFIX,outlook.com
-DOMAIN-SUFFIX,outlook.live.com
-DOMAIN-SUFFIX,outlook.office.com
-DOMAIN-SUFFIX,hotmail.com
-DOMAIN-SUFFIX,hotmail.com.cn
-DOMAIN-SUFFIX,exchange.microsoft.com
-
-# --------------------
-# OneDrive / SharePoint
-# --------------------
-DOMAIN-SUFFIX,onedrive.com
-DOMAIN-SUFFIX,onedrive.live.com
-DOMAIN-SUFFIX,sharepoint.com
-DOMAIN-SUFFIX,sharepointonline.com
-DOMAIN-SUFFIX,1drv.com
-DOMAIN-SUFFIX,1drv.ms
-
-# --------------------
-# Teams / Skype
-# --------------------
-DOMAIN-SUFFIX,teams.microsoft.com
-DOMAIN-SUFFIX,teams.live.com
-DOMAIN-SUFFIX,teams.cdn.office.net
-DOMAIN-SUFFIX,skype.com
-DOMAIN-SUFFIX,skypeassets.com
-DOMAIN-SUFFIX,skypeforbusiness.com
-DOMAIN-SUFFIX,lync.com
-DOMAIN-SUFFIX,sfbassets.com
-
-# --------------------
-# Windows / Update / Store
-# --------------------
-DOMAIN-SUFFIX,windows.com
-DOMAIN-SUFFIX,windows.net
-DOMAIN-SUFFIX,windowsupdate.com
-DOMAIN-SUFFIX,update.microsoft.com
-DOMAIN-SUFFIX,download.microsoft.com
-DOMAIN-SUFFIX,download.windowsupdate.com
-DOMAIN-SUFFIX,delivery.mp.microsoft.com
-DOMAIN-SUFFIX,do.dsp.mp.microsoft.com
-DOMAIN-SUFFIX,dl.delivery.mp.microsoft.com
-DOMAIN-SUFFIX,storeedgefd.dsx.mp.microsoft.com
-DOMAIN-SUFFIX,windowsphone.com
-DOMAIN-SUFFIX,mp.microsoft.com
-DOMAIN-SUFFIX,adl.windows.com
-DOMAIN-SUFFIX,wustat.windows.com
-
-# --------------------
-# Windows Connectivity / NCSI
-# --------------------
-DOMAIN-SUFFIX,msftconnecttest.com
-DOMAIN-SUFFIX,msftncsi.com
-
-# --------------------
-# Microsoft Store / Apps
-# --------------------
-DOMAIN-SUFFIX,microsoftstore.com
-DOMAIN-SUFFIX,store.microsoft.com
-DOMAIN-SUFFIX,apps.microsoft.com
-DOMAIN-SUFFIX,appcenter.ms
-
-# --------------------
-# Edge / Bing / MSN
-# --------------------
-DOMAIN-SUFFIX,bing.com
-DOMAIN-SUFFIX,bing.net
-DOMAIN-SUFFIX,msn.com
-DOMAIN-SUFFIX,microsoftedge.com
-DOMAIN-SUFFIX,edge.microsoft.com
-DOMAIN-SUFFIX,msedge.net
-DOMAIN-SUFFIX,msedgeextensions.net
-DOMAIN-SUFFIX,msftstatic.com
-
-# --------------------
-# Azure / Cloud / CDN
-# --------------------
-DOMAIN-SUFFIX,azure.com
-DOMAIN-SUFFIX,azure.net
-DOMAIN-SUFFIX,azure.cn
-DOMAIN-SUFFIX,azureedge.net
-DOMAIN-SUFFIX,azurefd.net
-DOMAIN-SUFFIX,trafficmanager.net
-DOMAIN-SUFFIX,cloudapp.net
-DOMAIN-SUFFIX,cloudapp.azure.com
-DOMAIN-SUFFIX,blob.core.windows.net
-DOMAIN-SUFFIX,file.core.windows.net
-DOMAIN-SUFFIX,queue.core.windows.net
-DOMAIN-SUFFIX,table.core.windows.net
-DOMAIN-SUFFIX,azurewebsites.net
-DOMAIN-SUFFIX,azure-api.net
-DOMAIN-SUFFIX,azure-devices.net
-DOMAIN-SUFFIX,azurecontainer.io
-DOMAIN-SUFFIX,azurecr.io
-DOMAIN-SUFFIX,servicebus.windows.net
-DOMAIN-SUFFIX,applicationinsights.io
-
-# --------------------
-# Developer / Visual Studio / VS Code / NuGet
-# --------------------
-DOMAIN-SUFFIX,visualstudio.com
-DOMAIN-SUFFIX,vsassets.io
-DOMAIN-SUFFIX,vscode.dev
-DOMAIN-SUFFIX,code.visualstudio.com
-DOMAIN-SUFFIX,vscode-unpkg.net
-DOMAIN-SUFFIX,marketplace.visualstudio.com
-DOMAIN-SUFFIX,nuget.org
-DOMAIN-SUFFIX,nuget.org.cn
-
-# --------------------
-# Xbox / Game Pass / Minecraft
-# --------------------
-DOMAIN-SUFFIX,xbox.com
-DOMAIN-SUFFIX,xboxlive.com
-DOMAIN-SUFFIX,xboxservices.com
-DOMAIN-SUFFIX,xboxab.com
-DOMAIN-SUFFIX,xboxab.net
-DOMAIN-SUFFIX,gamepass.com
-DOMAIN-SUFFIX,forzamotorsport.net
-DOMAIN-SUFFIX,minecraft.net
-DOMAIN-SUFFIX,minecraftservices.com
-DOMAIN-SUFFIX,mojang.com
-DOMAIN-SUFFIX,mojang.net
-
-# --------------------
-# Microsoft Ads / Telemetry / Support
-# --------------------
-DOMAIN-SUFFIX,clarity.ms
-DOMAIN-SUFFIX,virtualearth.net
-DOMAIN-SUFFIX,msecnd.net
-DOMAIN-SUFFIX,akadns.net
-DOMAIN-SUFFIX,msappproxy.net
+# MRS-ready Mihomo rule-provider file
+# Use with behavior: domain/ipcidr according to filename.
+payload:
+  - '.microsoft.com'
+  - '.microsoft.com.cn'
+  - '.microsoft.net'
+  - '.msftauth.net'
+  - '.msftauthimages.net'
+  - '.msauth.net'
+  - '.msauthimages.net'
+  - '.msidentity.com'
+  - '.live.com'
+  - '.live.net'
+  - '.microsoft365.com'
+  - '.office.com'
+  - '.office.net'
+  - '.office365.com'
+  - '.officeppe.net'
+  - '.o365filtering.com'
+  - '.microsoftonline.com'
+  - '.microsoftonline-p.com'
+  - '.microsoftonline-p.net'
+  - '.msocdn.com'
+  - '.cloud.microsoft'
+  - '.static.microsoft'
+  - '.usercontent.microsoft'
+  - '.outlook.com'
+  - 'outlook.live.com'
+  - 'outlook.office.com'
+  - '.hotmail.com'
+  - '.hotmail.com.cn'
+  - 'exchange.microsoft.com'
+  - '.onedrive.com'
+  - '.sharepoint.com'
+  - '.sharepointonline.com'
+  - '.1drv.com'
+  - '.1drv.ms'
+  - 'teams.microsoft.com'
+  - 'teams.live.com'
+  - 'teams.cdn.office.net'
+  - '.skype.com'
+  - '.skypeassets.com'
+  - '.skypeforbusiness.com'
+  - '.lync.com'
+  - '.sfbassets.com'
+  - '.windows.com'
+  - '.windows.net'
+  - '.windowsupdate.com'
+  - 'update.microsoft.com'
+  - 'download.microsoft.com'
+  - 'download.windowsupdate.com'
+  - 'delivery.mp.microsoft.com'
+  - 'do.dsp.mp.microsoft.com'
+  - 'dl.delivery.mp.microsoft.com'
+  - 'storeedgefd.dsx.mp.microsoft.com'
+  - 'mp.microsoft.com'
+  - 'adl.windows.com'
+  - 'wustat.windows.com'
+  - '.msftconnecttest.com'
+  - '.msftncsi.com'
+  - '.microsoftstore.com'
+  - 'store.microsoft.com'
+  - 'apps.microsoft.com'
+  - '.appcenter.ms'
+  - '.bing.com'
+  - '.bing.net'
+  - '.msn.com'
+  - '.microsoftedge.com'
+  - 'edge.microsoft.com'
+  - '.msedge.net'
+  - '.msedgeextensions.net'
+  - '.msftstatic.com'
+  - '.azure.com'
+  - '.azure.net'
+  - '.azure.cn'
+  - '.azureedge.net'
+  - '.azurefd.net'
+  - '.trafficmanager.net'
+  - '.cloudapp.net'
+  - '.cloudapp.azure.com'
+  - '.blob.core.windows.net'
+  - '.file.core.windows.net'
+  - '.queue.core.windows.net'
+  - '.table.core.windows.net'
+  - '.azurewebsites.net'
+  - '.azure-api.net'
+  - '.azure-devices.net'
+  - '.azurecontainer.io'
+  - '.azurecr.io'
+  - '.servicebus.windows.net'
+  - '.applicationinsights.io'
+  - '.visualstudio.com'
+  - '.vsassets.io'
+  - '.vscode.dev'
+  - 'code.visualstudio.com'
+  - '.vscode-unpkg.net'
+  - 'marketplace.visualstudio.com'
+  - '.nuget.org'
+  - '.nuget.org.cn'
+  - '.xbox.com'
+  - '.xboxlive.com'
+  - '.xboxservices.com'
+  - '.xboxab.com'
+  - '.xboxab.net'
+  - '.gamepass.com'
+  - '.forzamotorsport.net'
+  - '.minecraft.net'
+  - '.minecraftservices.com'
+  - '.mojang.com'
+  - '.mojang.net'
+  - '.clarity.ms'
+  - '.virtualearth.net'
+  - '.msecnd.net'
+  - '.akadns.net'
+  - '.msappproxy.net'
+  - '.github.com'
+  - '.github.io'
+  - '.github.dev'
+  - '.githubusercontent.com'
+  - '.githubassets.com'
+  - '.github.blog'
+  - '.github.community'
+  - '.githubstatus.com'
+  - '.githubapp.com'
+  - '.githubcopilot.com'
+  - '.ghcr.io'
+  - '.linkedin.com'
+  - '.licdn.com'
+  - '.lnkd.in'
