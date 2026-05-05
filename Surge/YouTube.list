@@ -1,70 +1,68 @@
-# ================================
-# Google Full Services
-# Compact Universal Rules
-# ================================
-
-# Google Core
-DOMAIN-SUFFIX,google.com
-DOMAIN-SUFFIX,google.com.hk
-DOMAIN-SUFFIX,googleapis.com
-DOMAIN-SUFFIX,googleusercontent.com
-DOMAIN-SUFFIX,gstatic.com
-DOMAIN-SUFFIX,gvt1.com
-DOMAIN-SUFFIX,gvt2.com
-DOMAIN-SUFFIX,gvt3.com
-DOMAIN-SUFFIX,ggpht.com
-DOMAIN-SUFFIX,g.co
-DOMAIN-SUFFIX,goo.gl
-
-# Gmail
-DOMAIN-SUFFIX,gmail.com
-DOMAIN-SUFFIX,googlemail.com
-
-# YouTube
-DOMAIN-SUFFIX,youtube.com
-DOMAIN-SUFFIX,youtu.be
-DOMAIN-SUFFIX,ytimg.com
-DOMAIN-SUFFIX,googlevideo.com
-DOMAIN-SUFFIX,youtube-nocookie.com
-DOMAIN-SUFFIX,youtubekids.com
-DOMAIN-SUFFIX,youtubegaming.com
-DOMAIN-SUFFIX,youtubeeducation.com
-DOMAIN-SUFFIX,yt.be
-
-# Google Play / Android
-DOMAIN-SUFFIX,android.com
-DOMAIN-SUFFIX,googleplay.com
-DOMAIN-SUFFIX,googleplayservices.com
-
-# Firebase / Appspot
-DOMAIN-SUFFIX,firebaseapp.com
-DOMAIN-SUFFIX,firebaseio.com
-DOMAIN-SUFFIX,firebasestorage.app
-DOMAIN-SUFFIX,appspot.com
-
-# Google Cloud / Developer / Chrome
-DOMAIN-SUFFIX,cloudfunctions.net
-DOMAIN-SUFFIX,run.app
-DOMAIN-SUFFIX,cloudrun.app
-DOMAIN-SUFFIX,googlesource.com
-DOMAIN-SUFFIX,chromium.org
-DOMAIN-SUFFIX,chrome.com
-
-# reCAPTCHA
-DOMAIN-SUFFIX,recaptcha.net
-
-# Blogger / Blogspot
-DOMAIN-SUFFIX,blogger.com
-DOMAIN-SUFFIX,blogspot.com
-
-# Google Ads / Analytics / Tag Manager
-DOMAIN-SUFFIX,googleadservices.com
-DOMAIN-SUFFIX,googlesyndication.com
-DOMAIN-SUFFIX,googletagservices.com
-DOMAIN-SUFFIX,googletagmanager.com
-DOMAIN-SUFFIX,google-analytics.com
-DOMAIN-SUFFIX,doubleclick.net
-DOMAIN-SUFFIX,2mdn.net
-
-# Google DRM / Media
-DOMAIN-SUFFIX,widevine.com
+payload:
+  - '.google.com'
+  - '.googleapis.com'
+  - '.googleusercontent.com'
+  - '.gstatic.com'
+  - '.gvt1.com'
+  - '.gvt2.com'
+  - '.gvt3.com'
+  - '.ggpht.com'
+  - '.g.co'
+  - '.goo.gl'
+  - '.gmail.com'
+  - '.googlemail.com'
+  - '.youtube.com'
+  - '.youtu.be'
+  - '.youtube-nocookie.com'
+  - '.youtubeeducation.com'
+  - '.youtubekids.com'
+  - '.youtubegaming.com'
+  - '.yt.be'
+  - '.ytimg.com'
+  - '.googlevideo.com'
+  - '.android.com'
+  - '.androidify.com'
+  - '.googleplay.com'
+  - '.googleplayservices.com'
+  - '.firebaseapp.com'
+  - '.firebaseio.com'
+  - '.firebasestorage.app'
+  - '.appspot.com'
+  - 'mtalk.google.com'
+  - 'stun.l.google.com'
+  - 'meet.google.com'
+  - 'chat.google.com'
+  - 'voice.google.com'
+  - 'duo.google.com'
+  - 'hangouts.google.com'
+  - 'cloud.google.com'
+  - '.cloudfunctions.net'
+  - '.run.app'
+  - '.cloudrun.app'
+  - 'developers.google.com'
+  - 'developer.android.com'
+  - '.googlesource.com'
+  - 'chrome.google.com'
+  - 'chromewebstore.google.com'
+  - '.chromestatus.com'
+  - '.chromium.org'
+  - '.recaptcha.net'
+  - 'fonts.google.com'
+  - 'fonts.googleapis.com'
+  - 'fonts.gstatic.com'
+  - '.blogger.com'
+  - '.blogspot.com'
+  - 'sites.google.com'
+  - '.new'
+  - '.page.link'
+  - '.googleadservices.com'
+  - '.doubleclick.net'
+  - '.googlesyndication.com'
+  - '.googletagservices.com'
+  - '.googletagmanager.com'
+  - '.google-analytics.com'
+  - '.2mdn.net'
+  - 'pay.google.com'
+  - 'wallet.google.com'
+  - 'payments.google.com'
+  - '.widevine.com'
