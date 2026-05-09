@@ -106,6 +106,7 @@ DOMAIN-SUFFIX,bethesda.net
 DOMAIN-SUFFIX,beth.games
 
 # GitHub / LinkedIn
+DOMAIN,github.com
 DOMAIN-SUFFIX,github.com
 DOMAIN-SUFFIX,github.io
 DOMAIN-SUFFIX,github.dev
