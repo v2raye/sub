@@ -44,8 +44,6 @@ tun:
   dns-hijack:
     - "any:53"
     - "tcp://any:53"
-  mtu: 1500
-  udp-timeout: 300
   endpoint-independent-nat: false
 dns:
   enable: true
