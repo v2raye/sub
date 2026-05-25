@@ -44,8 +44,6 @@ tun:
   dns-hijack:
     - "any:53"
     - "tcp://any:53"
-  # IPv6 TUN 地址
-  inet6-address: fdfe:dcba:9877::1/126
   mtu: 1500
   udp-timeout: 300
   endpoint-independent-nat: false
