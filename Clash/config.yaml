@@ -115,7 +115,7 @@ FilterUS: &FilterUS '(?i)(🇺🇸|美国|美國|\bUS\b|\bUSA\b|United States)'
 
 # 策略组参数锚点
 # 锚点 - 时延优选参数
-UrlTest: &UrlTest {type: url-test, url: "https://cp.cloudflare.com/generate_204", interval: 600, tolerance: 80, timeout: 5000, lazy: true}
+UrlTest: &UrlTest {type: url-test, include-all: true, url: "https://cp.cloudflare.com/generate_204", interval: 600, tolerance: 80, timeout: 5000, lazy: true}
 
 proxy-groups: 
   - {name: Outside, type: select, proxies: [HK, JP, US, DIRECT]}
