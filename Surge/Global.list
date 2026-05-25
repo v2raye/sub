@@ -706,3 +706,8 @@ DOMAIN-SUFFIX,garmincdn.com
 DOMAIN-SUFFIX,flygarmin.com
 DOMAIN-SUFFIX,activecaptain.com
 DOMAIN-SUFFIX,navionics.com
+
+# --------------------
+# other
+# --------------------
+DOMAIN,time.is
