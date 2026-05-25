@@ -1,26 +1,19 @@
-port: 7890
-socks-port: 7891
-mixed-port: 7892
+mixed-port: 7890
 
-#############################################
-# 运行基线
-#############################################
-mode: rule                      # 分流模式：rule / global / direct
-log-level: warning              # 日志：silent/error/warning/info/debug
+mode: rule
+log-level: warning
+# 开启 IPv6 总开关
 ipv6: true
-udp: true                       
-allow-lan: false             
-unified-delay: true           
+udp: true
+allow-lan: false
+bind-address: 127.0.0.1
+unified-delay: true
 tcp-concurrent: true
-keep-alive-interval: 15
-keep-alive-idle: 15
 disable-keep-alive: true
+find-process-mode: off
 
-geox-url:
-#  geoip: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.dat"
-#  geosite: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat"
-  mmdb: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/country-lite.mmdb"
-#  asn: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb"
+external-controller: 127.0.0.1:9090
+secret: ""
 
 profile:
   store-selected: true
@@ -30,7 +23,7 @@ sniffer:
   enable: true
   override-destination: false
   force-dns-mapping: true
-  parse-pure-ip: true  
+  parse-pure-ip: true
   sniff:
     HTTP:
       ports: [80, 8080-8880]
@@ -45,12 +38,17 @@ sniffer:
 tun:
   enable: true
   stack: system
-  dns-hijack:
-    - "any:53"
-    - "tcp://any:53"
   auto-route: true
   auto-detect-interface: true
   strict-route: true
+  dns-hijack:
+    - "any:53"
+    - "tcp://any:53"
+  # IPv6 TUN 地址
+  inet6-address: fdfe:dcba:9877::1/126
+  mtu: 1500
+  udp-timeout: 300
+  endpoint-independent-nat: false
 dns:
   enable: true
   listen: '127.0.0.1:5450'
@@ -60,15 +58,18 @@ dns:
   fake-ip-range6: fdfe:dcba:9876::1/64
   fake-ip-filter-mode: blacklist
   fake-ip-filter:
-      # 静态域名规则
-    - '*.lan'
-    - '*.local'
-    - '*.localdomain'
-    - '*.arpa'
-    - 'stun.*.*'
-    - 'stun.*.*.*'
-    - 'time.*'
-    - 'ntp.*'
+    - "*.lan"
+    - "*.local"
+    - "*.localdomain"
+    - "*.arpa"
+    - "localhost.ptlogin2.qq.com"
+    - "+.msftconnecttest.com"
+    - "+.msftncsi.com"
+    - "+.stun.*.*"
+    - "+.stun.*.*.*"
+    - "+.time.*"
+    - "+.ntp.*"
+    - "+.pool.ntp.org"
     - "+.v2raye.com"
     # 引用 RuleSet
 #    - 'rule-set:CN_domain'
@@ -145,9 +146,10 @@ proxy-groups:
 
 
 rules:
-    - OR,((IP-CIDR,0.0.0.0/32), (IP-CIDR6,::/128)),REJECT
-    - DOMAIN,local.adguard.org,REJECT
+    - IP-CIDR,0.0.0.0/32,REJECT
     - RULE-SET,Private_domain,DIRECT
+    - RULE-SET,Private_ip,DIRECT,no-resolve
+    - DOMAIN,local.adguard.org,REJECT
     - DOMAIN,injections.adguard.org,Outside
     - OR,((DOMAIN,media.micu.hk),(DOMAIN,emby.as174.de),(DOMAIN,cf.bili.rip),(DOMAIN,cdn.sexemby.com)),Emby
     - RULE-SET,Samsung_domain,Samsung
@@ -157,7 +159,6 @@ rules:
     - RULE-SET,Proxy,Outside
       
     - RULE-SET,Telegram_ip,Telegram,no-resolve
-    - RULE-SET,Private_ip,DIRECT,no-resolve
     - RULE-SET,CN_ip,DIRECT,no-resolve
     - MATCH,Outside
 rule-anchor:
