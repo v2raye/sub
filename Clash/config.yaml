@@ -2,11 +2,13 @@ mixed-port: 7890
 
 mode: rule
 log-level: warning
-# 开启 IPv6 总开关
+
 ipv6: true
 udp: true
+
 allow-lan: false
 bind-address: 127.0.0.1
+
 unified-delay: true
 tcp-concurrent: true
 disable-keep-alive: true
@@ -35,6 +37,7 @@ sniffer:
   skip-domain:
     - "Mijia Cloud"
     - "+.push.apple.com"
+
 tun:
   enable: true
   stack: system
@@ -44,15 +47,17 @@ tun:
   dns-hijack:
     - "any:53"
     - "tcp://any:53"
-  endpoint-independent-nat: false
+
 dns:
   enable: true
-  listen: '127.0.0.1:5450'
+  listen: 127.0.0.1:5450
   ipv6: true
+  
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.1/16
   fake-ip-range6: fdfe:dcba:9876::1/64
   fake-ip-filter-mode: blacklist
+  
   fake-ip-filter:
     - "*.lan"
     - "*.local"
