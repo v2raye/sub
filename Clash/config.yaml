@@ -126,7 +126,7 @@ proxy-groups:
   - {name: Google, type: select, proxies: [HK, JP, US]}
   - {name: Telegram, type: select, proxies: [HK, JP, US]}
   - {name: HK, <<: *UrlTest, filter: *FilterHK}
-  - {name: JP, <<: *UrlTest, filter: *FilterJP}
+  - {name: JP, type: select, include-all: true, filter: '(?i)(🇯🇵|日本|\bJP\b|Japan)'}
   - {name: US, type: select, include-all: true, filter: '(?i)(🇺🇸|美国|美國|\bUS\b|\bUSA\b|\bUnited States\b)'}
 
 
