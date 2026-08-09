@@ -129,7 +129,7 @@ proxy-groups:
   - {name: TW, <<: *Smart, filter: *FilterTW}
   - {name: SG, <<: *Smart, filter: *FilterSG}
   - {name: JP, <<: *Smart, filter: *FilterJP}
-  - {name: US, <<: *Smart, filter: *FilterUS}
+  - {name: US, type: select, include-all: true, filter: *FilterUS}
   - {name: EU, <<: *Smart, filter: *FilterEU}
   - {name: EM, <<: *Smart, filter: *FilterEM}
   - {name: Other, <<: *Smart, filter: *FilterOther}
