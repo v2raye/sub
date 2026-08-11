@@ -323,10 +323,21 @@ DOMAIN-SUFFIX,wps.cn
 DOMAIN-SUFFIX,wps.com
 DOMAIN-SUFFIX,yeah.net
 
+# > China TV OTT
+DOMAIN-SUFFIX,aisee.tv
+DOMAIN-SUFFIX,cibntv.net
+DOMAIN-SUFFIX,cibntv.cn
+DOMAIN-SUFFIX,cibn.cc
+DOMAIN-SUFFIX,gitv.cn
+DOMAIN-SUFFIX,bestv.com.cn
+DOMAIN-SUFFIX,bestv.cn
+DOMAIN-SUFFIX,wasu.cn
+DOMAIN-SUFFIX,wasu.com
+DOMAIN-SUFFIX,mgtv.com
+DOMAIN-SUFFIX,icntv.tv
 # --------------------
 # 视频 / 直播 / 音乐 / 阅读 / 游戏 / 泛娱乐
 # --------------------
-DOMAIN-SUFFIX,aisee.tv
 DOMAIN-SUFFIX,17173.com
 DOMAIN-SUFFIX,acfun.cn
 DOMAIN-SUFFIX,acfun.com
