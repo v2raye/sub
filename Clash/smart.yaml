@@ -182,7 +182,7 @@ rules:
   - RULE-SET,Apple_domain,Apple
   - RULE-SET,Telegram,Telegram
   - RULE-SET,Google_domain,Google
-  - RULE-SET,CN_domain,DIRECT
+  - RULE-SET,CN,DIRECT
   - RULE-SET,Proxy,Outside
 
   - RULE-SET,Apple_ip,Apple,no-resolve
@@ -204,7 +204,7 @@ rule-providers:
     <<: *domain
     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geosite/private.mrs"
 
-  CN_domain:
+  CN:
     <<: *domain
     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs"
 
