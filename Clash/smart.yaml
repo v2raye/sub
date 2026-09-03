@@ -179,13 +179,13 @@ rules:
 
   - RULE-SET,OpenAI,OpenAI
   - RULE-SET,Microsoft,Microsoft
-  - RULE-SET,Apple_domain,Apple
+  - RULE-SET,Apple_domain,AI
   - RULE-SET,Telegram,Telegram
   - RULE-SET,Google_domain,Google
   - RULE-SET,CN_domain,DIRECT
   - RULE-SET,Proxy,Outside
 
-  - RULE-SET,Apple_ip,Apple,no-resolve
+  - RULE-SET,Apple_ip,AI,no-resolve
   - RULE-SET,Telegram_ip,Telegram,no-resolve
   - RULE-SET,Private_ip,DIRECT,no-resolve
   - RULE-SET,CN_ip,DIRECT,no-resolve
