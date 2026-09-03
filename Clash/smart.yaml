@@ -142,12 +142,11 @@ LoadBalance: &LoadBalance {type: load-balance, include-all: true, exclude-type: 
 proxy-groups:
   - {name: Outside, type: select, proxies: [HK, JP, SG, US, EU, TW, Other, DIRECT]}
   - {name: Microsoft, type: select, proxies: [HK, JP, SG, US, EU, TW, DIRECT]}
-  - {name: Apple, type: select, proxies: [HK, JP, SG, US, EU, TW, DIRECT]}
+  - {name: Apple, type: select, proxies: [HK, JP, SG, US, EU, TW, 🇺🇸 COX, DIRECT]}
   - {name: Google, type: select, proxies: [HK, JP, SG, US, EU, TW]}
   - {name: Telegram, type: select, proxies: [HK, JP, SG, US, EU, TW]}
-  - {name: OpenAI, type: select, proxies: [JP, US]}
+  - {name: OpenAI, type: select, proxies: [US, 🇺🇸 COX]}
   - {name: Emby, type: select, proxies: [EM, DIRECT]}
-  - {name: AI, type: select, proxies: [US, 🇺🇸 COX]}
 
   - {name: HK, <<: *Smart, filter: *FilterHK}
   - {name: TW, <<: *Smart, filter: *FilterTW}
@@ -161,7 +160,7 @@ proxy-groups:
   - {name: EM, <<: *Smart, filter: *FilterEM}
   - {name: Other, <<: *Smart, exclude-filter: *FilterKnownRegion}
 
-  - {name: Relay, <<: *LoadBalance, filter: *FilterRelay, exclude-filter: *FilterCOX}
+  - {name: Relay, <<: *Smart, filter: *FilterRelay, exclude-filter: *FilterCOX}
 
 #############################################
 # Rules
@@ -179,13 +178,13 @@ rules:
 
   - RULE-SET,OpenAI,OpenAI
   - RULE-SET,Microsoft,Microsoft
-  - RULE-SET,Apple_domain,AI
+  - RULE-SET,Apple_domain,Apple
   - RULE-SET,Telegram,Telegram
   - RULE-SET,Google_domain,Google
   - RULE-SET,CN_domain,DIRECT
   - RULE-SET,Proxy,Outside
 
-  - RULE-SET,Apple_ip,AI,no-resolve
+  - RULE-SET,Apple_ip,Apple,no-resolve
   - RULE-SET,Telegram_ip,Telegram,no-resolve
   - RULE-SET,Private_ip,DIRECT,no-resolve
   - RULE-SET,CN_ip,DIRECT,no-resolve
