@@ -206,7 +206,7 @@ rule-providers:
 
   CN_domain:
     <<: *domain
-    url: "https://raw.githubusercontent.com/v2raye/mihomo-rule/refs/heads/main/rule/mihomo/CN.mrs"
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs"
 
   Microsoft:
     <<: *domain
