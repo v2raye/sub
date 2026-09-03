@@ -126,7 +126,9 @@ FilterEU: &FilterEU '(?i)(🇪🇺|欧洲|歐洲|Europe|🇬🇧|英国|英國|U
 FilterEM: &FilterEM '(?i)(🇭🇰|香港|Hong\s?Kong|(?:^|[\s_\-|\[\]()])HK(?:[0-9]+|[\s_\-|\[\]()]|$)|🇹🇼|台湾|臺灣|Taiwan|(?:^|[\s_\-|\[\]()])TW(?:[0-9]+|[\s_\-|\[\]()]|$))'
 
 FilterKnownRegion: &FilterKnownRegion '(?i)(🇭🇰|香港|Hong\s?Kong|(?:^|[\s_\-|\[\]()])HK(?:[0-9]+|[\s_\-|\[\]()]|$)|🇹🇼|台湾|臺灣|Taiwan|(?:^|[\s_\-|\[\]()])TW(?:[0-9]+|[\s_\-|\[\]()]|$)|🇯🇵|日本|东京|東京|大阪|Japan|Tokyo|Osaka|(?:^|[\s_\-|\[\]()])JP(?:[0-9]+|[\s_\-|\[\]()]|$)|🇸🇬|新加坡|Singapore|(?:^|[\s_\-|\[\]()])SG(?:[0-9]+|[\s_\-|\[\]()]|$)|🇺🇸|美国|美國|United\s?States|USA|(?:^|[\s_\-|\[\]()])US(?:[0-9]+|[\s_\-|\[\]()]|$)|🇪🇺|欧洲|歐洲|Europe|🇬🇧|英国|英國|United\s?Kingdom|Britain|🇩🇪|德国|德國|Germany|🇫🇷|法国|法國|France|🇳🇱|荷兰|荷蘭|Netherlands|🇮🇹|意大利|義大利|Italy|🇪🇸|西班牙|Spain|🇨🇭|瑞士|Switzerland|🇸🇪|瑞典|Sweden|🇳🇴|挪威|Norway|🇵🇱|波兰|波蘭|Poland|🇫🇮|芬兰|芬蘭|Finland|🇦🇹|奥地利|奧地利|Austria|🇧🇪|比利时|比利時|Belgium|🇩🇰|丹麦|丹麥|Denmark|🇮🇪|爱尔兰|愛爾蘭|Ireland|🇵🇹|葡萄牙|Portugal|🇨🇿|捷克|Czech|🇬🇷|希腊|希臘|Greece|🇭🇺|匈牙利|Hungary|🇷🇴|罗马尼亚|羅馬尼亞|Romania|🇮🇸|冰岛|冰島|Iceland|🇪🇪|爱沙尼亚|愛沙尼亞|Estonia|🇱🇻|拉脱维亚|拉脫維亞|Latvia|🇱🇹|立陶宛|Lithuania|🇸🇰|斯洛伐克|Slovakia|🇸🇮|斯洛文尼亚|斯洛文尼亞|Slovenia|🇭🇷|克罗地亚|克羅地亞|Croatia|🇧🇬|保加利亚|保加利亞|Bulgaria|🇱🇺|卢森堡|盧森堡|Luxembourg|(?:^|[\s_\-|\[\]()])(?:UK|GB|DE|FR|NL|IT|ES|CH|SE|NO|PL|FI|AT|BE|DK|IE|PT|CZ|GR|HU|RO|IS|EE|LV|LT|SK|SI|HR|BG|LU)(?:[0-9]+|[\s_\-|\[\]()]|$))'
+FilterRelay: &FilterRelay '(?i)(🇭🇰|香港|Hong\s?Kong|(?:^|[\s_\-\|\[\]\(\)])HK(?:[0-9]+|[\s_\-\|\[\]\(\)]|$)|🇯🇵|日本|东京|東京|大阪|Japan|Tokyo|Osaka|(?:^|[\s_\-\|\[\]\(\)])JP(?:[0-9]+|[\s_\-\|\[\]\(\)]|$)|🇺🇸|美国|美國|United\s?States|USA|(?:^|[\s_\-\|\[\]\(\)])US(?:[0-9]+|[\s_\-\|\[\]\(\)]|$))'
 
+FilterCOX: &FilterCOX '(?i)🇺🇸\s*COX'
 #############################################
 # Smart / Load Balance
 #############################################
@@ -145,19 +147,21 @@ proxy-groups:
   - {name: Telegram, type: select, proxies: [HK, JP, SG, US, EU, TW]}
   - {name: OpenAI, type: select, proxies: [JP, US]}
   - {name: Emby, type: select, proxies: [EM, DIRECT]}
+  - {name: AI, type: select, proxies: [US, 🇺🇸 COX]}
 
   - {name: HK, <<: *Smart, filter: *FilterHK}
   - {name: TW, <<: *Smart, filter: *FilterTW}
   - {name: SG, <<: *Smart, filter: *FilterSG}
   - {name: JP, <<: *Smart, filter: *FilterJP}
 
-  - {name: US, type: select, include-all: true, exclude-type: direct, filter: *FilterUS}
+#  - {name: US, type: select, include-all: true, exclude-type: direct, filter: *FilterUS}
+  - {name: US, <<: *Smart, filter: *FilterUS,exclude-filter: *FilterCOX}
 
   - {name: EU, <<: *Smart, filter: *FilterEU}
   - {name: EM, <<: *Smart, filter: *FilterEM}
   - {name: Other, <<: *Smart, exclude-filter: *FilterKnownRegion}
 
-  - {name: Relay, <<: *LoadBalance, filter: *FilterJP}
+  - {name: Relay, <<: *LoadBalance, filter: *FilterRelay, exclude-filter: *FilterCOX}
 
 #############################################
 # Rules
