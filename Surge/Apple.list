@@ -1,104 +1,151 @@
-# --------------------
+# ==================================================
+# Apple - Surge Rule Set
+# Coverage:
+# Apple / iCloud / App Store / Music / TV / Books
+# Podcasts / Maps / Siri / Apple Intelligence
+# APNs / Find My / Apple ID / Device Activation
+# Software Update / TestFlight / Developer
+# Private Relay / CloudKit / Apple Pay / Wallet
+# Apple Business / School / CDN / DNS / Shazam / Beats
+# ==================================================
+
+
+# --------------------------------------------------
 # Apple Core
-# --------------------
+# --------------------------------------------------
+
 DOMAIN-SUFFIX,apple.com
 DOMAIN-SUFFIX,apple.com.cn
-DOMAIN-SUFFIX,apple
 DOMAIN-SUFFIX,apple.co
-DOMAIN-SUFFIX,appsto.re
-DOMAIN-SUFFIX,appstore.com
-DOMAIN-SUFFIX,itunes.com
-DOMAIN-SUFFIX,me.com
 
-# --------------------
-# Apple iCloud / Media / Assets
-# --------------------
+DOMAIN-SUFFIX,aaplimg.com
+DOMAIN-SUFFIX,cdn-apple.com
+DOMAIN-SUFFIX,mzstatic.com
+
+
+# --------------------------------------------------
+# Apple Account / Apple ID
+# --------------------------------------------------
+
+DOMAIN-SUFFIX,me.com
+DOMAIN-SUFFIX,mac.com
+
+
+# --------------------------------------------------
+# iCloud
+# --------------------------------------------------
+
 DOMAIN-SUFFIX,icloud.com
 DOMAIN-SUFFIX,icloud.com.cn
 DOMAIN-SUFFIX,icloud-content.com
-DOMAIN-SUFFIX,mzstatic.com
-DOMAIN-SUFFIX,aaplimg.com
-DOMAIN-SUFFIX,cdn-apple.com
 
-# --------------------
-# Apple Services
-# --------------------
 DOMAIN-SUFFIX,apple-cloudkit.com
-DOMAIN-SUFFIX,apple-dns.net
 DOMAIN-SUFFIX,apple-livephotoskit.com
-DOMAIN-SUFFIX,apple-mapkit.com
+DOMAIN-SUFFIX,apple-dns.net
+
+# iCloud China infrastructure
+DOMAIN-SUFFIX,apzones.com
+
+
+# --------------------------------------------------
+# App Store / iTunes
+# --------------------------------------------------
+
+DOMAIN-SUFFIX,itunes.com
+DOMAIN-SUFFIX,appstore.com
+DOMAIN-SUFFIX,appsto.re
+DOMAIN-SUFFIX,itun.es
+
+
+# --------------------------------------------------
+# Apple Music
+# --------------------------------------------------
+
+DOMAIN-SUFFIX,applemusic.com
+
+
+# --------------------------------------------------
+# Apple News
+# --------------------------------------------------
+
 DOMAIN-SUFFIX,apple.news
 
-# --------------------
-# Apple CDN / CNAME Infrastructure
-# 这些不是 apple.com 子域，不能被 apple.com 覆盖
-# --------------------
-DOMAIN-SUFFIX,apple.com.cdn20.com
-DOMAIN-SUFFIX,apple.com.edgekey.net
-DOMAIN-SUFFIX,apple.com.edgekey.net.globalredir.akadns.net
-DOMAIN-SUFFIX,apple.com.mwcloudcdn.com
-DOMAIN-SUFFIX,apple.com.mwcname.com
-DOMAIN-SUFFIX,apple-support.akadns.net
-DOMAIN-SUFFIX,itunes.com.edgekey.net
+
+# --------------------------------------------------
+# Apple Maps / MapKit
+# --------------------------------------------------
+
+DOMAIN-SUFFIX,apple-mapkit.com
+
+
+# --------------------------------------------------
+# Apple Intelligence / Private Cloud Compute
+# --------------------------------------------------
+
+DOMAIN,apple-relay.cloudflare.com
+DOMAIN,apple-relay.fastly-edge.com
+DOMAIN,cp4.cloudflare.com
+
+
+# --------------------------------------------------
+# Apple Push Notification Service / APNs
+# --------------------------------------------------
+
 DOMAIN-SUFFIX,push-apple.com.akadns.net
+DOMAIN-SUFFIX,courier-push-apple.com.akadns.net
 
-# --------------------
-# Apple Push
-# --------------------
-DOMAIN-SUFFIX,push.apple.com
 
-# --------------------
-# Apple China / Location
-# --------------------
-DOMAIN,api.smoot.apple.cn
-DOMAIN,gs-loc-cn.apple.com
+# --------------------------------------------------
+# Apple CDN / CNAME Infrastructure
+# --------------------------------------------------
 
-# --------------------
-# Apple Certificate Validation - Compact
-# --------------------
-DOMAIN-SUFFIX,digicert.com
-DOMAIN,ocsp.digicert.cn
+DOMAIN-SUFFIX,apple.com.akadns.net
+DOMAIN-SUFFIX,icloud.com.akadns.net
+DOMAIN-SUFFIX,apple.com.edgekey.net
+DOMAIN-SUFFIX,apple-support.akadns.net
 
-# --------------------
-# Apple IP
-# --------------------
+DOMAIN,appldnld.apple.com.edgesuite.net
+
+
+# --------------------------------------------------
+# Xcode / Developer / Swift
+# --------------------------------------------------
+
+DOMAIN-SUFFIX,appleswift.com
+
+
+# --------------------------------------------------
+# Apple Networking
+# --------------------------------------------------
+
+DOMAIN-SUFFIX,networking.apple
+DOMAIN-SUFFIX,safebrowsing.apple
+
+DOMAIN,app-site-association.networking.apple
+
+
+# --------------------------------------------------
+# Apple-owned / affiliated services
+# --------------------------------------------------
+
+# Shazam
+DOMAIN-SUFFIX,shazam.com
+
+# Beats
+DOMAIN-SUFFIX,beatsbydre.com
+
+
+# --------------------------------------------------
+# Apple-owned IPv4
+# --------------------------------------------------
+
 IP-CIDR,17.0.0.0/8,no-resolve
+
+
+# --------------------------------------------------
+# Apple-owned IPv6
+# --------------------------------------------------
+
 IP-CIDR6,2403:300::/32,no-resolve
 IP-CIDR6,2620:149::/32,no-resolve
 IP-CIDR6,2a01:b740::/32,no-resolve
-IP-CIDR6,2a01:b747::/32,no-resolve
-
-# ===== USER-AGENT =====
-USER-AGENT,*WeatherFoundation*
-USER-AGENT,*com.apple.mobileme.fmip1*
-USER-AGENT,%E5%9C%B0%E5%9B%BE*
-USER-AGENT,%E6%9F%A5%E6%89%BE*
-USER-AGENT,%E8%AE%BE%E7%BD%AE*
-USER-AGENT,AppStore*
-USER-AGENT,AppleNews*
-USER-AGENT,AppleTV*
-USER-AGENT,FMDClient*
-USER-AGENT,FMFD*
-USER-AGENT,FindMy*
-USER-AGENT,Maps*
-USER-AGENT,Music*
-USER-AGENT,TestFlight*
-USER-AGENT,com.apple.Maps*
-USER-AGENT,com.apple.appstored*
-USER-AGENT,com.apple.geod*
-USER-AGENT,com.apple.news*
-USER-AGENT,com.apple.trustd*
-USER-AGENT,com.apple.tv*
-USER-AGENT,fmflocatord*
-USER-AGENT,geod*
-USER-AGENT,locationd*
-
-# ===== OPTIONAL: DOMAIN-KEYWORD =====
-DOMAIN-KEYWORD,apple.com.akadns.net
-# DOMAIN-KEYWORD,icloud
-DOMAIN-KEYWORD,testflight
-
-# ===== OPTIONAL: PROCESS-NAME =====
-PROCESS-NAME,netbiosd
-PROCESS-NAME,storedownloadd
-PROCESS-NAME,trustd
