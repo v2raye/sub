@@ -1,264 +1,125 @@
-# ==============================
-# Google Core / 基础核心
-# ==============================
+# ==================================================
+# Google - Surge Rule Set
+# ==================================================
+
+# Google Core
 DOMAIN-SUFFIX,google.com
-DOMAIN-SUFFIX,g.co
-DOMAIN-SUFFIX,goo.gl
-DOMAIN-SUFFIX,goog
-DOMAIN-SUFFIX,gle
-DOMAIN-SUFFIX,g.dev
-DOMAIN-SUFFIX,g.page
-DOMAIN-SUFFIX,1e100.net
+DOMAIN-SUFFIX,google.ad
+DOMAIN-SUFFIX,google.ae
+DOMAIN-SUFFIX,google.as
+DOMAIN-SUFFIX,google.at
+DOMAIN-SUFFIX,google.be
+DOMAIN-SUFFIX,google.ca
+DOMAIN-SUFFIX,google.ch
+DOMAIN-SUFFIX,google.cl
+DOMAIN-SUFFIX,google.co
+DOMAIN-SUFFIX,google.co.jp
+DOMAIN-SUFFIX,google.co.kr
+DOMAIN-SUFFIX,google.co.uk
+DOMAIN-SUFFIX,google.com.au
+DOMAIN-SUFFIX,google.com.br
+DOMAIN-SUFFIX,google.com.hk
+DOMAIN-SUFFIX,google.com.mx
+DOMAIN-SUFFIX,google.com.sg
+DOMAIN-SUFFIX,google.com.tw
+DOMAIN-SUFFIX,google.de
+DOMAIN-SUFFIX,google.dk
+DOMAIN-SUFFIX,google.es
+DOMAIN-SUFFIX,google.fi
+DOMAIN-SUFFIX,google.fr
+DOMAIN-SUFFIX,google.ie
+DOMAIN-SUFFIX,google.it
+DOMAIN-SUFFIX,google.nl
+DOMAIN-SUFFIX,google.no
+DOMAIN-SUFFIX,google.pl
+DOMAIN-SUFFIX,google.pt
+DOMAIN-SUFFIX,google.se
 
 DOMAIN-SUFFIX,googleapis.com
-DOMAIN-SUFFIX,googleapis.cn
-DOMAIN-SUFFIX,googleapis-cn.com
 DOMAIN-SUFFIX,googleusercontent.com
 DOMAIN-SUFFIX,gstatic.com
-DOMAIN-SUFFIX,gstatic.cn
-DOMAIN-SUFFIX,gstatic-cn.com
-DOMAIN-SUFFIX,googlecnapps.cn
-DOMAIN-SUFFIX,gstaticcnapps.cn
-
-DOMAIN,accounts.google.com
-DOMAIN,myaccount.google.com
-DOMAIN,ogs.google.com
-DOMAIN,apis.google.com
-DOMAIN,clients1.google.com
-DOMAIN,clients2.google.com
-DOMAIN,clients3.google.com
-DOMAIN,clients4.google.com
-DOMAIN,clients5.google.com
-DOMAIN,clients6.google.com
-
-# ==============================
-# Chrome / Chromium / Chromecast
-# ==============================
-DOMAIN-SUFFIX,chrome.com
-DOMAIN-SUFFIX,chromebook.com
-DOMAIN-SUFFIX,chromeos.dev
-DOMAIN-SUFFIX,chromium.org
-DOMAIN-SUFFIX,chromecast.com
-DOMAIN-SUFFIX,crashlytics.com
-
-DOMAIN,update.googleapis.com
-DOMAIN,safebrowsing.googleapis.com
-DOMAIN,tools.google.com
-DOMAIN,dl.google.com
-DOMAIN,edgedl.me.gvt1.com
-DOMAIN,redirector.gvt1.com
-
-# ==============================
-# YouTube / YouTube Music
-# ==============================
-DOMAIN-SUFFIX,youtube.com
-DOMAIN-SUFFIX,youtu.be
-DOMAIN-SUFFIX,yt.be
-DOMAIN-SUFFIX,youtube-nocookie.com
-DOMAIN-SUFFIX,youtubekids.com
-DOMAIN-SUFFIX,youtubegaming.com
-DOMAIN-SUFFIX,youtubeeducation.com
-DOMAIN-SUFFIX,youtubemobilesupport.com
-DOMAIN-SUFFIX,youtubetv.com
-DOMAIN-SUFFIX,withyoutube.com
-
-DOMAIN-SUFFIX,googlevideo.com
-DOMAIN-SUFFIX,ytimg.com
 DOMAIN-SUFFIX,ggpht.com
-DOMAIN-SUFFIX,ggpht.cn
-
-DOMAIN,music.youtube.com
-DOMAIN,www.music.youtube.com
-DOMAIN,youtubei.googleapis.com
-DOMAIN,youtube.googleapis.com
-DOMAIN,youtube-ui.l.google.com
-DOMAIN,ytimg.l.google.com
-DOMAIN,ytstatic.l.google.com
-DOMAIN,yt-video-upload.l.google.com
-DOMAIN,wide-youtube.l.google.com
-
-# ==============================
-# Gmail / Google Mail
-# ==============================
-DOMAIN-SUFFIX,gmail.com
-DOMAIN-SUFFIX,googlemail.com
-
-DOMAIN,mail.google.com
-DOMAIN,inbox.google.com
-
-# ==============================
-# Google Voice
-# ==============================
-DOMAIN,voice.google.com
-DOMAIN,lens.l.google.com
-DOMAIN-SUFFIX,telephony.goog
-
-DOMAIN,stun.l.google.com
-DOMAIN,stun1.l.google.com
-DOMAIN,stun2.l.google.com
-DOMAIN,stun3.l.google.com
-DOMAIN,stun4.l.google.com
-
-# ==============================
-# Android / Google Mobile Services
-# ==============================
-DOMAIN-SUFFIX,android.com
-DOMAIN-SUFFIX,androidtv.com
-DOMAIN-SUFFIX,androidify.com
-
-DOMAIN,android.clients.google.com
-DOMAIN,android.googleapis.com
-DOMAIN,android.apis.google.com
-DOMAIN,connectivitycheck.gstatic.com
-DOMAIN,www.gstatic.com
-
-# ==============================
-# Google Play / Play Store
-# ==============================
-DOMAIN-SUFFIX,googleplay.com
-DOMAIN-SUFFIX,play.google.com
-
-DOMAIN,play.google.com
-DOMAIN,play.googleapis.com
-DOMAIN,android.clients.google.com
-DOMAIN,android.googleapis.com
-
-# ==============================
-# Google Drive / Docs / Sheets / Slides
-# ==============================
-DOMAIN-SUFFIX,googledrive.com
-DOMAIN-SUFFIX,docs.google.com
-DOMAIN-SUFFIX,drive.google.com
-
-DOMAIN,drive.google.com
-DOMAIN,docs.google.com
-DOMAIN,sheets.google.com
-DOMAIN,slides.google.com
-DOMAIN,forms.google.com
-DOMAIN,script.google.com
-
-# ==============================
-# Google Photos
-# ==============================
-DOMAIN-SUFFIX,googlephotos.com
-
-DOMAIN,photos.google.com
-DOMAIN,photoslibrary.googleapis.com
-
-# ==============================
-# Google Earth / Maps / Street View
-# ==============================
-DOMAIN-SUFFIX,googleearth.com
-DOMAIN-SUFFIX,earth.google.com
-DOMAIN-SUFFIX,maps.google.com
-
-DOMAIN,earth.google.com
-DOMAIN,maps.google.com
-DOMAIN,maps.googleapis.com
-DOMAIN,maps.gstatic.com
-DOMAIN,kh.google.com
-DOMAIN,khm.google.com
-DOMAIN,khm.googleapis.com
-DOMAIN,khms.google.com
-DOMAIN,streetviewpixels-pa.googleapis.com
-
-# ==============================
-# Gemini / Google AI
-# ==============================
-DOMAIN,gemini.google.com
-DOMAIN,bard.google.com
-DOMAIN,aistudio.google.com
-DOMAIN,ai.google.dev
-DOMAIN,generativelanguage.googleapis.com
-DOMAIN,content-generativelanguage.googleapis.com
-
-# ==============================
-# Google Authenticator
-# 主要离线可用，同步/账号依赖 Google Account
-# ==============================
-DOMAIN,accounts.google.com
-DOMAIN,myaccount.google.com
-DOMAIN,oauth2.googleapis.com
-
-# ==============================
-# Google FCM / GCM / Push
-# 你说的 GFC 我按 FCM 推送理解
-# ==============================
-DOMAIN,mtalk.google.com
-DOMAIN,alt1-mtalk.google.com
-DOMAIN,alt2-mtalk.google.com
-DOMAIN,alt3-mtalk.google.com
-DOMAIN,alt4-mtalk.google.com
-DOMAIN,alt5-mtalk.google.com
-DOMAIN,alt6-mtalk.google.com
-DOMAIN,alt7-mtalk.google.com
-DOMAIN,alt8-mtalk.google.com
-
-DOMAIN,fcm.googleapis.com
-DOMAIN,fcm-xmpp.googleapis.com
-DOMAIN,gcm-http.googleapis.com
-DOMAIN,gcm-xmpp.googleapis.com
-DOMAIN,firebaselogging.googleapis.com
-
-# ==============================
-# Firebase / App Measurement
-# ==============================
-DOMAIN-SUFFIX,firebaseio.com
-DOMAIN-SUFFIX,firebaseapp.com
-DOMAIN-SUFFIX,appspot.com
-DOMAIN-SUFFIX,web.app
-DOMAIN-SUFFIX,run.app
-DOMAIN-SUFFIX,cloudfunctions.net
-
-DOMAIN-SUFFIX,app-measurement.com
-DOMAIN-SUFFIX,app-measurement.net
-DOMAIN-SUFFIX,app-measurement-cn.com
-
-# ==============================
-# reCAPTCHA
-# ==============================
-DOMAIN-SUFFIX,recaptcha.net
-DOMAIN-SUFFIX,recaptcha-cn.net
-
-DOMAIN,www.recaptcha.net
-DOMAIN,www.gstatic.com
-
-# ==============================
-# Google Download / Update / CDN
-# ==============================
-DOMAIN-SUFFIX,gvt0.com
+DOMAIN-SUFFIX,1e100.net
 DOMAIN-SUFFIX,gvt1.com
 DOMAIN-SUFFIX,gvt2.com
 DOMAIN-SUFFIX,gvt3.com
-DOMAIN-SUFFIX,gvt5.com
-DOMAIN-SUFFIX,gvt6.com
-DOMAIN-SUFFIX,gvt7.com
-DOMAIN-SUFFIX,gvt9.com
-DOMAIN-SUFFIX,gvt1-cn.com
-DOMAIN-SUFFIX,gvt2-cn.com
 
-DOMAIN,dl.google.com
-DOMAIN,edgedl.me.gvt1.com
-DOMAIN,redirector.gvt1.com
-DOMAIN,storage.googleapis.com
-DOMAIN,commondatastorage.googleapis.com
+# China / CDN
+DOMAIN-SUFFIX,google.cn
+DOMAIN-SUFFIX,g.cn
+DOMAIN-SUFFIX,gstatic.cn
+DOMAIN-SUFFIX,googleapis.cn
 
-# ==============================
-# Google Meet / WebRTC 基础
-# ==============================
-DOMAIN,meet.google.com
-DOMAIN,hangouts.google.com
-DOMAIN,hangouts.googleapis.com
-DOMAIN,meetings.googleapis.com
+# Workspace
+DOMAIN-SUFFIX,googledrive.com
+DOMAIN-SUFFIX,googlegroups.com
+DOMAIN-SUFFIX,googlemail.com
 
-# ==============================
-# Blogspot / Blogger
-# ==============================
+# Android
+DOMAIN-SUFFIX,android.com
+DOMAIN-SUFFIX,androidify.com
+
+# Chrome
+DOMAIN-SUFFIX,googlechrome.com
+DOMAIN-SUFFIX,chromium.org
+
+# YouTube
+DOMAIN-SUFFIX,youtube.com
+DOMAIN-SUFFIX,youtu.be
+DOMAIN-SUFFIX,youtube-nocookie.com
+DOMAIN-SUFFIX,youtubeeducation.com
+DOMAIN-SUFFIX,googlevideo.com
+DOMAIN-SUFFIX,ytimg.com
+
+# Maps / Earth
+DOMAIN-SUFFIX,googlemaps.com
+DOMAIN-SUFFIX,googleearth.com
+
+# Ads
+DOMAIN-SUFFIX,doubleclick.net
+DOMAIN-SUFFIX,doubleclick.com
+DOMAIN-SUFFIX,googleadservices.com
+DOMAIN-SUFFIX,googlesyndication.com
+DOMAIN-SUFFIX,googletagservices.com
+DOMAIN-SUFFIX,googletagmanager.com
+DOMAIN-SUFFIX,adsensecustomsearchads.com
+DOMAIN-SUFFIX,syndicatedsearch.goog
+DOMAIN-SUFFIX,2mdn.net
+
+# Analytics
+DOMAIN-SUFFIX,google-analytics.com
+
+# Firebase
+DOMAIN-SUFFIX,firebaseio.com
+DOMAIN-SUFFIX,firebaseapp.com
+DOMAIN-SUFFIX,web.app
+
+# Google Cloud
+DOMAIN-SUFFIX,googlecloud.com
+DOMAIN-SUFFIX,cloud.google
+DOMAIN-SUFFIX,pkg.dev
+DOMAIN-SUFFIX,gke.goog
+DOMAIN-SUFFIX,ltsapis.goog
+DOMAIN-SUFFIX,pki.goog
+DOMAIN-SUFFIX,appspot.com
+DOMAIN-SUFFIX,run.app
+DOMAIN-SUFFIX,cloudfunctions.net
+
+# Gemini / DeepMind
+DOMAIN-SUFFIX,gemini.google
+DOMAIN-SUFFIX,generativeai.google
+DOMAIN-SUFFIX,deepmind.com
+DOMAIN-SUFFIX,deepmind.google
+
+# Blogger
 DOMAIN-SUFFIX,blogger.com
-DOMAIN-KEYWORD,blogspot
+DOMAIN-SUFFIX,blogspot.com
 
-# ==============================
-# Fallback
-# 谨慎兜底，用于覆盖 google.xx / googleapis 子项目
-# ==============================
-DOMAIN-KEYWORD,google
+# Misc
+DOMAIN-SUFFIX,withgoogle.com
+DOMAIN-SUFFIX,withyoutube.com
+DOMAIN-SUFFIX,googlesource.com
+DOMAIN-SUFFIX,recaptcha.net
+
+# Waze
+DOMAIN-SUFFIX,waze.com
