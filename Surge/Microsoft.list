@@ -1,133 +1,128 @@
-# Microsoft Core
+# ==================================================
+# Microsoft - Surge Rule Set
+# ==================================================
+
+# Core
 DOMAIN-SUFFIX,microsoft.com
-DOMAIN-SUFFIX,microsoft.com.cn
 DOMAIN-SUFFIX,microsoft.net
-DOMAIN-SUFFIX,msftauth.net
-DOMAIN-SUFFIX,msftauthimages.net
-DOMAIN-SUFFIX,msauth.net
-DOMAIN-SUFFIX,msauthimages.net
-DOMAIN-SUFFIX,msidentity.com
+DOMAIN-SUFFIX,microsoft.org
+DOMAIN-SUFFIX,static.microsoft
+
+DOMAIN-SUFFIX,msftconnecttest.com
+DOMAIN-SUFFIX,msftncsi.com
+
+# Account / Entra
+DOMAIN-SUFFIX,microsoftonline.com
+DOMAIN-SUFFIX,microsoftonline-p.com
+DOMAIN-SUFFIX,onmicrosoft.com
 DOMAIN-SUFFIX,live.com
 DOMAIN-SUFFIX,live.net
-DOMAIN-SUFFIX,aka.ms
+DOMAIN-SUFFIX,hotmail.com
+DOMAIN-SUFFIX,outlook.com
 
 # Microsoft 365 / Office
 DOMAIN-SUFFIX,microsoft365.com
 DOMAIN-SUFFIX,office.com
 DOMAIN-SUFFIX,office.net
 DOMAIN-SUFFIX,office365.com
-DOMAIN-SUFFIX,microsoftonline.com
-DOMAIN-SUFFIX,microsoftonline-p.com
-DOMAIN-SUFFIX,microsoftonline-p.net
-DOMAIN-SUFFIX,msocdn.com
-DOMAIN-SUFFIX,cloud.microsoft
-DOMAIN-SUFFIX,static.microsoft
-DOMAIN-SUFFIX,usercontent.microsoft
+DOMAIN-SUFFIX,officeapps.live.com
+DOMAIN-SUFFIX,onenote.com
+DOMAIN-SUFFIX,onenote.net
 
-# Outlook / OneDrive / SharePoint
-DOMAIN-SUFFIX,outlook.com
-DOMAIN-SUFFIX,hotmail.com
+# OneDrive
 DOMAIN-SUFFIX,onedrive.com
 DOMAIN-SUFFIX,1drv.com
-DOMAIN-SUFFIX,1drv.ms
+DOMAIN-SUFFIX,livefilestore.com
+
+# SharePoint
 DOMAIN-SUFFIX,sharepoint.com
 DOMAIN-SUFFIX,sharepointonline.com
 
-# Teams / Skype
+# Teams
 DOMAIN-SUFFIX,teams.microsoft.com
-DOMAIN-SUFFIX,teams.live.com
-DOMAIN-SUFFIX,skype.com
-DOMAIN-SUFFIX,skypeassets.com
-DOMAIN-SUFFIX,skypeforbusiness.com
-DOMAIN-SUFFIX,lync.com
-DOMAIN-SUFFIX,sfbassets.com
 
-# Windows / Update / Store
+# Skype
+DOMAIN-SUFFIX,skype.com
+DOMAIN-SUFFIX,skype.net
+DOMAIN-SUFFIX,lync.com
+
+# Windows
 DOMAIN-SUFFIX,windows.com
 DOMAIN-SUFFIX,windows.net
 DOMAIN-SUFFIX,windowsupdate.com
-DOMAIN-SUFFIX,download.microsoft.com
-DOMAIN-SUFFIX,download.windowsupdate.com
+DOMAIN-SUFFIX,microsoftupdate.com
 DOMAIN-SUFFIX,delivery.mp.microsoft.com
-DOMAIN-SUFFIX,mp.microsoft.com
-DOMAIN-SUFFIX,msftconnecttest.com
-DOMAIN-SUFFIX,msftncsi.com
-DOMAIN-SUFFIX,microsoftstore.com
-DOMAIN-SUFFIX,appcenter.ms
+DOMAIN-SUFFIX,do.dsp.mp.microsoft.com
 
-# Bing / Edge / MSN
+# Edge
+DOMAIN-SUFFIX,microsoftedge.com
+DOMAIN-SUFFIX,microsoftedge.net
+DOMAIN-SUFFIX,msedge.net
+DOMAIN-SUFFIX,msedge.com
+
+# Bing / MSN
 DOMAIN-SUFFIX,bing.com
 DOMAIN-SUFFIX,bing.net
 DOMAIN-SUFFIX,msn.com
-DOMAIN-SUFFIX,microsoftedge.com
-DOMAIN-SUFFIX,msedge.net
-DOMAIN-SUFFIX,msedgeextensions.net
-DOMAIN-SUFFIX,msftstatic.com
+DOMAIN-SUFFIX,microsoftstart.com
 
-# Azure / Cloud
+# Azure
 DOMAIN-SUFFIX,azure.com
 DOMAIN-SUFFIX,azure.net
-DOMAIN-SUFFIX,azure.cn
+DOMAIN-SUFFIX,windowsazure.com
 DOMAIN-SUFFIX,azureedge.net
 DOMAIN-SUFFIX,azurefd.net
-DOMAIN-SUFFIX,trafficmanager.net
-DOMAIN-SUFFIX,cloudapp.net
-DOMAIN-SUFFIX,azurewebsites.net
 DOMAIN-SUFFIX,azure-api.net
-DOMAIN-SUFFIX,azure-devices.net
 DOMAIN-SUFFIX,azurecontainer.io
 DOMAIN-SUFFIX,azurecr.io
+DOMAIN-SUFFIX,azmk8s.io
+
+# Azure customer workloads
+DOMAIN-SUFFIX,azurewebsites.net
+DOMAIN-SUFFIX,cloudapp.net
+DOMAIN-SUFFIX,trafficmanager.net
 DOMAIN-SUFFIX,servicebus.windows.net
-DOMAIN-SUFFIX,applicationinsights.io
-DOMAIN-SUFFIX,applicationinsights.net
+DOMAIN-SUFFIX,blob.core.windows.net
+DOMAIN-SUFFIX,file.core.windows.net
+DOMAIN-SUFFIX,queue.core.windows.net
+DOMAIN-SUFFIX,table.core.windows.net
+DOMAIN-SUFFIX,database.windows.net
+DOMAIN-SUFFIX,documents.azure.com
+DOMAIN-SUFFIX,vault.azure.net
 
-# Visual Studio / Developer
+# Power Platform
+DOMAIN-SUFFIX,powerapps.com
+DOMAIN-SUFFIX,powerautomate.com
+DOMAIN-SUFFIX,powerbi.com
+DOMAIN-SUFFIX,powerplatform.com
+
+# Dynamics
+DOMAIN-SUFFIX,dynamics.com
+DOMAIN-SUFFIX,dynamics365.com
+
+# Developer
 DOMAIN-SUFFIX,visualstudio.com
-DOMAIN-SUFFIX,visualstudio.net
 DOMAIN-SUFFIX,vsassets.io
+DOMAIN-SUFFIX,vsstatic.com
 DOMAIN-SUFFIX,vscode.dev
-DOMAIN-SUFFIX,vscode-unpkg.net
-DOMAIN-SUFFIX,vscode-webview.net
 DOMAIN-SUFFIX,nuget.org
-DOMAIN-SUFFIX,powershellgallery.com
+DOMAIN-SUFFIX,dot.net
 
-# Xbox / Gaming / Minecraft / Bethesda
+# Xbox
 DOMAIN-SUFFIX,xbox.com
 DOMAIN-SUFFIX,xboxlive.com
 DOMAIN-SUFFIX,xboxservices.com
 DOMAIN-SUFFIX,xboxab.com
 DOMAIN-SUFFIX,gamepass.com
-DOMAIN-SUFFIX,xboxgamepass.com
-DOMAIN-SUFFIX,forzamotorsport.net
+
+# Minecraft
 DOMAIN-SUFFIX,minecraft.net
 DOMAIN-SUFFIX,minecraftservices.com
 DOMAIN-SUFFIX,mojang.com
-DOMAIN-SUFFIX,bethesda.net
-DOMAIN-SUFFIX,beth.games
 
-# GitHub / LinkedIn
-DOMAIN,github.com
-DOMAIN-SUFFIX,github.com
-DOMAIN-SUFFIX,github.io
-DOMAIN-SUFFIX,github.dev
-DOMAIN-SUFFIX,githubusercontent.com
-DOMAIN-SUFFIX,githubassets.com
-DOMAIN-SUFFIX,githubstatus.com
-DOMAIN-SUFFIX,githubapp.com
-DOMAIN-SUFFIX,githubcopilot.com
-DOMAIN-SUFFIX,ghcr.io
-DOMAIN-SUFFIX,linkedin.com
-DOMAIN-SUFFIX,licdn.com
-DOMAIN-SUFFIX,lnkd.in
+# Microsoft telemetry / CDN
+DOMAIN-SUFFIX,aria.microsoft.com
+DOMAIN-SUFFIX,events.data.microsoft.com
 
-# Microsoft CDN / Telemetry / Short Links
-DOMAIN-SUFFIX,msecnd.net
-DOMAIN-SUFFIX,akadns.net
-DOMAIN-SUFFIX,akamaized.net
-DOMAIN-SUFFIX,azurecomcdn.net
-DOMAIN-SUFFIX,aspnetcdn.com
-DOMAIN-SUFFIX,gfx.ms
+# Legacy
 DOMAIN-SUFFIX,sfx.ms
-DOMAIN-SUFFIX,clarity.ms
-DOMAIN-SUFFIX,aria.ms
-DOMAIN-SUFFIX,virtualearth.net
