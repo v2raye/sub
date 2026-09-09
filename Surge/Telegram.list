@@ -1,52 +1,108 @@
-# ================================
-# Telegram
-# Domain + IP Rules
-# iOS / Android / Windows / Web
-# ================================
+# ==================================================
+# Telegram - Surge Rule Set
+#
+# Coverage:
+# Telegram Web / API / MTProto / Media / CDN
+# Telegram Desktop / Telegraph / Comments
+# Telegram Services / Fragment
+# Official Telegram IPv4 / IPv6 Data Centers
+# ==================================================
 
-# Core Domains
+
+# --------------------------------------------------
+# Telegram Core
+# --------------------------------------------------
+
 DOMAIN-SUFFIX,telegram.org
-DOMAIN-SUFFIX,t.me
 DOMAIN-SUFFIX,telegram.me
+DOMAIN-SUFFIX,telegram.dog
+DOMAIN-SUFFIX,t.me
 
-# Media / CDN / Web Preview
+
+# --------------------------------------------------
+# Telegram Desktop
+# --------------------------------------------------
+
+DOMAIN-SUFFIX,tdesktop.com
+
+
+# --------------------------------------------------
+# Telegram CDN / Media
+# --------------------------------------------------
+
 DOMAIN-SUFFIX,cdn-telegram.org
 DOMAIN-SUFFIX,telegram-cdn.org
-DOMAIN-SUFFIX,telesco.pe
+
+
+# --------------------------------------------------
+# Telegram Legacy / Deep Link
+# --------------------------------------------------
+
+DOMAIN-SUFFIX,tx.me
+
+
+# --------------------------------------------------
+# Telegraph
+# --------------------------------------------------
+
 DOMAIN-SUFFIX,telegra.ph
 DOMAIN-SUFFIX,graph.org
 
-# Telegram Links / Widgets / Dev
-DOMAIN-SUFFIX,telegram.dog
-DOMAIN-SUFFIX,telegram.space
-DOMAIN-SUFFIX,telega.one
+
+# --------------------------------------------------
+# Telegram Official Services
+# --------------------------------------------------
+
+DOMAIN-SUFFIX,telesco.pe
 DOMAIN-SUFFIX,tg.dev
-DOMAIN-SUFFIX,tx.me
+DOMAIN-SUFFIX,stel.com
+
+DOMAIN-SUFFIX,contest.com
+DOMAIN-SUFFIX,quiz.directory
+
+
+# --------------------------------------------------
+# Telegram Comments
+# --------------------------------------------------
+
 DOMAIN-SUFFIX,comments.app
 
-# Telegram Desktop / Ecosystem
-DOMAIN-SUFFIX,tdesktop.com
-DOMAIN-SUFFIX,fragment.com
-DOMAIN-SUFFIX,ton.org
 
-# Official Telegram IPv4
+# --------------------------------------------------
+# Telegram Auxiliary
+# --------------------------------------------------
+
+DOMAIN-SUFFIX,telegram.space
+
+
+# --------------------------------------------------
+# Fragment
+# --------------------------------------------------
+
+DOMAIN-SUFFIX,fragment.com
+
+
+# ==================================================
+# Telegram Official IPv4
+# ==================================================
+
+IP-CIDR,91.108.56.0/22,no-resolve
 IP-CIDR,91.108.4.0/22,no-resolve
 IP-CIDR,91.108.8.0/22,no-resolve
-IP-CIDR,91.108.12.0/22,no-resolve
 IP-CIDR,91.108.16.0/22,no-resolve
-IP-CIDR,91.108.20.0/22,no-resolve
-IP-CIDR,91.108.56.0/22,no-resolve
-IP-CIDR,91.105.192.0/23,no-resolve
+IP-CIDR,91.108.12.0/22,no-resolve
 IP-CIDR,149.154.160.0/20,no-resolve
+IP-CIDR,91.105.192.0/23,no-resolve
+IP-CIDR,91.108.20.0/22,no-resolve
 IP-CIDR,185.76.151.0/24,no-resolve
 
-# Extra Telegram Infrastructure
-IP-CIDR,5.28.192.0/18,no-resolve
-IP-CIDR,95.161.64.0/20,no-resolve
 
-# Official Telegram IPv6
-IP-CIDR6,2001:b28:f23c::/48,no-resolve
+# ==================================================
+# Telegram Official IPv6
+# ==================================================
+
 IP-CIDR6,2001:b28:f23d::/48,no-resolve
 IP-CIDR6,2001:b28:f23f::/48,no-resolve
 IP-CIDR6,2001:67c:4e8::/48,no-resolve
+IP-CIDR6,2001:b28:f23c::/48,no-resolve
 IP-CIDR6,2a0a:f280::/32,no-resolve
