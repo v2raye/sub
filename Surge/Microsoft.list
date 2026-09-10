@@ -127,25 +127,29 @@ DOMAIN-SUFFIX,events.data.microsoft.com
 # Legacy
 DOMAIN-SUFFIX,sfx.ms
 
-# ==================================================
-# GitHub - Surge Rule Set
-# GitHub / Actions / Packages / LFS / Releases
-# Pages / Codespaces / Copilot / Dependabot
-# ==================================================
-
-# GitHub Core
+# GitHub 核心 / API / Git / 静态资源
 DOMAIN-SUFFIX,github.com
-DOMAIN-SUFFIX,github.io
-
-# Static / Raw / Releases / Actions / Avatars
 DOMAIN-SUFFIX,githubassets.com
 DOMAIN-SUFFIX,githubusercontent.com
+
+# GitHub Pages / Codespaces / github.dev
+DOMAIN-SUFFIX,github.io
+DOMAIN-SUFFIX,github.dev
 
 # GitHub Container Registry
 DOMAIN-SUFFIX,ghcr.io
 
-# Git LFS
+# GitHub Copilot
+DOMAIN-SUFFIX,githubcopilot.com
+
+# GitHub Enterprise Cloud
+DOMAIN-SUFFIX,ghe.com
+
+# Git LFS 精确外部存储端点
 DOMAIN,github-cloud.s3.amazonaws.com
 
-# GitHub Copilot
-DOMAIN,default.exp-tas.com
+# Dependabot Actions
+DOMAIN,dependabot-actions.githubapp.com
+
+# Copilot 报告端点
+DOMAIN-WILDCARD,copilot-reports-*.b01.azurefd.net
