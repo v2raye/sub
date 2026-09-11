@@ -11,6 +11,7 @@ DOMAIN-SUFFIX,oaiusercontent.com
 DOMAIN-SUFFIX,oaistatsig.com
 
 # OpenAI dependencies
+DOMAIN,chatgpt.com
 DOMAIN,cdn.openaimerge.com
 DOMAIN,cdn.workos.com
 DOMAIN,forwarder.workos.com
