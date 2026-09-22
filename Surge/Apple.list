@@ -1,151 +1,124 @@
-# ==================================================
-# Apple - Surge Rule Set
-# Coverage:
-# Apple / iCloud / App Store / Music / TV / Books
-# Podcasts / Maps / Siri / Apple Intelligence
-# APNs / Find My / Apple ID / Device Activation
-# Software Update / TestFlight / Developer
-# Private Relay / CloudKit / Apple Pay / Wallet
-# Apple Business / School / CDN / DNS / Shazam / Beats
-# ==================================================
-
-
-# --------------------------------------------------
+# ============================================================
 # Apple Core
-# --------------------------------------------------
+# ============================================================
 
 DOMAIN-SUFFIX,apple.com
-DOMAIN-SUFFIX,apple.com.cn
+DOMAIN-SUFFIX,apple
 DOMAIN-SUFFIX,apple.co
-
+DOMAIN-SUFFIX,apple.news
+DOMAIN-SUFFIX,appsto.re
+DOMAIN-SUFFIX,appstore.com
 DOMAIN-SUFFIX,aaplimg.com
+
+
+# ============================================================
+# Apple China
+# ============================================================
+
+DOMAIN-SUFFIX,apple.cn
+DOMAIN-SUFFIX,apple.com.cn
+
+DOMAIN-SUFFIX,apple.com.cdn20.com
+DOMAIN-SUFFIX,apple.com.mwcloudcdn.com
+DOMAIN-SUFFIX,apple.com.mwcname.com
+
+
+# ============================================================
+# iCloud Global
+# ============================================================
+
+DOMAIN-SUFFIX,icloud.com
+DOMAIN-SUFFIX,icloud-content.com
+DOMAIN-SUFFIX,apple-cloudkit.com
+DOMAIN-SUFFIX,apple-livephotoskit.com
+DOMAIN-SUFFIX,apple-dns.net
 DOMAIN-SUFFIX,cdn-apple.com
-DOMAIN-SUFFIX,mzstatic.com
 
 
-# --------------------------------------------------
-# Apple Account / Apple ID
-# --------------------------------------------------
+# ============================================================
+# iCloud China / 云上贵州
+# ============================================================
+
+DOMAIN-SUFFIX,icloud.com.cn
+DOMAIN-SUFFIX,icloud-content.com.cn
+DOMAIN-SUFFIX,apzones.com
+
+
+# ============================================================
+# Apple ID / Legacy
+# ============================================================
 
 DOMAIN-SUFFIX,me.com
 DOMAIN-SUFFIX,mac.com
 
 
-# --------------------------------------------------
-# iCloud
-# --------------------------------------------------
+# ============================================================
+# App Store / Music / TV / Podcasts
+# ============================================================
 
-DOMAIN-SUFFIX,icloud.com
-DOMAIN-SUFFIX,icloud.com.cn
-DOMAIN-SUFFIX,icloud-content.com
-
-DOMAIN-SUFFIX,apple-cloudkit.com
-DOMAIN-SUFFIX,apple-livephotoskit.com
-DOMAIN-SUFFIX,apple-dns.net
-
-# iCloud China infrastructure
-DOMAIN-SUFFIX,apzones.com
-
-
-# --------------------------------------------------
-# App Store / iTunes
-# --------------------------------------------------
-
+DOMAIN-SUFFIX,mzstatic.com
 DOMAIN-SUFFIX,itunes.com
-DOMAIN-SUFFIX,appstore.com
-DOMAIN-SUFFIX,appsto.re
-DOMAIN-SUFFIX,itun.es
-
-
-# --------------------------------------------------
-# Apple Music
-# --------------------------------------------------
-
+DOMAIN-SUFFIX,musickit.net
 DOMAIN-SUFFIX,applemusic.com
+DOMAIN-SUFFIX,applepodcasts.com
 
 
-# --------------------------------------------------
-# Apple News
-# --------------------------------------------------
-
-DOMAIN-SUFFIX,apple.news
-
-
-# --------------------------------------------------
-# Apple Maps / MapKit
-# --------------------------------------------------
+# ============================================================
+# Maps
+# ============================================================
 
 DOMAIN-SUFFIX,apple-mapkit.com
 
 
-# --------------------------------------------------
+# ============================================================
 # Apple Intelligence / Private Cloud Compute
-# --------------------------------------------------
+# ============================================================
 
 DOMAIN,apple-relay.cloudflare.com
 DOMAIN,apple-relay.fastly-edge.com
 DOMAIN,cp4.cloudflare.com
 
 
-# --------------------------------------------------
-# Apple Push Notification Service / APNs
-# --------------------------------------------------
+# ============================================================
+# Apple CDN / Akamai / EdgeKey
+# ============================================================
 
-DOMAIN-SUFFIX,push-apple.com.akadns.net
-DOMAIN-SUFFIX,courier-push-apple.com.akadns.net
-
-
-# --------------------------------------------------
-# Apple CDN / CNAME Infrastructure
-# --------------------------------------------------
-
-DOMAIN-SUFFIX,apple.com.akadns.net
-DOMAIN-SUFFIX,icloud.com.akadns.net
+DOMAIN-SUFFIX,itunes.com.edgekey.net
 DOMAIN-SUFFIX,apple.com.edgekey.net
 DOMAIN-SUFFIX,apple-support.akadns.net
+DOMAIN-SUFFIX,apple.com.edgekey.net.globalredir.akadns.net
 
 DOMAIN,appldnld.apple.com.edgesuite.net
+DOMAIN-SUFFIX,ls.apple.com.edgesuite.net
+
+DOMAIN-KEYWORD,apple.com.akadns.net
+DOMAIN-KEYWORD,icloud.com.akadns.net
+DOMAIN-KEYWORD,smp-device
+DOMAIN-KEYWORD,testflight
 
 
-# --------------------------------------------------
-# Xcode / Developer / Swift
-# --------------------------------------------------
-
-DOMAIN-SUFFIX,appleswift.com
-
-
-# --------------------------------------------------
-# Apple Networking
-# --------------------------------------------------
-
-DOMAIN-SUFFIX,networking.apple
-DOMAIN-SUFFIX,safebrowsing.apple
-
-DOMAIN,app-site-association.networking.apple
-
-
-# --------------------------------------------------
-# Apple-owned / affiliated services
-# --------------------------------------------------
-
-# Shazam
-DOMAIN-SUFFIX,shazam.com
-
-# Beats
-DOMAIN-SUFFIX,beatsbydre.com
-
-
-# --------------------------------------------------
-# Apple-owned IPv4
-# --------------------------------------------------
+# ============================================================
+# Apple IPv4
+# ============================================================
 
 IP-CIDR,17.0.0.0/8,no-resolve
 
+IP-CIDR,139.178.128.0/18,no-resolve
+IP-CIDR,144.178.0.0/19,no-resolve
+IP-CIDR,144.178.36.0/22,no-resolve
+IP-CIDR,144.178.48.0/20,no-resolve
+IP-CIDR,192.35.50.0/24,no-resolve
+IP-CIDR,198.183.17.0/24,no-resolve
+IP-CIDR,205.180.175.0/24,no-resolve
+IP-CIDR,63.92.224.0/19,no-resolve
+IP-CIDR,65.199.22.0/23,no-resolve
 
-# --------------------------------------------------
-# Apple-owned IPv6
-# --------------------------------------------------
+
+# ============================================================
+# Apple IPv6
+# ============================================================
 
 IP-CIDR6,2403:300::/32,no-resolve
 IP-CIDR6,2620:149::/32,no-resolve
 IP-CIDR6,2a01:b740::/32,no-resolve
+IP-CIDR6,2a01:b747::/32,no-resolve
