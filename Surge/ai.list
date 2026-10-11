@@ -2,28 +2,42 @@
 # AI Services - Surge Rule Set
 # OpenAI / Claude / Grok / Gemini
 # =========================
-
-# --- ChatGPT / OpenAI ---
-DOMAIN-SUFFIX,openai.com
+# ChatGPT / OpenAI
 DOMAIN-SUFFIX,chatgpt.com
+DOMAIN-SUFFIX,openai.com
 DOMAIN-SUFFIX,oaistatic.com
 DOMAIN-SUFFIX,oaiusercontent.com
 DOMAIN-SUFFIX,oaistatsig.com
 
-# OpenAI dependencies
+# OpenAI CDN
 DOMAIN,cdn.openaimerge.com
+
+# Authentication / WorkOS
 DOMAIN,cdn.workos.com
 DOMAIN,forwarder.workos.com
+DOMAIN,frontend-apps-multi-region.workos.com
 DOMAIN,images.workoscdn.com
-DOMAIN-SUFFIX,ct.sendgrid.net
+DOMAIN,setup.workos.com
+DOMAIN,workos.imgix.net
+
+# Cloudflare Verification
+DOMAIN,challenges.cloudflare.com
+
+# Apple Authentication
+DOMAIN,humb.apple.com
+
+# Support / Messaging
 DOMAIN-SUFFIX,intercom.io
 DOMAIN-SUFFIX,intercomcdn.com
-DOMAIN,challenges.cloudflare.com
+DOMAIN-SUFFIX,ct.sendgrid.net
+
+# Payment
 DOMAIN,js.stripe.com
-DOMAIN,rum.browser-intake-datadoghq.com
+
+# Telemetry / Diagnostics
 DOMAIN,o207216.ingest.sentry.io
 DOMAIN,o33249.ingest.sentry.io
-DOMAIN,humb.apple.com
+DOMAIN,rum.browser-intake-datadoghq.com
 
 
 # --- Claude / Anthropic ---
