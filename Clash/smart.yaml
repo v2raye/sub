@@ -187,6 +187,7 @@ rules:
 
   - RULE-SET,Apple_ip,Apple,no-resolve
   - RULE-SET,Telegram_ip,Telegram,no-resolve
+  - RULE-SET,OpenAI_ip,OpenAI,no-resolve
   - RULE-SET,Private_ip,DIRECT,no-resolve
   - RULE-SET,CN_ip,DIRECT,no-resolve
 
@@ -218,7 +219,7 @@ rule-providers:
 
   OpenAI:
     <<: *domain
-    url: "https://raw.githubusercontent.com/v2raye/mihomo-rule/refs/heads/main/rule/mihomo/ai.mrs"
+    url: "https://raw.githubusercontent.com/v2raye/mihomo-rule/refs/heads/main/rule/mihomo/ai-domain.mrs"
 
   Telegram:
     <<: *domain
@@ -247,3 +248,7 @@ rule-providers:
   Telegram_ip:
     <<: *ip
     url: "https://raw.githubusercontent.com/v2raye/mihomo-rule/refs/heads/main/rule/mihomo/Telegram-ipcidr.mrs"
+    
+  OpenAI_ip:
+    <<: *ip
+    url: "https://raw.githubusercontent.com/v2raye/mihomo-rule/refs/heads/main/rule/mihomo/ai-ipcidr.mrs"
