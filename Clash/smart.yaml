@@ -1,254 +1,188 @@
+# ImmortalWrt / OpenClash / OIX or Smart-capable Mihomo core
+# Smart edition: requires Model.bin in the core working directory.
+# Created 2026-10-29. Replace REPLACE_WITH_YOUR_MIHOMO_SUBSCRIPTION_URL.
+# This is a new profile. It does not contain the old private COX relay.
+# OpenClash manages transparent interception, firewall and DNS forwarding.
+# Keep controller/proxy/DNS ports inaccessible from WAN.
+mixed-port: 7893
 port: 7890
 socks-port: 7891
-mixed-port: 7892
-
-#############################################
-# 运行基线
-#############################################
+redir-port: 7892
+tproxy-port: 7895
+allow-lan: true
+bind-address: '*'
 mode: rule
 log-level: warning
 ipv6: true
-udp: true
-allow-lan: true
-bind-address: "*"
 unified-delay: true
 tcp-concurrent: true
-
+find-process-mode: off
+external-controller: 127.0.0.1:9090
+# OpenClash may replace controller binding and secret with its own settings.
 profile:
   store-selected: true
   store-fake-ip: true
 
-#############################################
-# Sniffer
-#############################################
 sniffer:
   enable: true
-  override-destination: true
-  force-dns-mapping: true
   parse-pure-ip: false
+  override-destination: false
   sniff:
-    HTTP: {ports: [80, 8080-8880], override-destination: true}
-    TLS: {ports: [443, 8443]}
-    QUIC: {ports: [443, 8443]}
+    TLS:
+      ports: [443, 8443]
+    HTTP:
+      ports: [80, 8080-8880]
+      override-destination: false
   skip-domain:
-    - "Mijia Cloud"
-    - "+.push.apple.com"
+    - '+.push.apple.com'
+    - '+.oray.com'
+    - '+.sunlogin.net'
 
-#############################################
-# TUN
-#############################################
-tun:
-  enable: true
-  stack: system
-  device: Meta
-  dns-hijack: ["any:53", "tcp://any:53"]
-  auto-route: true
-  auto-detect-interface: true
-  strict-route: true
-
-#############################################
-# DNS
-#############################################
 dns:
   enable: true
+  listen: 0.0.0.0:7874
   ipv6: true
-  respect-rules: true
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.1/16
-  fake-ip-range6: fdfe:dcba:9876::1/64
+  # IPv6 fake addresses are not explicitly enabled in this baseline.
+  # OpenClash can inject fake-ip-range6; inspect its effective configuration.
   fake-ip-filter-mode: blacklist
-
   fake-ip-filter:
-    - "*.lan"
-    - "*.local"
-    - "*.localdomain"
-    - "*.arpa"
-    - "+.lan"
-    - "+.local"
-    - "+.localhost"
-    - "+.home.arpa"
-    - "stun.*.*"
-    - "stun.*.*.*"
-    - "time.*"
-    - "ntp.*"
-    - "+.v2raye.com"
-
-  default-nameserver: [223.5.5.5, 2400:3200::1]
-
-  nameserver:
-    - https://dns.alidns.com/dns-query
-    - https://doh.pub/dns-query
-
+    - '*.lan'
+    - '*.local'
+    - '*.localdomain'
+    - '*.localhost'
+    - '+.home.arpa'
+    - '*.arpa'
+    - '+.msftconnecttest.com'
+    - '+.msftncsi.com'
+    - 'local.adguard.org'
+    - 'injections.adguard.org'
+    - 'time.*'
+    - 'ntp.*'
+    - '+.pool.ntp.org'
+    - 'stun.*.*'
+    - 'stun.*.*.*'
+    - '+.stun.playstation.net'
+    - '+.srv.nintendo.net'
+  use-hosts: true
+  use-system-hosts: true
+  prefer-h3: false
+  # Explicit #PROXY routes avoid depending on general DNS routing rules.
+  respect-rules: false
+  default-nameserver:
+    - 223.5.5.5
+    - 119.29.29.29
   proxy-server-nameserver:
     - https://dns.alidns.com/dns-query
     - https://doh.pub/dns-query
-
-#  nameserver-policy:
-#    "rule-set:Private_domain": [https://dns.alidns.com/dns-query, https://doh.pub/dns-query]
-#    "rule-set:CN_domain": [https://dns.alidns.com/dns-query, https://doh.pub/dns-query]
-#    "rule-set:OpenAI": [https://dns.google/dns-query, https://dns11.quad9.net/dns-query, https://security.cloudflare-dns.com/dns-query]
-#    "rule-set:Google_domain": [https://dns.google/dns-query, https://dns11.quad9.net/dns-query, https://security.cloudflare-dns.com/dns-query]
-#    "rule-set:Telegram": [https://dns.google/dns-query, https://dns11.quad9.net/dns-query]
-#    "rule-set:Proxy": [https://dns.google/dns-query, https://dns11.quad9.net/dns-query, https://security.cloudflare-dns.com/dns-query]
-
-#############################################
-# 手动节点
-#############################################
-proxies: []
-
-#############################################
-# Proxy Provider
-#############################################
-NodeParam: &NodeParam {type: http, interval: 86400, health-check: {enable: true, url: "https://cp.cloudflare.com/generate_204", interval: 600, timeout: 3000, lazy: true}}
+  direct-nameserver:
+    - https://dns.alidns.com/dns-query
+    - https://doh.pub/dns-query
+  nameserver:
+    - 'https://dns.google/dns-query#PROXY'
+    - 'https://cloudflare-dns.com/dns-query#PROXY'
+  nameserver-policy:
+    'rule-set:cn-domain':
+      - https://dns.alidns.com/dns-query
+      - https://doh.pub/dns-query
 
 proxy-providers:
-  Clash_Meta:
-    url: ""
-    <<: *NodeParam
-    path: "./proxy_providers/Clash_Meta.yaml"
+  subscription:
+    type: http
+    url: ''
+    path: ./proxy_provider/smart-subscription.yaml
+    interval: 86400
+    proxy: DIRECT
+    health-check:
+      enable: true
+      url: https://cp.cloudflare.com/generate_204
+      interval: 600
+      timeout: 5000
+      lazy: true
 
-#############################################
-# 节点筛选
-#############################################
+# Script-injected exits: accept COX / Seattle with optional flags and separators.
+FilterCOX: &FilterCOX '(?i)(?:^|[^a-z0-9])COX(?:[^a-z0-9]|$)'
+FilterExit: &FilterExit '(?i)(?:^|[^a-z0-9])(?:COX|Seattle)(?:[^a-z0-9]|$)'
+FilterRelay: &FilterRelay '(?i)(🇭🇰|🇯🇵|🇺🇸|香港|日本|美国|美國|Hong[ _-]*Kong|Japan|United[ _-]*States|(?:^|[^a-z0-9])(?:HK|JP|US|USA)(?:[0-9]+)?(?:[^a-z0-9]|$))'
 
-FilterHK: &FilterHK '(?i)(🇭🇰|香港|Hong\s?Kong|(?:^|[\s_\-|\[\]()])HK(?:[0-9]+|[\s_\-|\[\]()]|$))'
-
-FilterTW: &FilterTW '(?i)(🇹🇼|台湾|臺灣|Taiwan|(?:^|[\s_\-|\[\]()])TW(?:[0-9]+|[\s_\-|\[\]()]|$))'
-
-FilterJP: &FilterJP '(?i)(🇯🇵|日本|东京|東京|大阪|Japan|Tokyo|Osaka|(?:^|[\s_\-|\[\]()])JP(?:[0-9]+|[\s_\-|\[\]()]|$))'
-
-FilterSG: &FilterSG '(?i)(🇸🇬|新加坡|Singapore|(?:^|[\s_\-|\[\]()])SG(?:[0-9]+|[\s_\-|\[\]()]|$))'
-
-FilterUS: &FilterUS '(?i)(🇺🇸|美国|美國|United\s?States|USA|(?:^|[\s_\-|\[\]()])US(?:[0-9]+|[\s_\-|\[\]()]|$))'
-
-FilterEU: &FilterEU '(?i)(🇪🇺|欧洲|歐洲|Europe|🇬🇧|英国|英國|United\s?Kingdom|Britain|🇩🇪|德国|德國|Germany|🇫🇷|法国|法國|France|🇳🇱|荷兰|荷蘭|Netherlands|🇮🇹|意大利|義大利|Italy|🇪🇸|西班牙|Spain|🇨🇭|瑞士|Switzerland|🇸🇪|瑞典|Sweden|🇳🇴|挪威|Norway|🇵🇱|波兰|波蘭|Poland|🇫🇮|芬兰|芬蘭|Finland|🇦🇹|奥地利|奧地利|Austria|🇧🇪|比利时|比利時|Belgium|🇩🇰|丹麦|丹麥|Denmark|🇮🇪|爱尔兰|愛爾蘭|Ireland|🇵🇹|葡萄牙|Portugal|🇨🇿|捷克|Czech|🇬🇷|希腊|希臘|Greece|🇭🇺|匈牙利|Hungary|🇷🇴|罗马尼亚|羅馬尼亞|Romania|🇮🇸|冰岛|冰島|Iceland|🇪🇪|爱沙尼亚|愛沙尼亞|Estonia|🇱🇻|拉脱维亚|拉脫維亞|Latvia|🇱🇹|立陶宛|Lithuania|🇸🇰|斯洛伐克|Slovakia|🇸🇮|斯洛文尼亚|斯洛文尼亞|Slovenia|🇭🇷|克罗地亚|克羅地亞|Croatia|🇧🇬|保加利亚|保加利亞|Bulgaria|🇱🇺|卢森堡|盧森堡|Luxembourg|(?:^|[\s_\-|\[\]()])(?:UK|GB|DE|FR|NL|IT|ES|CH|SE|NO|PL|FI|AT|BE|DK|IE|PT|CZ|GR|HU|RO|IS|EE|LV|LT|SK|SI|HR|BG|LU)(?:[0-9]+|[\s_\-|\[\]()]|$))'
-
-FilterEM: &FilterEM '(?i)(🇭🇰|香港|Hong\s?Kong|(?:^|[\s_\-|\[\]()])HK(?:[0-9]+|[\s_\-|\[\]()]|$)|🇹🇼|台湾|臺灣|Taiwan|(?:^|[\s_\-|\[\]()])TW(?:[0-9]+|[\s_\-|\[\]()]|$))'
-
-FilterKnownRegion: &FilterKnownRegion '(?i)(🇭🇰|香港|Hong\s?Kong|(?:^|[\s_\-|\[\]()])HK(?:[0-9]+|[\s_\-|\[\]()]|$)|🇹🇼|台湾|臺灣|Taiwan|(?:^|[\s_\-|\[\]()])TW(?:[0-9]+|[\s_\-|\[\]()]|$)|🇯🇵|日本|东京|東京|大阪|Japan|Tokyo|Osaka|(?:^|[\s_\-|\[\]()])JP(?:[0-9]+|[\s_\-|\[\]()]|$)|🇸🇬|新加坡|Singapore|(?:^|[\s_\-|\[\]()])SG(?:[0-9]+|[\s_\-|\[\]()]|$)|🇺🇸|美国|美國|United\s?States|USA|(?:^|[\s_\-|\[\]()])US(?:[0-9]+|[\s_\-|\[\]()]|$)|🇪🇺|欧洲|歐洲|Europe|🇬🇧|英国|英國|United\s?Kingdom|Britain|🇩🇪|德国|德國|Germany|🇫🇷|法国|法國|France|🇳🇱|荷兰|荷蘭|Netherlands|🇮🇹|意大利|義大利|Italy|🇪🇸|西班牙|Spain|🇨🇭|瑞士|Switzerland|🇸🇪|瑞典|Sweden|🇳🇴|挪威|Norway|🇵🇱|波兰|波蘭|Poland|🇫🇮|芬兰|芬蘭|Finland|🇦🇹|奥地利|奧地利|Austria|🇧🇪|比利时|比利時|Belgium|🇩🇰|丹麦|丹麥|Denmark|🇮🇪|爱尔兰|愛爾蘭|Ireland|🇵🇹|葡萄牙|Portugal|🇨🇿|捷克|Czech|🇬🇷|希腊|希臘|Greece|🇭🇺|匈牙利|Hungary|🇷🇴|罗马尼亚|羅馬尼亞|Romania|🇮🇸|冰岛|冰島|Iceland|🇪🇪|爱沙尼亚|愛沙尼亞|Estonia|🇱🇻|拉脱维亚|拉脫維亞|Latvia|🇱🇹|立陶宛|Lithuania|🇸🇰|斯洛伐克|Slovakia|🇸🇮|斯洛文尼亚|斯洛文尼亞|Slovenia|🇭🇷|克罗地亚|克羅地亞|Croatia|🇧🇬|保加利亚|保加利亞|Bulgaria|🇱🇺|卢森堡|盧森堡|Luxembourg|(?:^|[\s_\-|\[\]()])(?:UK|GB|DE|FR|NL|IT|ES|CH|SE|NO|PL|FI|AT|BE|DK|IE|PT|CZ|GR|HU|RO|IS|EE|LV|LT|SK|SI|HR|BG|LU)(?:[0-9]+|[\s_\-|\[\]()]|$))'
-FilterRelay: &FilterRelay '(?i)(🇭🇰|香港|Hong\s?Kong|(?:^|[\s_\-\|\[\]\(\)])HK(?:[0-9]+|[\s_\-\|\[\]\(\)]|$)|🇯🇵|日本|东京|東京|大阪|Japan|Tokyo|Osaka|(?:^|[\s_\-\|\[\]\(\)])JP(?:[0-9]+|[\s_\-\|\[\]\(\)]|$)|🇺🇸|美国|美國|United\s?States|USA|(?:^|[\s_\-\|\[\]\(\)])US(?:[0-9]+|[\s_\-\|\[\]\(\)]|$))'
-
-FilterSeattle: &FilterSeattle '(?i)🇺🇸\s*(COX|Seattle)'
-FilterCOX: &FilterCOX '(?i)🇺🇸\s*COX'
-#############################################
-# Smart / Load Balance
-#############################################
-Smart: &Smart {type: smart, include-all: true, exclude-type: direct, uselightgbm: true, collectdata: false, url: "https://cp.cloudflare.com/generate_204", interval: 300, lazy: true, timeout: 3000, tolerance: 30, prefer-asn: true}
-
-LoadBalance: &LoadBalance {type: load-balance, include-all: true, exclude-type: direct, url: "https://cp.cloudflare.com/generate_204", interval: 300, lazy: true, timeout: 3000, max-failed-times: 3, disable-udp: false, strategy: consistent-hashing, hidden: true}
-
-#############################################
-# 策略组
-#############################################
+# Shared YAML templates (flow mapping style).
+smart: &smart {type: smart, use: [subscription], uselightgbm: true, collectdata: false, prefer-asn: false, url: 'https://cp.cloudflare.com/generate_204', interval: 600, timeout: 5000, tolerance: 100, lazy: true}
+rule-domain: &rule-domain {type: http, behavior: domain, format: mrs, interval: 86400, proxy: PROXY}
+rule-ip: &rule-ip {<<: *rule-domain, behavior: ipcidr}
+proxies: []
 proxy-groups:
-  - {name: Outside, type: select, proxies: [HK, JP, SG, US, EU, TW, Other, DIRECT]}
-  - {name: Microsoft, type: select, proxies: [HK, JP, SG, US, EU, TW, DIRECT]}
-  - {name: Apple, type: select, proxies: [HK, JP, SG, US, EU, TW, 🇺🇸 COX, DIRECT]}
-  - {name: Google, type: select, proxies: [HK, JP, SG, US, EU, TW]}
-  - {name: Telegram, type: select, proxies: [HK, JP, SG, US, EU, TW]}
-  - {name: OpenAI, type: select, proxies: [US, 🇺🇸 COX]}
-  - {name: Emby, type: select, proxies: [EM, DIRECT]}
-
-  - {name: HK, <<: *Smart, filter: *FilterHK}
-  - {name: TW, <<: *Smart, filter: *FilterTW}
-  - {name: SG, <<: *Smart, filter: *FilterSG}
-  - {name: JP, <<: *Smart, filter: *FilterJP}
-
-#  - {name: US, type: select, include-all: true, exclude-type: direct, filter: *FilterUS}
-  - {name: US, <<: *Smart, filter: *FilterUS,exclude-filter: *FilterCOX}
-
-  - {name: EU, <<: *Smart, filter: *FilterEU}
-  - {name: EM, <<: *Smart, filter: *FilterEM}
-  - {name: Other, <<: *Smart, exclude-filter: *FilterKnownRegion}
-
-  - {name: Relay, <<: *Smart, filter: *FilterRelay, exclude-filter: *FilterSeattle}
-
-#############################################
-# Rules
-#############################################
-rules:
-  - OR,((IP-CIDR,0.0.0.0/32),(IP-CIDR6,::/128)),REJECT
-
-  - DOMAIN,local.adguard.org,REJECT
-  - OR,((DOMAIN-KEYWORD,adobe),(DOMAIN-SUFFIX,adobe.com),(DOMAIN-SUFFIX,adobe.io)),REJECT
-
-  - RULE-SET,Private_domain,DIRECT
-  - DOMAIN,injections.adguard.org,Outside
-
-  - OR,((DOMAIN,media.micu.hk),(DOMAIN,emby.as174.de),(DOMAIN,cf.bili.rip),(DOMAIN,cdn.sexemby.com)),Emby
-
-  - RULE-SET,OpenAI,OpenAI
-  - RULE-SET,Microsoft,Microsoft
-  - RULE-SET,Apple_domain,Apple
-  - RULE-SET,Telegram,Telegram
-  - RULE-SET,Google_domain,Google
-  - RULE-SET,CN,DIRECT
-  - RULE-SET,Proxy,Outside
-
-  - RULE-SET,Apple_ip,Apple,no-resolve
-  - RULE-SET,Telegram_ip,Telegram,no-resolve
-  - RULE-SET,OpenAI_ip,OpenAI,no-resolve
-  - RULE-SET,Private_ip,DIRECT,no-resolve
-  - RULE-SET,CN_ip,DIRECT,no-resolve
-
-  - MATCH,Outside
-
-#############################################
-# Rule Providers
-#############################################
-rule-anchor:
-  ip: &ip {type: http, interval: 43200, behavior: ipcidr, format: mrs}
-  domain: &domain {type: http, interval: 43200, behavior: domain, format: mrs}
+  - {name: PROXY, type: select, proxies: [香港, 日本, 美国]}
+  - {name: Apple, type: select, proxies: [香港, 日本, 美国, DIRECT]}
+  - {name: Microsoft, type: select, proxies: [香港, 日本, 美国, DIRECT]}
+  - {name: Spotify, type: select, proxies: [香港]}
+  - {name: Google, type: select, proxies: [香港, 日本, 美国]}
+  - {name: Telegram, type: select, proxies: [香港, 日本, 美国]}
+  - {name: OpenAI, type: select, proxies: [美国], include-all-proxies: true, filter: *FilterCOX}
+  - {name: Emby, type: select, proxies: [香港, DIRECT]}
+  - {name: 香港, <<: *smart, filter: '(?i)(🇭🇰|香港|Hong[ _-]*Kong|(?:^|[^a-z0-9])HK(?:[0-9]+)?(?:[^a-z0-9]|$))'}
+  - {name: 日本, <<: *smart, filter: '(?i)(🇯🇵|日本|Japan|(?:^|[^a-z0-9])JP(?:[0-9]+)?(?:[^a-z0-9]|$))'}
+  - {name: 美国, <<: *smart, filter: '(?i)(🇺🇸|美国|美國|United[ _-]*States|(?:^|[^a-z0-9])(?:US|USA)(?:[0-9]+)?(?:[^a-z0-9]|$))', include-all-proxies: true, exclude-filter: *FilterCOX}
+  - {name: Relay, <<: *smart, filter: *FilterRelay, exclude-filter: *FilterExit}
 
 rule-providers:
-  Private_domain:
-    <<: *domain
-    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geosite/private.mrs"
+  lan-domain:
+    <<: *rule-domain
+    url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.mrs'
+    path: ./rule_provider/smart-lan-domain.mrs
+  lan-ip:
+    <<: *rule-ip
+    url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/private.mrs'
+    path: ./rule_provider/smart-lan-ip.mrs
+  apple:
+    <<: *rule-domain
+    url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple.mrs'
+    path: ./rule_provider/smart-apple.mrs
+  microsoft:
+    <<: *rule-domain
+    url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.mrs'
+    path: ./rule_provider/smart-microsoft.mrs
+  spotify:
+    <<: *rule-domain
+    url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/spotify.mrs'
+    path: ./rule_provider/smart-spotify.mrs
+  google:
+    <<: *rule-domain
+    url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google.mrs'
+    path: ./rule_provider/smart-google.mrs
+  telegram:
+    <<: *rule-domain
+    url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/telegram.mrs'
+    path: ./rule_provider/smart-telegram.mrs
+  openai:
+    <<: *rule-domain
+    url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/openai.mrs'
+    path: ./rule_provider/smart-openai.mrs
+  cn-domain:
+    <<: *rule-domain
+    url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs'
+    path: ./rule_provider/smart-cn-domain.mrs
+  cn-ip:
+    <<: *rule-ip
+    url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.mrs'
+    path: ./rule_provider/smart-cn-ip.mrs
+  proxy:
+    <<: *rule-domain
+    url: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.mrs'
+    path: ./rule_provider/smart-proxy.mrs
 
-  CN:
-    <<: *domain
-    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs"
-
-  Microsoft:
-    <<: *domain
-    url: "https://raw.githubusercontent.com/v2raye/mihomo-rule/refs/heads/main/rule/mihomo/Microsoft.mrs"
-
-  Apple_domain:
-    <<: *domain
-    url: "https://raw.githubusercontent.com/v2raye/mihomo-rule/refs/heads/main/rule/mihomo/Apple-domain.mrs"
-
-  OpenAI:
-    <<: *domain
-    url: "https://raw.githubusercontent.com/v2raye/mihomo-rule/refs/heads/main/rule/mihomo/ai-domain.mrs"
-
-  Telegram:
-    <<: *domain
-    url: "https://raw.githubusercontent.com/v2raye/mihomo-rule/refs/heads/main/rule/mihomo/Telegram-domain.mrs"
-
-  Proxy:
-    <<: *domain
-    url: "https://raw.githubusercontent.com/v2raye/mihomo-rule/refs/heads/main/rule/mihomo/Global.mrs"
-
-  Google_domain:
-    <<: *domain
-    url: "https://raw.githubusercontent.com/v2raye/mihomo-rule/refs/heads/main/rule/mihomo/YouTube.mrs"
-
-  Private_ip:
-    <<: *ip
-    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geoip/private.mrs"
-
-  CN_ip:
-    <<: *ip
-    url: "https://raw.githubusercontent.com/v2raye/mihomo-rule/refs/heads/main/rule/mihomo/cncidr.mrs"
-
-  Apple_ip:
-    <<: *ip
-    url: "https://raw.githubusercontent.com/v2raye/mihomo-rule/refs/heads/main/rule/mihomo/Apple-ipcidr.mrs"
-
-  Telegram_ip:
-    <<: *ip
-    url: "https://raw.githubusercontent.com/v2raye/mihomo-rule/refs/heads/main/rule/mihomo/Telegram-ipcidr.mrs"
-    
-  OpenAI_ip:
-    <<: *ip
-    url: "https://raw.githubusercontent.com/v2raye/mihomo-rule/refs/heads/main/rule/mihomo/ai-ipcidr.mrs"
+rules:
+  - RULE-SET,lan-domain,DIRECT
+  - OR,((DOMAIN-KEYWORD,adobe),(DOMAIN-SUFFIX,adobe.com),(DOMAIN-SUFFIX,adobe.io)),REJECT
+  - OR,((DOMAIN,emby.as174.de),(DOMAIN,cf.bili.rip),(DOMAIN,cdn.sexemby.com)),Emby
+  - RULE-SET,openai,OpenAI
+  - RULE-SET,apple,Apple
+  - RULE-SET,microsoft,Microsoft
+  - RULE-SET,spotify,Spotify
+  - RULE-SET,google,Google
+  - RULE-SET,telegram,Telegram
+  - RULE-SET,cn-domain,DIRECT
+  - RULE-SET,proxy,PROXY
+  - RULE-SET,lan-ip,DIRECT,no-resolve
+  - RULE-SET,cn-ip,DIRECT,no-resolve
+  - MATCH,PROXY
