@@ -1,0 +1,21 @@
+modified scripts compile
+route http initplayback ),ctier,(.+)
+route http initplayback ?|$))).+&oad
+route http ad-resource ),ctier,(.+)
+route http ad-resource ?|$))).+&oad
+route https initplayback ),ctier,(.+)
+route https initplayback ?|$))).+&oad
+route https ad-resource ),ctier,(.+)
+route https ad-resource ?|$))).+&oad
+all argument JSON valid
+malformed request passes through
+explicit missing-encryption branch unchanged
+UMP decoded filter shorts_shelf.eml true
+UMP decoded filter shorts_shelf.eml false
+UMP decoded filter shorts_pivot_item.eml true
+UMP decoded filter shorts_pivot_item.eml false
+UMP decoded filter video_card.eml true
+UMP decoded filter video_card.eml false
+missing-key recovery unchanged
+malformed UMP passes original response through
+Synthetic tests only; no iOS/live traffic verification.

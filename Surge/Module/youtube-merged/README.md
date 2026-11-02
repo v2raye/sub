@@ -36,3 +36,13 @@ https://raw.githubusercontent.com/v2raye/sub/main/Surge/Module/YouTube-Enhance-H
 上游署名：DivineEngine、app2smile、Maasea、ddgksf2013、gholts、Aioneas。Enhance 模块注明基于 Maasea Apache-2.0 代码；脚本内已有的第三方许可注释保持原样。本合并不替其他作者声明新的许可。
 
 修改日期：2026-11-02。response.js 修改了 EML Shorts 判断和 reel 条目过滤；其他三份脚本保持下载时内容。
+
+## 2026-11-02 兼容性修正
+
+- oad 空响应规则及 ctier 302 重写均排除 initplayback，减少与播放初始化处理交叉。
+- request.js 未预料的解析异常记录日志并放行原始请求；明确的广告/密钥判定分支不变。
+- ump.js 未预料的解析/压缩异常记录日志并放行原始响应；缺少密钥、已识别密钥失配及 HMAC 校验失败的恢复路径仍保留，未在没有真机证据时改写。
+- UMP 解密后的 Player/Next 内容应用与 API 响应一致的 Shorts EML 过滤，并接入 block_shorts 参数。原有 pivot 排除与入口过滤不变。
+- 这仅补全已识别 EML 结构的处理，不保证未知 YouTube 版本中所有 Shorts 均被清除，也未粗暴屏蔽所有 reel 接口。
+
+新增验证使用合成数据及模拟 Surge 环境，尚无 iOS 真机/实时流量验证。
