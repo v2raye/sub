@@ -1,6 +1,6 @@
 # Adblock Surge 修正版
 
-模块入口：https://raw.githubusercontent.com/v2raye/sub/main/Adblock.sgmodule
+模块入口：https://raw.githubusercontent.com/v2raye/sub/main/Surge/Module/Adblock.sgmodule
 
 启用模块、URL Rewrite、脚本和 MITM，并安装及信任 Surge CA。停用旧版本重复模块。适用范围仍为原模块涉及的两个站点，与 YouTube 模块的域名不重叠。
 
