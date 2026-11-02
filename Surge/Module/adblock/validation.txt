@@ -1,0 +1,17 @@
+head attributes preserved
+three complete script tags
+only CSP header removed
+injection idempotent
+non-target/non-HTML/error/body guard 4
+non-target/non-HTML/error/body guard 5
+non-target/non-HTML/error/body guard 6
+non-target/non-HTML/error/body guard 7
+non-target/non-HTML/error/body guard 8
+CDN ad script matched
+unrelated host excluded
+page matched
+excluded api/items
+excluded account/login
+excluded file.mp4
+excluded app.js?v=1
+Synthetic checks only; no live page or iOS testing.
