@@ -1,17 +1,20 @@
-head attributes preserved
-three complete script tags
-only CSP header removed
-injection idempotent
-non-target/non-HTML/error/body guard 4
-non-target/non-HTML/error/body guard 5
-non-target/non-HTML/error/body guard 6
-non-target/non-HTML/error/body guard 7
-non-target/non-HTML/error/body guard 8
-CDN ad script matched
-unrelated host excluded
-page matched
-excluded api/items
-excluded account/login
-excluded file.mp4
-excluded app.js?v=1
-Synthetic checks only; no live page or iOS testing.
+preserve head www.xvideos.com
+preserve video www.xvideos.com
+no injected scripts/resources www.xvideos.com
+one inline style www.xvideos.com
+idempotent www.xvideos.com
+preserve head www.pornhub.com
+preserve video www.pornhub.com
+no injected scripts/resources www.pornhub.com
+one inline style www.pornhub.com
+idempotent www.pornhub.com
+preserve head cn.pornhub.com
+preserve video cn.pornhub.com
+no injected scripts/resources cn.pornhub.com
+one inline style cn.pornhub.com
+idempotent cn.pornhub.com
+other host bypass
+JSON bypass
+error bypass
+no networking, storage or browser data APIs
+Synthetic checks only; no live browser/iOS testing.

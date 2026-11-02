@@ -1,15 +1,15 @@
-# Adblock Surge 修正版
+# 纯去广告版
 
-模块入口：https://raw.githubusercontent.com/v2raye/sub/main/Surge/Module/Adblock.sgmodule
+安装地址：https://raw.githubusercontent.com/v2raye/sub/main/Surge/Module/Adblock.sgmodule
 
-启用模块、URL Rewrite、脚本和 MITM，并安装及信任 Surge CA。停用旧版本重复模块。适用范围仍为原模块涉及的两个站点，与 YouTube 模块的域名不重叠。
+仅保留两个站点的已知广告请求拦截和精简的广告 CSS 隐藏。response.js 在 Surge 内运行，只插入内联样式，不向网页插入任何 JavaScript、外部 CSS 或外部链接。
 
-根据用户提供的 limbopro HTML 注入脚本做站点限定适配：使用有效 [Script] 区段，正文上限 2 MiB；保留 head 属性；只处理成功的 text/html 响应；异常放行且重复处理不二次注入。
+已移除 Adblock4limbo.user.js、Adblock4limbo.function.js、elementBlocker.user.js 及所有递归依赖，因此不再带入其导航、反馈、调试面板、使用统计、存储操作、翻译、下载、工具箱或外部脚本加载功能。无网页 URL/标题/UA 的反馈采集逻辑。
 
-保留广告请求拦截，修复 ppsuma 文件名正则并限定到目标站点及原有 CDN；取消默认 www→cn 重定向；移除没有规则使用的 xvideostream.net MITM。
+广告 CSS 参考 limbopro/Adblock4limbo 的站点选择器，仅选取明确的广告元素；不隐藏年龄验证、Cookie 提示、正常图片或通用播放器容器。作者来源：https://github.com/limbopro/Adblock4limbo 。
 
-网页端继续加载上游三个真实存在的组件及对应站点 CSS，使用固定提交的 jsDelivr 地址。未加入上游缺失的 autoAdDetector.js、isAgent.js、手工 CSS，也没有启用与广告过滤无关的隐私锁屏。未对上游浏览器组件内部全部功能做审计。
+范围：普通网站/浏览器的已知广告请求和广告元素，不保证全部视频广告或弹窗均被拦截，不修改视频播放器内部配置。移除上游工具脚本也意味着其额外动态去广告功能不再提供。仅在目标 HTML 响应移除 CSP 响应头以允许内联样式；不修改其他安全头，页面自己的 CSP meta 可能仍会限制样式生效。
 
-仅在目标站点 HTML 修改时删除 Content-Security-Policy 响应头以允许外部注入；不额外删除原脚本移除的 X-Frame-Options、Referrer-Policy 等头。HTML 内的 CSP meta 仍可能限制注入，jsDelivr 可达性和站点更新也会影响实际效果。未验证网站真实广告消除率，不能保证所有视频广告或弹窗都被阻止。
+使用：启用模块、重写、脚本和 MITM，安装并信任证书。更新模块及脚本缓存后重新加载网页。已有标签页中运行的旧脚本需关闭页面后重新打开才能清除；旧脚本写入的浏览器本地数据不会由本版本自动删除。
 
-已做模拟响应与规则测试，未做真机验证。上游作者 limbopro：https://github.com/limbopro/Adblock4limbo 。
+已完成静态及模拟响应测试，尚未真机验证。
