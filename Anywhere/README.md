@@ -4,16 +4,10 @@
 
 ## 安装
 
-主模块（完整 API + UMP）：
-https://raw.githubusercontent.com/v2raye/sub/main/Anywhere/YouTube-Enhance-HideShorts.amod
+单一主模块（完整 API + UMP）：
+https://raw.githubusercontent.com/v2raye/sub/main/Anywhere/YouTube.mod
 
-旧 UMP 实验版地址继续保留，现承载相同的完整引擎：
-https://raw.githubusercontent.com/v2raye/sub/main/Anywhere/YouTube-Enhance-HideShorts-UMP-Experimental.amod
-
-播放兼容性排查用 NoUMP（不挂载 UMP 响应缓冲规则，功能不完整）：
-https://raw.githubusercontent.com/v2raye/sub/main/Anywhere/YouTube-Enhance-HideShorts-NoUMP.amod
-
-只启用一个版本。刷新订阅、确认模块/MITM 开关及证书信任，重连后重启 YouTube。参数覆盖会被 Anywhere 保留；若之前关闭了 auto_hd、enable_ump 或 diagnostics，请检查实际值。
+旧文件已改名，原订阅需要更换地址。只启用这一份模块。确认模块/MITM 开关及证书信任，重连后重启 YouTube。auto_hd、enable_ump 等参数仍保留。
 
 ## 移植范围
 
@@ -29,7 +23,7 @@ https://raw.githubusercontent.com/v2raye/sub/main/Anywhere/YouTube-Enhance-HideS
 1. Anywhere 的 ctx.headers 不可由脚本修改，无法按缓存状态条件删除请求头。模块用原生 header-delete 在每次 log_event 请求移除 x-youtube-hot-hash-data，尝试获取完整配置；比 Surge 的“仅缺少密钥时删除”更频繁，可能增加配置返回开销，也不保证服务端一定返回密钥。
 2. Anywhere 的 MITM hostname 是后缀，无法表达 Surge 的 -redirector*.googlevideo.com 排除；googlevideo.com 会包含 redirector。GET/HEAD 初始化不会被请求引擎改写。
 3. 响应脚本只能改正文，源 UMP 错误分支的状态/响应头不能原样修改；正文行为保留。原生请求拒绝以合成响应表达，非完全相同的断连方式。
-4. Anywhere 缓冲脚本和原生压缩 codec 有 4 MiB 限制。移除了旧转换版额外的 256 KiB UMP 跳过条件，但无法消除客户端缓冲上限。关闭 enable_ump 仍会先匹配缓冲；要避开 UMP 缓冲必须改用 NoUMP 文件。
+4. Anywhere 缓冲脚本和原生压缩 codec 有 4 MiB 限制。移除了旧转换版额外的 256 KiB UMP 跳过条件，但无法消除客户端缓冲上限。关闭 enable_ump 仍会先匹配缓冲；此主模块不提供避免 UMP 缓冲的独立版本。
 5. Anywhere 响应 ctx.headers 不含原始请求 UA，无法完全复刻源脚本的自动 Music 识别。client_flavor 默认 youtube；仅用于 YouTube Music 时选择 youtubeMusic。两种 App 混用时不能声称自动分类等价。
 6. 原引擎使用的文本/base64/压缩 API 已换为 Anywhere.codec；坏 UTF-8 的失败语义可能与 Surge fatal TextDecoder 不同，未声称对损坏协议完全等价。
 
@@ -37,7 +31,7 @@ https://raw.githubusercontent.com/v2raye/sub/main/Anywhere/YouTube-Enhance-HideS
 
 ## 日志及隐私
 
-诊断开关 diagnostics 默认 true；搜索 [YouTube/diag r3]。新增诊断仅包含接口路径（无查询参数）、阶段、状态、大小、正文是否返回和密钥缓存是否可用，不输出密钥或正文，不添加网络上报。排查完成后关闭。
+已移除诊断日志代码及 diagnostics 开关，不再输出接口命中、大小、密钥缓存状态或处理结果。保留源引擎的异常错误日志，不新增网络上报。
 
 ## 源码和测试
 

@@ -4,9 +4,6 @@ function ytContext(ctx, kind) {
     const v = Anywhere.params.get(name);
     return v == null || v === '' ? fallback : /^(true|1|yes|on)$/i.test(String(v));
   };
-  const debug = boolean('diagnostics', true);
-  const path = String(ctx.url || '').split('?')[0].replace(/^https?:\/\/[^/]+/, '');
-  const trace = message => { if (debug) Anywhere.log.warning('[YouTube/diag r3] '+message); };
   const log = message => Anywhere.log.warning('[YouTube] '+String(message));
   const headers = {};
   for (const [name,value] of ctx.headers || []) headers[name] = value;
@@ -32,16 +29,9 @@ function ytContext(ctx, kind) {
     if(result && result.response && ctx.phase === 'request') {
       const r=result.response;
       Anywhere.respond({status:r.status || 200,headers:Array.isArray(r.headers)?r.headers:Object.entries(r.headers || {}),body:r.body || new Uint8Array(0)});
-      trace(kind+' synthetic response '+path);return;
+      return;
     }
-    if(result && result.body !== undefined) {
-      ctx.body=result.body;trace(kind+' body returned '+path+' bytes='+ctx.body.length);
-    } else trace(kind+' unchanged '+path);
-    if(kind === 'key') {
-      try { const c=JSON.parse(readStore('YouTubeConfig') || '{}');trace('key cache available='+!!(c.youtube?.clientKey || c.youtubeMusic?.clientKey)); }
-      catch(_) {trace('key cache unavailable');}
-    }
+    if(result && result.body !== undefined)ctx.body=result.body;
   };
-  trace(kind+' entered '+path+' phase='+ctx.phase+' status='+ctx.status+' bytes='+(ctx.body?.length || 0));
-  return {request,response,argument:JSON.stringify(opts),readStore,writeStore,finish,log,boolean,trace};
+  return {request,response,argument:JSON.stringify(opts),readStore,writeStore,finish,log,boolean};
 }

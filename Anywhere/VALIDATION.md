@@ -5,5 +5,5 @@
 - Native config key capture and persistent key formats verified.
 - UMP tests cover authenticated AES-CTR plaintext and gzip envelopes containing both Player and Next; HMAC independently verified, decrypted ads/Shorts absent, unknown Player field retained. Uncompressed output compared byte-for-byte with reference.
 - Module CSV/regex/Base64 and native hash-refresh header-delete declaration checked separately.
-- Main and legacy UMP files now both contain the full UMP engine. NoUMP is separately labelled incomplete.
+- Only YouTube.mod is distributed; diagnostic trace calls and parameter removed, full protocol engines retained.
 - No claim of successful iOS real-device execution. Native buffer limits, immutable response heads, suffix-only MITM, and unconditional key-refresh header deletion remain platform differences; see README.

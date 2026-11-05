@@ -107,7 +107,7 @@ async function main(){
   checks.push('UMP Player + Next modification '+(compressed?'gzip':'uncompressed reference parity'));
  }
  await native('request',ctx('https://www.youtube.com/pagead/adview','request',[]));checks.push('native ad endpoints execute');
- assert(warnings.some(s=>s.includes('r3')));checks.push('native diagnostics execute without TextEncoder/browser globals');
+ assert(!fs.readFileSync(path.join(ROOT,'dist/youtube-response.js'),'utf8').includes('[YouTube/diag'));checks.push('diagnostic output removed; native execution needs no browser globals');
  console.log('PASS',checks.length,'full-port checks');console.log(checks.join('\n'));return checks;
 }
 module.exports=main;

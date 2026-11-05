@@ -7,9 +7,6 @@ function ytContext(ctx, kind) {
     const v = Anywhere.params.get(name);
     return v == null || v === '' ? fallback : /^(true|1|yes|on)$/i.test(String(v));
   };
-  const debug = boolean('diagnostics', true);
-  const path = String(ctx.url || '').split('?')[0].replace(/^https?:\/\/[^/]+/, '');
-  const trace = message => { if (debug) Anywhere.log.warning('[YouTube/diag r3] '+message); };
   const log = message => Anywhere.log.warning('[YouTube] '+String(message));
   const headers = {};
   for (const [name,value] of ctx.headers || []) headers[name] = value;
@@ -35,18 +32,11 @@ function ytContext(ctx, kind) {
     if(result && result.response && ctx.phase === 'request') {
       const r=result.response;
       Anywhere.respond({status:r.status || 200,headers:Array.isArray(r.headers)?r.headers:Object.entries(r.headers || {}),body:r.body || new Uint8Array(0)});
-      trace(kind+' synthetic response '+path);return;
+      return;
     }
-    if(result && result.body !== undefined) {
-      ctx.body=result.body;trace(kind+' body returned '+path+' bytes='+ctx.body.length);
-    } else trace(kind+' unchanged '+path);
-    if(kind === 'key') {
-      try { const c=JSON.parse(readStore('YouTubeConfig') || '{}');trace('key cache available='+!!(c.youtube?.clientKey || c.youtubeMusic?.clientKey)); }
-      catch(_) {trace('key cache unavailable');}
-    }
+    if(result && result.body !== undefined)ctx.body=result.body;
   };
-  trace(kind+' entered '+path+' phase='+ctx.phase+' status='+ctx.status+' bytes='+(ctx.body?.length || 0));
-  return {request,response,argument:JSON.stringify(opts),readStore,writeStore,finish,log,boolean,trace};
+  return {request,response,argument:JSON.stringify(opts),readStore,writeStore,finish,log,boolean};
 }
 '''
 (root/'scripts/core.js').write_text(text)
@@ -66,9 +56,9 @@ for n in ['request','response','key','ump']:
  */
 {'async ' if n=='ump' else ''}function process(ctx) {{
   if(ctx.phase !== '{phase}')return;
-  const {{request,response,argument,readStore,writeStore,finish,log,boolean,trace}}=ytContext(ctx,'{n}');
+  const {{request,response,argument,readStore,writeStore,finish,log,boolean}}=ytContext(ctx,'{n}');
 '''
- if n=='ump':pre+="  if(!boolean('enable_ump',true)){trace('UMP disabled');return;}\n"
+ if n=='ump':pre+="  if(!boolean('enable_ump',true)){return;}\n"
  if n=='request':
   pre+=r'''
   // Map Local / URL reject equivalents run before the protocol request engine.
@@ -76,12 +66,12 @@ for n in ['request','response','key','ump']:
   if (/^https?:\/\/(www|s)\.youtube\.com\//.test(ctx.url||'') &&
       (/^\/(?:pagead|ptracking)(?:\/|$)/.test(path) || /^\/api\/stats\/ads(?:\/|$)/.test(path) ||
        path==='/api/stats/qoe'&&/[?&]adcontext/.test(ctx.url))) {
-    Anywhere.respond({status:200,body:' '});trace('advertising endpoint blocked');return;
+    Anywhere.respond({status:200,body:' '});return;
   }
   if (/^https?:\/\/[\w-]+\.googlevideo\.com\//.test(ctx.url||'') &&
       /[?&]oad/.test(ctx.url||'') && !/^\/(?:initplayback|videoplayback)(?:$|\?)/.test(path) &&
       !/^\/dclk_video_ads/.test(path)) {
-    Anywhere.respond({status:200,body:' '});trace('oad endpoint blocked');return;
+    Anywhere.respond({status:200,body:' '});return;
   }
 '''
  (root/'scripts'/f'{n}.js').write_text(pre+s+'\n}\n')
