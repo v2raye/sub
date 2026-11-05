@@ -9,3 +9,5 @@
 - Not tested on Anywhere iOS Network Extension nor live YouTube traffic.
 - No assurance of compatibility with particular YouTube versions, playlists, accounts or Premium entitlements.
 - UMP experimental path has a risk of triggering Anywhere 4 MiB buffering behavior even with `enable_ump=false`; standard module leaves UMP response rule out.
+
+- r2 adds switchable match/skip diagnostics (enabled by default in both diagnostic builds); this is not a claim of real-device compatibility.

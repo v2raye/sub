@@ -46,8 +46,12 @@ const AP = (() => {
   const path=ctx=>{const m=/^https?:\/\/[^/?#]+([^?#]*)/.exec(ctx.url||'');return m?(m[1]||'/'):'';};
   const media=ctx=>ctx.headers.some(([name,value])=>name.toLowerCase()==='content-type'&&/application\/vnd\.yt-ump/i.test(value));
   const safe=(fn,msg)=>{try{return fn();}catch(e){log(msg+': '+e);return null;}};
+  const trace = message => {
+    try { if (bool('diagnostics', false)) Anywhere.log.warning('[YouTube/diag r2] '+message); }
+    catch (_) { /* Diagnostics must never prevent passthrough. */ }
+  };
   const kv=(f,n)=>[...fields(f,n,2)];
-  return {pb,utf8,b64,decode,encode,field,fields,sub,val,raw,str,bool,log,set,drop,eq,mapNested,view,config,saveConfig,client,u8,toText,path,media,safe,bytes,kv,LIMIT_DEPTH};
+  return {pb,utf8,b64,decode,encode,field,fields,sub,val,raw,str,bool,log,set,drop,eq,mapNested,view,config,saveConfig,client,u8,toText,path,media,safe,bytes,kv,LIMIT_DEPTH,trace};
 })();
 
 /* Anywhere-native: request responses, telemetry ads and optional video hints. */
@@ -55,6 +59,7 @@ function process(ctx) {
   if (ctx.phase !== 'request') return;
   const url=ctx.url||'';
   const path=AP.path(ctx);
+  if(path!=='/videoplayback')AP.trace('request '+path+' bytes='+(ctx.body?.length||0)+' protobuf='+!!Anywhere.codec.protobuf);
   const empty = type => {Anywhere.respond({status:200,headers:[['Content-Type',type]],body:new Uint8Array(0)});};
   try {
     if (path.endsWith('/player/ad_break')) {empty('application/x-protobuf'); return;}

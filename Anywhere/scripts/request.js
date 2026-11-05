@@ -3,6 +3,7 @@ function process(ctx) {
   if (ctx.phase !== 'request') return;
   const url=ctx.url||'';
   const path=AP.path(ctx);
+  if(path!=='/videoplayback')AP.trace('request '+path+' bytes='+(ctx.body?.length||0)+' protobuf='+!!Anywhere.codec.protobuf);
   const empty = type => {Anywhere.respond({status:200,headers:[['Content-Type',type]],body:new Uint8Array(0)});};
   try {
     if (path.endsWith('/player/ad_break')) {empty('application/x-protobuf'); return;}

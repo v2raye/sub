@@ -66,6 +66,7 @@ lines = [
     "[Parameter]",
 ]
 for key, label, default, description in [
+    ("diagnostics", "Diagnostic logging", "true", "Log matched endpoints and skip reasons; no query strings or key values"),
     ("block_ads", "Block ads", "true", "Remove known ad placements and synthetic ad endpoints"),
     ("block_shorts", "Hide Shorts", "true", "Hide identified Shorts tabs, cards and ad reel entries"),
     ("block_upload", "Hide uploads", "true", "Hide upload guide entries"),
@@ -82,10 +83,10 @@ TARGET.write_text(header + "\n".join(lines) + "\n", encoding="utf-8")
 # UMP is deliberately in a separately importable module variant. A buffered
 # script rule can break chunked video streams beyond Anywhere's hard 4 MiB cap,
 # even if the JS function immediately returns. Do not install both variants.
-experimental = [x for x in lines if not x.startswith('[Parameter]')]
+experimental = lines[:lines.index('[Parameter]')]
 experimental.append(f"1, 100, {ump_pattern}, {SCRIPTS['ump']}")
 experimental.append('[Parameter]')
-experimental.extend(x for x in lines[lines.index('[Parameter]')+1:])
+experimental.extend(lines[lines.index('[Parameter]')+1:])
 experimental.append('1, 0, enable_ump, UMP response processing, Experimental encrypted UMP editing up to 256 KiB., true, "[true, false]"')
 UMP_TARGET.write_text(header.replace('YouTube Enhance + Hide Shorts (Anywhere)\n', 'YouTube Enhance + Hide Shorts (Anywhere UMP)\n').replace('UMP streaming is intentionally excluded', 'UMP streaming editing is experimental and may interrupt playback') + "\n".join(experimental) + "\n", encoding="utf-8")
 

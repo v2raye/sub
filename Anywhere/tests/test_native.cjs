@@ -97,3 +97,13 @@ function readuv(buf,at){let c=buf[at++],l=5;for(let i=1;i<5;i++)if(!(c&(128>>(i-
 }
 console.log('PASS: request, key extraction, player, Shorts, encrypted UMP AES-CTR/HMAC test');
 console.log('Warnings:',warnings);
+
+// r2 diagnostics: a missing UMP key must be visible, without query values.
+params.set('diagnostics','true');params.set('enable_ump','true');store.clear();warnings.length=0;
+const diagnostic=ctx('https://r1---sn.googlevideo.com/initplayback?secret=HIDDEN','response',[1,2]);
+diagnostic.headers=[['Content-Type','application/vnd.yt-ump']];run('ump',diagnostic);
+assert(warnings.some(s=>s.includes('clientKey missing')));
+const diagRequest=ctx('https://youtubei.googleapis.com/youtubei/v1/player/ad_break?secret=HIDDEN','request');run('request',diagRequest);
+assert(warnings.some(s=>s.includes('request /youtubei/v1/player/ad_break')));
+assert(warnings.every(s=>!s.includes('HIDDEN')));
+console.log('PASS: r2 diagnostic entry and skip logs exclude query values');

@@ -4,6 +4,7 @@
  * Unknown fields are preserved by Anywhere.codec.protobuf (schema-free wire codec).
  */
 function process(ctx) {
+  AP.trace('response '+AP.path(ctx)+' phase='+ctx.phase+' status='+ctx.status+' bytes='+(ctx.body?.length||0));
   if(ctx.phase!=='response'||ctx.status!==200||!ctx.body.length)return;
   const path=AP.path(ctx);
   if(!path.startsWith('/youtubei/v1/'))return;
@@ -142,6 +143,7 @@ function process(ctx) {
   }
   try {
     const root=AP.decode(ctx.body);
-    if(response(root))ctx.body=AP.encode(root);
+    if(response(root)){ctx.body=AP.encode(root);AP.trace('response '+endpoint+' changed');}
+    else AP.trace('response '+endpoint+' unchanged: no supported fields edited');
   } catch(e){AP.log('response passthrough '+endpoint+': '+e);}
 }

@@ -98,3 +98,16 @@ node tests/test_native.cjs
 - [Anywhere Module](https://github.com/NodePassProject/Anywhere/blob/main/Documentations/Module.md)
 - [Anywhere MITM](https://github.com/NodePassProject/Anywhere/blob/main/Documentations/MITM.md)
 - [Anywhere Routing](https://github.com/NodePassProject/Anywhere/blob/main/Documentations/Routing.md)
+
+## 真机排查版 r2
+
+两版新增 diagnostics 参数，此次排查版均默认 true。更新订阅并重连后播放视频，在 Anywhere 日志中搜索 `[YouTube/diag r2]`。
+
+- 完全没有命中日志：先检查模块/MITM 开关、证书信任、是否有其他规则抢先命中、流量是否走 HTTP/3。源码已下载不能证明规则实际运行。
+- `UMP skip: clientKey missing`：key 提取路径尚未取得解密密钥。
+- `body exceeds 256 KiB`：触发保守安全限制。不要为了命中而直接取消上限，客户端仍有全局缓冲限制。
+- `HMAC/key mismatch`：密钥或实际响应结构不匹配。
+- `envelopes=0`：未识别出预期的加密 UMP 帧。
+- `changed=false`：本次没有改动已支持的 Player 广告字段，不代表实际响应没有广告。
+
+新增诊断只记录阶段、接口路径（无查询参数）、状态、大小和判断结果，不输出密钥及响应正文。它不新增网络上报。实验版目前仍未实现 UMP Next Shorts 过滤，原有 Shorts 过滤也有已知漏删；此版本用于定位，不能当作真机问题已经修复。排查完成后关闭 diagnostics。

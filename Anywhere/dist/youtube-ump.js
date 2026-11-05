@@ -46,8 +46,12 @@ const AP = (() => {
   const path=ctx=>{const m=/^https?:\/\/[^/?#]+([^?#]*)/.exec(ctx.url||'');return m?(m[1]||'/'):'';};
   const media=ctx=>ctx.headers.some(([name,value])=>name.toLowerCase()==='content-type'&&/application\/vnd\.yt-ump/i.test(value));
   const safe=(fn,msg)=>{try{return fn();}catch(e){log(msg+': '+e);return null;}};
+  const trace = message => {
+    try { if (bool('diagnostics', false)) Anywhere.log.warning('[YouTube/diag r2] '+message); }
+    catch (_) { /* Diagnostics must never prevent passthrough. */ }
+  };
   const kv=(f,n)=>[...fields(f,n,2)];
-  return {pb,utf8,b64,decode,encode,field,fields,sub,val,raw,str,bool,log,set,drop,eq,mapNested,view,config,saveConfig,client,u8,toText,path,media,safe,bytes,kv,LIMIT_DEPTH};
+  return {pb,utf8,b64,decode,encode,field,fields,sub,val,raw,str,bool,log,set,drop,eq,mapNested,view,config,saveConfig,client,u8,toText,path,media,safe,bytes,kv,LIMIT_DEPTH,trace};
 })();
 
 /*
@@ -58,16 +62,18 @@ const AP = (() => {
  * This is deliberately bounded to protect the shared JavaScript runtime.
  */
 function process(ctx) {
+  AP.trace('UMP entered phase='+ctx.phase+' status='+ctx.status+' bytes='+(ctx.body?.length||0));
   if(ctx.phase!=='response'||ctx.status!==200||!ctx.body.length)return;
-  if(!AP.media(ctx)||!AP.bool('enable_ump',false))return;
+  if(!AP.media(ctx)){AP.trace('UMP skip: content-type not yt-ump');return;}
+  if(!AP.bool('enable_ump',false)){AP.trace('UMP skip: enable_ump is off');return;}
   try{
     const MAX=256*1024;
-    if(ctx.body.length>MAX)return;
+    if(ctx.body.length>MAX){AP.trace('UMP skip: body exceeds 256 KiB safety limit');return;}
     const keyConfig=AP.config()[AP.client(ctx)];
-    if(!keyConfig?.clientKey)return;
+    if(!keyConfig?.clientKey){AP.trace('UMP skip: clientKey missing; check config/log_event key logs');return;}
     const keys=[keyConfig,...(keyConfig.previous||[])].slice(0,4)
       .map(item=>AP.b64.decode(item.clientKey||'')).filter(x=>x.length>=16);
-    if(!keys.length)return;
+    if(!keys.length){AP.trace('UMP skip: no valid decoded clientKey');return;}
     const bytes=x=>x instanceof Uint8Array?x:new Uint8Array(x);
     const cat=(...xs)=>{const out=new Uint8Array(xs.reduce((n,x)=>n+x.length,0));let offset=0;for(const x of xs){out.set(x,offset);offset+=x.length;}return out;};
     const constantEq=(a,b)=>{if(a.length!==b.length)return false;let r=0;for(let i=0;i<a.length;i++)r|=a[i]^b[i];return r===0;};
@@ -161,7 +167,7 @@ function process(ctx) {
       return changed?AP.encode(root):buf;
     }
     function editEnvelope(input){
-      const env=decodeEnvelope(input);if(!env)return input;
+      const env=decodeEnvelope(input);if(!env){AP.trace('UMP envelope skipped: unrecognized fields or HMAC/key mismatch');return input;}
       const compressed=env.gzip===1 || env.plain[0]===0x1f&&env.plain[1]===0x8b;
       if(env.gzip===1&&!compressed)return input;
       let original=compressed?Anywhere.codec.gzip.decode(env.plain):env.plain;
@@ -189,18 +195,19 @@ function process(ctx) {
       for(let i=1,bits=size===5?0:8-size;i<size;i++,bits+=8)out[i]=Math.floor(x/2**bits)&255;
       return out;
     }
-    let pos=0,isEncrypted=false,changed=false;const chunks=[];
+    let pos=0,isEncrypted=false,changed=false,envelopeCount=0;const chunks=[];
     while(pos<ctx.body.length){
       const start=pos,t=readVar(ctx.body,pos);pos=t.pos;const l=readVar(ctx.body,pos);pos=l.pos;
       if(l.value>ctx.body.length-pos)throw Error('bad UMP length');
       const data=ctx.body.subarray(pos,pos+l.value);pos+=l.value;
       if(t.value===10){const marker=AP.decode(data);isEncrypted=AP.val(marker,1)===25;}
       let updated=data;
-      if(t.value===11&&isEncrypted){updated=editEnvelope(data);isEncrypted=false;}
+      if(t.value===11&&isEncrypted){envelopeCount++;updated=editEnvelope(data);isEncrypted=false;}
       if(updated!==data&&!AP.eq(updated,data)){
         chunks.push(writeVar(t.value),writeVar(updated.length),updated);changed=true;
       }else chunks.push(ctx.body.subarray(start,pos));
     }
     if(changed)ctx.body=cat(...chunks);
+    AP.trace('UMP finished envelopes='+envelopeCount+' changed='+changed);
   }catch(e){AP.log('UMP passthrough: '+e);}
 }
