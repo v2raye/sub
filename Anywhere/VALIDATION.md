@@ -7,3 +7,12 @@
 - Module CSV/regex/Base64 and native hash-refresh header-delete declaration checked separately.
 - Only YouTube.mod is distributed; diagnostic trace calls and parameter removed, full protocol engines retained.
 - No claim of successful iOS real-device execution. Native buffer limits, immutable response heads, suffix-only MITM, and unconditional key-refresh header deletion remain platform differences; see README.
+
+## Native hardening validation
+
+- Redirector-prefixed googlevideo hosts are excluded from script gates and short-circuited before native API access; ordinary CDN initplayback still matches request and response scripts.
+- Missing key, bad HMAC, and malformed protobuf preserve original response bytes. Bad-key cache cleanup remains in place. Explicit request ad blocking still executes.
+- Strict UTF-8 covers valid ASCII/multibyte input and malformed continuation, truncation, overlong, surrogate and out-of-range cases.
+- Base64 accepts padded/unpadded and URL-safe inputs; rejects invalid characters, lengths, internal/excess padding and unexpected native output lengths.
+- Transformed output over 4 MiB preserves the original response; the client's pre-script buffer cap is unchanged.
+- 23 protocol/negative-case checks and module CSV/Base64/regex checks passed using native API mocks. No new diagnostic logs; existing exception logging retained. No iOS device run for this patch.

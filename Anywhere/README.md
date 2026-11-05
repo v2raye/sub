@@ -21,11 +21,11 @@ https://raw.githubusercontent.com/v2raye/sub/main/Anywhere/YouTube.mod
 ## 已确认的平台差异
 
 1. Anywhere 的 ctx.headers 不可由脚本修改，无法按缓存状态条件删除请求头。模块用原生 header-delete 在每次 log_event 请求移除 x-youtube-hot-hash-data，尝试获取完整配置；比 Surge 的“仅缺少密钥时删除”更频繁，可能增加配置返回开销，也不保证服务端一定返回密钥。
-2. Anywhere 的 MITM hostname 是后缀，无法表达 Surge 的 -redirector*.googlevideo.com 排除；googlevideo.com 会包含 redirector。GET/HEAD 初始化不会被请求引擎改写。
-3. 响应脚本只能改正文，源 UMP 错误分支的状态/响应头不能原样修改；正文行为保留。原生请求拒绝以合成响应表达，非完全相同的断连方式。
+2. Anywhere 的 MITM hostname 是后缀，无法表达 Surge 的 -redirector*.googlevideo.com 解密排除。已在请求脚本、UMP 响应和 ctier 规则中排除 redirector 前缀主机，且四个脚本入口均提前跳过；但 TLS 解密本身仍可能发生。
+3. 响应脚本只能改正文，不再沿用源 UMP 错误分支的空正文。缺少密钥、认证失败、解析/解压失败等错误返回原响应快照；密钥失配清理仍保留，以便后续刷新。明确识别的广告请求仍按请求阶段规则拦截。原生请求拒绝以合成响应表达，非完全相同的断连方式。
 4. Anywhere 缓冲脚本和原生压缩 codec 有 4 MiB 限制。移除了旧转换版额外的 256 KiB UMP 跳过条件，但无法消除客户端缓冲上限。关闭 enable_ump 仍会先匹配缓冲；此主模块不提供避免 UMP 缓冲的独立版本。
 5. Anywhere 响应 ctx.headers 不含原始请求 UA，无法完全复刻源脚本的自动 Music 识别。client_flavor 默认 youtube；仅用于 YouTube Music 时选择 youtubeMusic。两种 App 混用时不能声称自动分类等价。
-6. 原引擎使用的文本/base64/压缩 API 已换为 Anywhere.codec；坏 UTF-8 的失败语义可能与 Surge fatal TextDecoder 不同，未声称对损坏协议完全等价。
+6. 文本解码前新增严格 UTF-8 检查，拒绝截断、非法续字节、过长编码、代理项和超出 Unicode 范围的码点。Base64 校验字符、长度、填充和解码结果长度，兼容 YouTube 的无填充 Base64URL；保留原引擎的宽松尾部填充位语义，避免破坏其格式兼容处理。压缩仍使用 Anywhere 原生 codec，受客户端 4 MiB 限制。
 
 因此“完整协议移植”指移植源脚本现有处理范围，并非承诺平台完全等价或 YouTube 所有版本均可去广告。Shorts 的新结构仍可能漏网；没有解锁 Premium 权益。
 
@@ -42,3 +42,9 @@ upstream/ 保留 source snapshot 与署名；port.py 把运行入口和平台 AP
 验证：node tests/test_native.cjs
 
 测试用同一份二进制输入对照源 Surge 引擎和移植引擎，包括曾复现的 Shorts/Guide/嵌套 Player 漏处理，以及 UMP 加密、认证、gzip 和未知字段保留。测试使用原生 API 模拟，不等于 Anywhere iOS 真机测试。还需用户真机验证密钥是否返回以及实际 YouTube 版本的效果。
+
+## 本次三项兼容性修正
+
+只修改 redirector 规则门控、异常响应恢复与编码校验，名称/分类/开关和正常广告/Shorts 协议逻辑保持不变。增加了响应正文快照（额外内存最多约等于一次缓冲响应大小），以便异常后返回未修改数据；转换结果若超过 4 MiB 也保留原响应。这无法避免脚本执行前的客户端缓冲限制。异常放行可能保留该次响应里的广告，以优先保持原始播放数据。
+
+验证：node tests/test_native.cjs（23 项协议和异常场景）；python3 tests/test_module.py（模块内嵌及规则匹配）。本次补丁尚未真机验证。

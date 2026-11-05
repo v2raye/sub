@@ -104,10 +104,45 @@ async function main(){
   let decoded=crypto.createDecipheriv('aes-128-ctr',key.subarray(0,16),iv).update(editedCipher);if(compressed)decoded=zlib.gunzipSync(decoded);
   assert(!contains(decoded,'ad-marker'));assert(!contains(decoded,'slot-marker'));assert(!contains(decoded,'shorts_shelf.eml'));
   const decodedPlayer=P.decode(find(P.decode(find(P.decode(decoded),4).value),2).value);assert(find(decodedPlayer,123456));
+  if(compressed){
+    const saved=store.get('YouTubeConfig'),badMac=Buffer.from(mac);badMac[0]^=1;
+    const badEnvelope=P.encode([f(1,2,cipher),f(2,2,badMac),f(3,2,iv),f(4,0,1)]);
+    const badBlob=Buffer.concat([frame(10,P.encode([f(1,0,25)])),frame(11,badEnvelope)]);
+    const broken=await native('ump',ctx(c.url,'response',badBlob,headers));
+    assert.deepStrictEqual(Buffer.from(broken.body),badBlob,'HMAC failure must preserve original response');
+    assert(!store.get('YouTubeConfig')||!JSON.parse(store.get('YouTubeConfig')).youtube,'mismatched key should still be cleared');
+    store.set('YouTubeConfig',saved);checks.push('HMAC failure preserves original response and retains key recovery');
+  }
   checks.push('UMP Player + Next modification '+(compressed?'gzip':'uncompressed reference parity'));
  }
  await native('request',ctx('https://www.youtube.com/pagead/adview','request',[]));checks.push('native ad endpoints execute');
  assert(!fs.readFileSync(path.join(ROOT,'dist/youtube-response.js'),'utf8').includes('[YouTube/diag'));checks.push('diagnostic output removed; native execution needs no browser globals');
+
+ const fixture=P.encode([f(999,2,te.encode('unchanged payload'))]);
+ const noKeys=store.get('YouTubeConfig');store.clear();
+ const missing=await native('ump',ctx('https://r1.googlevideo.com/initplayback','response',fixture,[['Content-Type','application/vnd.yt-ump']]));
+ assert.deepStrictEqual(Buffer.from(missing.body),Buffer.from(fixture));store.set('YouTubeConfig',noKeys);
+ checks.push('missing key preserves fixture nonempty response');
+ const invalid=new Uint8Array([0xff,0xff]);const failed=await native('response',ctx('https://youtubei.googleapis.com/youtubei/v1/player','response',invalid));assert.deepStrictEqual([...failed.body],[...invalid]);checks.push('malformed protobuf preserves fixture bytes');
+ const core=fs.readFileSync(path.join(ROOT,'scripts/core.js'),'utf8');
+ const helperCtx=ctx('https://youtubei.googleapis.com/youtubei/v1/player','response',fixture);
+ const helper=new vm.Script(core+'\nytContext(ctx,"response")').runInNewContext({ctx:helperCtx,Uint8Array,ArrayBuffer,Anywhere:{params:{get:()=>null},codec:{utf8:enc,base64:{decode:s=>new Uint8Array(Buffer.from(s,'base64'))}},log:{warning:()=>{}}}});
+ for(const text of ['ASCII','你好','é','😀','\u0000'])assert.equal(helper.decodeText(te.encode(text)),text);
+ for(const bytes of [[0x80],[0xc0,0xaf],[0xc2],[0xe0,0x80,0x80],[0xed,0xa0,0x80],[0xf0,0x80,0x80,0x80],[0xf4,0x90,0x80,0x80],[0xf5,0x80,0x80,0x80],[0xe2,0x82]])assert.throws(()=>helper.decodeText(new Uint8Array(bytes)),/Invalid UTF-8/);
+ checks.push('strict UTF-8 valid and malformed boundary cases');
+ for(const text of ['', 'AQID','AA','AAA','AA==','AAA=','_-4',' AQID\n'])assert.deepStrictEqual(Buffer.from(helper.decodeBase64(text)),Buffer.from(text.replace(/-/g,'+').replace(/_/g,'/'),'base64'));
+ for(const text of ['A','A===','AA=','AA===','AA?A','AA==AA','===='])assert.throws(()=>helper.decodeBase64(text),/Invalid base64/);
+ checks.push('base64url/unpadded inputs supported; invalid alphabet/length/padding rejected');
+ helper.finish({body:new Uint8Array(4*1024*1024+1)});assert.deepStrictEqual([...helperCtx.body],[...fixture]);checks.push('oversized transformed output retains fixture');
+ for(const name of ['request','response','key','ump']){
+  const code=fs.readFileSync(path.join(ROOT,'dist',`youtube-${name}.js`),'utf8');
+  for(const host of ['redirector.googlevideo.com','redirector-test.googlevideo.com']){
+   const c=ctx('https://'+host+'/initplayback',name==='request'?'request':'response',invalid);
+   new vm.Script(code+'\nprocess(ctx)').runInNewContext({ctx:c,Anywhere:new Proxy({},{get(){throw Error('redirector touched runtime API')}})});
+   assert.deepStrictEqual([...c.body],[...invalid]);
+  }
+ }
+ checks.push('all native entrypoints skip redirector before API access');
  console.log('PASS',checks.length,'full-port checks');console.log(checks.join('\n'));return checks;
 }
 module.exports=main;
