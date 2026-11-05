@@ -1,7 +1,7 @@
 #!category=YouTube
 # Full YouTube protocol port r3. See README for native platform differences.
 [Module]
-name = YouTube Enhance + Hide Shorts (Anywhere Full)
+name = YouTube
 description = Full Surge protocol engine port; native Anywhere lifecycle; UMP buffers up to the app limit.
 [Routing]
 name = YouTube Routing
