@@ -41,9 +41,10 @@ const enc={encode:s=>te.encode(s),decode:b=>td.decode(b)};
 const gzip={encode:b=>new Uint8Array(zlib.gzipSync(b)),decode:b=>new Uint8Array(zlib.gunzipSync(b))};
 function ctx(url,phase,body=[],headers=null){return{url,phase,body:new Uint8Array(body),method:'POST',status:phase==='response'?200:null,headers:headers||[['Content-Type','application/x-protobuf'],['User-Agent','youtube/1']]}}
 async function native(name,c){
- const api={params:{get:k=>params.get(k)},codec:{utf8:enc,base64:{encode:b=>Buffer.from(b).toString('base64'),decode:s=>new Uint8Array(Buffer.from(s,'base64'))},gzip},store:{getString:k=>store.get(k),set:(k,v)=>store.set(k,td.decode(v))},log:{warning:s=>warnings.push(s)},respond:r=>{c.synthetic=r}};
+ const api={crypto:{hmacSHA256:(key,data)=>new Uint8Array(crypto.createHmac('sha256',Buffer.from(key)).update(Buffer.from(data)).digest())},params:{get:k=>params.get(k)},codec:{utf8:enc,base64:{encode:b=>Buffer.from(b).toString('base64'),decode:s=>new Uint8Array(Buffer.from(s,'base64'))},gzip},store:{getString:k=>store.get(k),set:(k,v)=>store.set(k,td.decode(v))},log:{warning:s=>warnings.push(s)},respond:r=>{c.synthetic=r}};
  const code=fs.readFileSync(path.join(ROOT,'dist',`youtube-${name}.js`),'utf8');
- await new vm.Script(code+'\nprocess(ctx)').runInNewContext({Anywhere:api,ctx:c,Uint8Array,ArrayBuffer,DataView,console:{log:s=>warnings.push(s)}});return c;
+ const input=c.body,before=Buffer.from(c.body);
+await new vm.Script(code+'\nprocess(ctx)').runInNewContext({Anywhere:api,ctx:c,Uint8Array,ArrayBuffer,DataView,console:{log:s=>warnings.push(s)}});assert.deepStrictEqual(Buffer.from(input),before,'native engine mutated original input bytes');return c;
 }
 async function original(name,c){
  let result,task;const response={body:c.body,status:c.status,headers:Object.fromEntries(c.headers)};
@@ -143,6 +144,26 @@ async function main(){
   }
  }
  checks.push('all native entrypoints skip redirector before API access');
+
+ for(const [name,size] of [['ump',512*1024+1],['response',1024*1024+1]]){
+  const big=ctx('https://r1.googlevideo.com/initplayback','response',new Uint8Array(size));
+  const before=Buffer.from(big.body);await native(name,big);assert.deepStrictEqual(Buffer.from(big.body),before);
+ }
+ checks.push('body budgets preserve input before expensive protocol parsing');
+ const dense=P.encode(Array.from({length:20001},()=>f(999,0,1)));
+ const warningStart=warnings.length;const guarded=await native('response',ctx('https://youtubei.googleapis.com/youtubei/v1/player','response',dense));
+ assert.deepStrictEqual(Buffer.from(guarded.body),Buffer.from(dense));assert(warnings.slice(warningStart).some(x=>x.includes('field budget exceeded')));
+ checks.push('protobuf field budget limits object expansion');
+ const inflate=zlib.gzipSync(Buffer.alloc(512*1024+1));const initIv=crypto.randomBytes(16);
+ const initCipher=crypto.createCipheriv('aes-128-ctr',key.subarray(0,16),initIv).update(inflate);
+ const initMac=crypto.createHmac('sha256',key.subarray(16)).update(initCipher).update(initIv).digest();
+ const initEnv=P.encode([f(1,2,initCipher),f(2,2,initMac),f(3,2,initIv),f(4,0,1)]);
+ const inflation=Buffer.concat([frame(10,P.encode([f(1,0,25)])),frame(11,initEnv)]);
+ const gzipStart=warnings.length;const bounded=await native('ump',ctx('https://r1.googlevideo.com/initplayback','response',inflation,[['Content-Type','application/vnd.yt-ump']]));
+ assert.deepStrictEqual(Buffer.from(bounded.body),inflation);assert(warnings.slice(gzipStart).some(x=>x.includes('gzip expansion too large')));
+ checks.push('gzip expansion preflight preserves original encrypted response');
+ const compact=fs.readFileSync(path.join(ROOT,'dist/youtube-ump.js'),'utf8');assert(!compact.includes('new Uint32Array(65536)'));assert(!core.includes('new Uint8Array(ctx.body'));
+ checks.push('large AES tables and extra response snapshot removed');
  console.log('PASS',checks.length,'full-port checks');console.log(checks.join('\n'));return checks;
 }
 module.exports=main;

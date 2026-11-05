@@ -5,7 +5,7 @@ function ytContext(ctx, kind) {
     return v == null || v === '' ? fallback : /^(true|1|yes|on)$/i.test(String(v));
   };
   const log = message => Anywhere.log.warning('[YouTube] '+String(message));
-  const originalBody=ctx.phase==='response'?new Uint8Array(ctx.body || 0):ctx.body;
+  const originalBody=ctx.body; // Engines treat input bytes as immutable; avoid a full extra copy.
   const byteView = value => {
     if(value instanceof Uint8Array)return value;
     if(value instanceof ArrayBuffer)return new Uint8Array(value);
@@ -75,3 +75,4 @@ function ytContext(ctx, kind) {
   };
   return {request,response,argument:JSON.stringify(opts),readStore,writeStore,finish,log,boolean,decodeText,decodeBase64};
 }
+

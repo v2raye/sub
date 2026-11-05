@@ -16,3 +16,10 @@
 - Base64 accepts padded/unpadded and URL-safe inputs; rejects invalid characters, lengths, internal/excess padding and unexpected native output lengths.
 - Transformed output over 4 MiB preserves the original response; the client's pre-script buffer cap is unchanged.
 - 23 protocol/negative-case checks and module CSV/Base64/regex checks passed using native API mocks. No new diagnostic logs; existing exception logging retained. No iOS device run for this patch.
+
+## Memory protection patch
+
+- All 27 native mock tests pass, including original normal-input reference parity, independent HMAC/AES/gzip checks, input byte immutability, and memory guards.
+- No full response snapshot allocation; compact AES removes 640 KiB of large lookup-table storage; HMAC uses the documented native API.
+- Oversized UMP/API inputs return unchanged before helper/protocol setup. 20,000-field parser budget and gzip expansion preflight tested.
+- Limits can bypass ad filtering for large/complex inputs. No real-device heap measurement or guarantee against pre-script/client allocation failure.
