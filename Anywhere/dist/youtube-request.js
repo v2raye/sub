@@ -1,89 +1,70 @@
-/*
- * Anywhere-native YouTube protobuf utilities.
- * Build-time included in each standalone process(ctx) script.
- * API: Anywhere.codec.protobuf / Anywhere.codec.utf8 / Anywhere.store.
- * No Surge globals, compatibility shims, dynamic code loading or network requests.
- */
-const AP = (() => {
-  const pb = Anywhere.codec.protobuf;
-  const utf8 = Anywhere.codec.utf8;
-  const b64 = Anywhere.codec.base64;
-  const LIMIT_DEPTH = 16;
-  const bytes = x => x instanceof Uint8Array ? x : new Uint8Array(x || 0);
-  const decode = x => pb.decode(bytes(x));
-  const encode = fields => pb.encode(fields);
-  const field = (f, n, w) => f.find(e => e.field === n && (w == null || e.wire === w));
-  const fields = (f, n, w) => f.filter(e => e.field === n && (w == null || e.wire === w));
-  const sub = (f, n) => { const e=field(f,n,2); return e ? decode(e.value) : null; };
-  const val = (f,n) => {const e=field(f,n,0); return e ? Number(e.value) : null;};
-  const raw = (f,n) => {const e=field(f,n,2);return e ? e.value : null;};
-  const str = (f,n) => {const v=raw(f,n);return v ? utf8.decode(v) : null;};
-  const bool = (name, d=true) => {
-    const value=Anywhere.params.get(name);
-    return value == null || value === '' ? d : /^(true|yes|on|1)$/i.test(value);
+/* Anywhere native execution helpers. No Surge runtime globals are used. */
+function ytContext(ctx, kind) {
+  const boolean = (name, fallback) => {
+    const v = Anywhere.params.get(name);
+    return v == null || v === '' ? fallback : /^(true|1|yes|on)$/i.test(String(v));
   };
-  const log = msg => Anywhere.log.warning('[YouTube] '+msg);
-  const set = (f,n,w,value) => {
-    const entry=field(f,n,w);const v=w===0?BigInt(value):bytes(value);
-    if(entry){ if(w===0 ? entry.value===v : eq(entry.value,v))return false; entry.value=v; }
-    else f.push({field:n,wire:w,value:v});
-    return true;
+  const debug = boolean('diagnostics', true);
+  const path = String(ctx.url || '').split('?')[0].replace(/^https?:\/\/[^/]+/, '');
+  const trace = message => { if (debug) Anywhere.log.warning('[YouTube/diag r3] '+message); };
+  const log = message => Anywhere.log.warning('[YouTube] '+String(message));
+  const headers = {};
+  for (const [name,value] of ctx.headers || []) headers[name] = value;
+  // Response ctx.headers contains response headers, not the original request UA.
+  // YouTube is the default; Music users must select the matching client mode.
+  const flavor=Anywhere.params.get('client_flavor') === 'youtubeMusic' ? 'YouTubeMusic' : 'YouTube';
+  const requestHeaders=ctx.phase === 'request' ? headers : {'User-Agent':flavor};
+  const request = {url: ctx.url || '', method: ctx.method, headers:requestHeaders, body: ctx.phase === 'request' ? ctx.body : undefined};
+  const response = {status:ctx.status,headers,body:ctx.phase === 'response' ? ctx.body : undefined};
+  const opts = {
+    blockUpload:boolean('block_upload',true),blockShorts:boolean('block_shorts',true),
+    blockGames:boolean('block_games',true),blockVerticalLive:boolean('block_vertical_live',false),
+    jumpAhead:boolean('jump_ahead',true),autoHd:boolean('auto_hd',true),
+    blockStore:boolean('block_store',true),blockAi:boolean('block_ai',true),
+    onTheGo:boolean('on_the_go',true)
   };
-  const drop = (f,n) => {let changed=false;for(let i=f.length-1;i>=0;i--)if(f[i].field===n){f.splice(i,1);changed=true;}return changed;};
-  const eq=(a,b)=>a===b || !!a && !!b && a.length===b.length && a.every((v,i)=>v===b[i]);
-  const mapNested=(f,n,modify)=>{
-    let changed=false;
-    for(const e of fields(f,n,2)){
-      const inner=decode(e.value);if(modify(inner)){e.value=encode(inner);changed=true;}
-    }return changed;
+  const readStore = key => Anywhere.store.getString(key,true) || null;
+  const writeStore = (value,key) => {
+    try { Anywhere.store.set(key,Anywhere.codec.utf8.encode(value),true);return true; }
+    catch(error) {log('store write failed: '+error);return false;}
   };
-  const view=(f,path)=>{let node=f;for(const p of path){node=sub(node,p);if(!node)return null;}return node;};
-  const config=()=>{try{const s=Anywhere.store.getString('YouTubeConfig',true);const a=JSON.parse(s||'{}');return a&&typeof a==='object'&&!Array.isArray(a)?a:{};}catch{return {};}};
-  const saveConfig=data=>{try{Anywhere.store.set('YouTubeConfig',JSON.stringify(data),true);}catch(e){log('persist config: '+e);}};
-  const client=ctx=>ctx.headers.some(([name,value])=>name.toLowerCase()==='user-agent'&&/music/i.test(value))?'youtubeMusic':'youtube';
-  const u8=str=>utf8.encode(str);
-  const toText=buf=>utf8.decode(buf);
-  const path=ctx=>{const m=/^https?:\/\/[^/?#]+([^?#]*)/.exec(ctx.url||'');return m?(m[1]||'/'):'';};
-  const media=ctx=>ctx.headers.some(([name,value])=>name.toLowerCase()==='content-type'&&/application\/vnd\.yt-ump/i.test(value));
-  const safe=(fn,msg)=>{try{return fn();}catch(e){log(msg+': '+e);return null;}};
-  const trace = message => {
-    try { if (bool('diagnostics', false)) Anywhere.log.warning('[YouTube/diag r2] '+message); }
-    catch (_) { /* Diagnostics must never prevent passthrough. */ }
+  const finish = result => {
+    if(result && result.response && ctx.phase === 'request') {
+      const r=result.response;
+      Anywhere.respond({status:r.status || 200,headers:Array.isArray(r.headers)?r.headers:Object.entries(r.headers || {}),body:r.body || new Uint8Array(0)});
+      trace(kind+' synthetic response '+path);return;
+    }
+    if(result && result.body !== undefined) {
+      ctx.body=result.body;trace(kind+' body returned '+path+' bytes='+ctx.body.length);
+    } else trace(kind+' unchanged '+path);
+    if(kind === 'key') {
+      try { const c=JSON.parse(readStore('YouTubeConfig') || '{}');trace('key cache available='+!!(c.youtube?.clientKey || c.youtubeMusic?.clientKey)); }
+      catch(_) {trace('key cache unavailable');}
+    }
   };
-  const kv=(f,n)=>[...fields(f,n,2)];
-  return {pb,utf8,b64,decode,encode,field,fields,sub,val,raw,str,bool,log,set,drop,eq,mapNested,view,config,saveConfig,client,u8,toText,path,media,safe,bytes,kv,LIMIT_DEPTH,trace};
-})();
+  trace(kind+' entered '+path+' phase='+ctx.phase+' status='+ctx.status+' bytes='+(ctx.body?.length || 0));
+  return {request,response,argument:JSON.stringify(opts),readStore,writeStore,finish,log,boolean,trace};
+}
 
-/* Anywhere-native: request responses, telemetry ads and optional video hints. */
+/* Full protocol port of the Surge request engine. Upstream snapshot: f207b3b01b393742e4a2019db730e24a35b9672b839d1497c22154e3dfd37ed5.
+ * Native lifecycle, storage, UTF-8/base64 and gzip are supplied by Anywhere.
+ * Protocol code derived from gholts / Maasea; Shorts edits from Aioneas.
+ */
 function process(ctx) {
-  if (ctx.phase !== 'request') return;
-  const url=ctx.url||'';
-  const path=AP.path(ctx);
-  if(path!=='/videoplayback')AP.trace('request '+path+' bytes='+(ctx.body?.length||0)+' protobuf='+!!Anywhere.codec.protobuf);
-  const empty = type => {Anywhere.respond({status:200,headers:[['Content-Type',type]],body:new Uint8Array(0)});};
-  try {
-    if (path.endsWith('/player/ad_break')) {empty('application/x-protobuf'); return;}
-    if (/^\/pcs\//.test(path)) {Anywhere.respond({status:204,body:new Uint8Array(0)});return;}
-    if (/\/(?:api\/stats\/ads|pagead|ptracking)/.test(path) || (path==='/api/stats/qoe' && /[?&]adcontext(?:[=&]|$)/.test(url))) {
-      empty('text/plain; charset=utf-8');return;
-    }
-    if (/\.googlevideo\.com\//.test(url) && /[?&]oad(?:[=&]|$)/.test(url)
-      && !/^\/(?:videoplayback|initplayback|dclk_video_ads)$/.test(path)){
-      empty('text/plain');return;
-    }
-    // Optional: request higher quality within existing formats, never fabricate Premium entitlement.
-    if (!AP.bool('auto_hd',false) || ctx.method==='GET' || ctx.method==='HEAD' || !ctx.body.length) return;
-    if (!/^\/(?:initplayback|videoplayback)$/.test(path)) return;
-    const top=AP.decode(ctx.body);
-    if (path==='/initplayback') {
-      const target=AP.field(top,2,2); if (!target) return;
-      const opt=AP.decode(target.value);
-      let changed=false;
-      changed=AP.set(opt,16,0,4320)||changed;
-      changed=AP.set(opt,26,0,1)||changed;
-      changed=AP.set(opt,30,0,0)||changed;
-      if(changed){target.value=AP.encode(opt);ctx.body=AP.encode(top);}
-    }
-    // videoplayback format switching is intentionally not guessed without valid server format metadata.
-  }catch(e){AP.log('request passthrough: '+e);}
+  if(ctx.phase !== 'request')return;
+  const {request,response,argument,readStore,writeStore,finish,log,boolean,trace}=ytContext(ctx,'request');
+
+  // Map Local / URL reject equivalents run before the protocol request engine.
+  const path=String(ctx.url||'').split('?')[0].replace(/^https?:\/\/[^/]+/,'');
+  if (/^https?:\/\/(www|s)\.youtube\.com\//.test(ctx.url||'') &&
+      (/^\/(?:pagead|ptracking)(?:\/|$)/.test(path) || /^\/api\/stats\/ads(?:\/|$)/.test(path) ||
+       path==='/api/stats/qoe'&&/[?&]adcontext/.test(ctx.url))) {
+    Anywhere.respond({status:200,body:' '});trace('advertising endpoint blocked');return;
+  }
+  if (/^https?:\/\/[\w-]+\.googlevideo\.com\//.test(ctx.url||'') &&
+      /[?&]oad/.test(ctx.url||'') && !/^\/(?:initplayback|videoplayback)(?:$|\?)/.test(path) &&
+      !/^\/dclk_video_ads/.test(path)) {
+    Anywhere.respond({status:200,body:' '});trace('oad endpoint blocked');return;
+  }
+const e="YouTubeConfig";function t(t=e,r=1/0){const n=readStore(t);if("string"==typeof n&&n.length>r)return{};try{const e=JSON.parse(n||"{}");return e&&"object"==typeof e&&!Array.isArray(e)?e:{}}catch{return{}}}function r(e){const t=new Uint8Array(e.reduce((e,t)=>e+t.length,0));let r=0;for(const n of e)t.set(n,r),r+=n.length;return t}function n(e,t){return e===t||e.length===t.length&&e.every((e,r)=>e===t[r])}function o(e){const t=[];do{t.push(e%128|(e>127?128:0)),e=Math.floor(e/128)}while(e);return new Uint8Array(t)}function i(e){const t=[];let r=0;function n(){let t=0,n=1;for(let o=0;o<5;o++){if(r>=e.length)throw new Error("Truncated protobuf varint");const o=e[r++];if(t+=(127&o)*n,!(128&o)){if(t>4294967295)throw new Error("Protobuf length/tag overflow");return t}n*=128}throw new Error("Invalid protobuf varint")}for(;r<e.length;){const o=r,i=n(),s=Math.floor(i/8),u=i%8;if(!s)throw new Error("Invalid protobuf field");let a=r;if(2===u){const e=n();a=r,r+=e}else if(1===u)r+=8;else if(5===u)r+=4;else{if(0!==u)throw new Error("Unsupported protobuf wire type "+u);{let t,n=0;do{if(r>=e.length||10===n++)throw new Error("Invalid protobuf integer");if(t=e[r++],10===n&&t>1)throw new Error("Protobuf integer overflow")}while(128&t)}}if(r>e.length)throw new Error("Truncated protobuf field");t.push({no:s,wire:u,data:e.subarray(a,r),raw:e.subarray(o,r)})}return t}function s(e){let t=0,r=1;for(const n of e)t+=(127&n)*r,r*=128;return t}function u(e={}){return"string"!=typeof argument||argument.includes("{{{")?e:{...e,...JSON.parse(argument)}}function a(e){return Object.entries(e.headers??{}).some(([e,t])=>"user-agent"===e.toLowerCase()&&/music/i.test(t))?"youtubeMusic":"youtube"}function f(e,t,r=!1){let n;for(const o of i(e))if(o.no===t&&2===o.wire){if(!r)return o.data;if(n)return;n=o.data}return n}function c(e){const t=e.replace(/[-_\s=]/g,e=>"-"===e?"+":"_"===e?"/":""),r=t.length%4==1,n=Anywhere.codec.base64.decode(r?t+"A":t);return r?n.subarray(0,-1):n}function h(e,t){const n=new Map(t?[[13,0],[14,2],[16,t.height],[21,t.height],[26,3],[30,0]]:[[16,4320],[26,1],[30,0]]),u=new Set,a=[];let f=!1;for(const t of i(e)){const e=0===t.wire?n.get(t.no):void 0;void 0!==e?(s(t.data)===e?a.push(t.raw):(a.push(o(8*t.no),o(e)),f=!0),u.add(t.no)):a.push(t.raw)}for(const[e,t]of n)u.has(e)||(a.push(o(8*e),o(t)),f=!0);return f?r(a):e}function l(e){const t=e.body;if(ArrayBuffer.isView(t))return new Uint8Array(t.buffer,t.byteOffset,t.byteLength);if(t?.length)throw new Error("YouTube requires binary-body-mode for request bodies");const r=Object.entries(e.headers??{}).find(([e])=>"content-length"===e.toLowerCase())?.[1];if(Number(r)>0)throw new Error("YouTube request body unavailable; requires-body must be enabled")}function g(){return{response:{status:200,headers:{"Content-Type":"application/x-protobuf"},body:new Uint8Array}}}!function(){let d;try{let y;if(d=request.url.split("?")[0],d.endsWith("/player/ad_break"))y=g();else if(d.endsWith("/log_event"))y=function(e){const r=Object.keys(e.headers??{}).filter(e=>"x-youtube-hot-hash-data"===e.toLowerCase());if(!r.length||t()[a(e)]?.clientKey)return;const n={...e.headers};for(const e of r)delete n[e];return{headers:n}}(request);else if(d.endsWith("/initplayback")){if("GET"!==request.method&&"HEAD"!==request.method){const s=l(request);if(y=function(r,o){if(void 0===r||0===r.length)return;const i=t()[o],s=f(r,3),u=s&&f(s,5);if(!u?.length)return g();for(const e of(a=i)?[a,...Array.isArray(a.previous)?a.previous.slice(0,3):[]].filter(e=>e&&"string"==typeof e.clientKey&&"string"==typeof e.encryptKey&&e.clientKey.length>0&&e.clientKey.length<=5500&&e.encryptKey.length>0&&e.encryptKey.length<=5500):[])try{if(n(u,c(e.encryptKey)))return}catch{}var a;return function(r,n){if(void 0===r||void 0===n)return;const o=t();if(!Object.hasOwn(o,r))return;const i=o[r],s=n;JSON.stringify(i)===JSON.stringify(s)&&(delete o[r],function(t,r=e){writeStore(JSON.stringify(t),r)}(o))}(o,i),g()}(s,a(request)),!y&&s?.length&&!1!==u().autoHd){const e=function(e){const t=i(e),n=t.filter(e=>2===e.no&&2===e.wire);if(1!==n.length)return e;const s=n[0],u=h(s.data,void 0);return u===s.data?e:r(t.map(e=>e===s?r([o(18),o(u.length),u]):e.raw))}(s);e!==s&&(y={body:e})}}}else if(d.endsWith("/videoplayback")){const e=!1===u().autoHd?void 0:l(request);if(e?.length){const u=function(e,u){const a=i(e),c=function(e,r){try{const n=/[?&]id=([^&]+)/.exec(r);if(!n)return;const o=e.find(e=>5===e.no&&2===e.wire),u=o&&f(o.data,1);if(!u?.length)return;const a=t("YouTubeQuality",65536)?.[decodeURIComponent(n[1])];if(!function(e){const t=e;return!!(t&&"object"==typeof t&&!Array.isArray(t)&&Number.isInteger(t.height)&&t.height>0&&t.height<=2147483647&&Array.isArray(t.itags)&&t.itags.length>0&&t.itags.length<=256&&t.itags.every(e=>Number.isInteger(e)&&e>0&&e<=4294967295)&&new Set(t.itags).size===t.itags.length&&(void 0===t.premiumItags||Array.isArray(t.premiumItags)&&t.premiumItags.length<=t.itags.length&&new Set(t.premiumItags).size===t.premiumItags.length&&t.premiumItags.every(e=>t.itags.includes(e))))}(a))return;const c=[],h=[];for(const e of i(u)){if(6!==e.no||2!==e.wire)continue;const t=i(e.data).find(e=>1===e.no&&0===e.wire);if(!t)continue;const r=s(t.data);a.itags.includes(r)&&(c.push(e.data),a.premiumItags?.includes(r)&&h.push(e.data))}return c.length?{height:a.height,formats:h.length?h:c}:void 0}catch{return}}(a,u),l=a.filter(e=>17===e.no&&2===e.wire),g=c&&(l.length!==c.formats.length||l.some((e,t)=>!n(e.data,c.formats[t]))),d=[];let y=!1,p=!!g;for(const e of a)if(1===e.no&&2===e.wire){const t=h(e.data,c);t===e.data?d.push(e.raw):(d.push(o(10),o(t.length),t),p=!0),y=!0}else{if(g&&17===e.no&&2===e.wire)continue;d.push(e.raw)}if(!y){const e=h(new Uint8Array,c);d.push(o(10),o(e.length),e),p=!0}if(g)for(const e of c.formats)d.push(o(138),o(e.length),e);return p?r(d):e}(e,request.url);u!==e&&(y={body:u})}}finish(y)}catch(e){log("YouTube request: "+e),finish()}}()
 }

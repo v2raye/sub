@@ -1,13 +1,9 @@
-# Native Conversion Validation
+# r3 validation
 
-- JS syntax checked: `node --check` all `scripts/*.js` and `dist/*.js`.
-- Module format: `[Module]` / `[Routing]` / `[MITM]` / `[Parameter]`; Base64 JavaScript embeds self-contained `process(ctx)` definitions.
-- No Surge globals or external runtime script URLs in output.
-- Synthetic protobuf tests: ad-break response, unchanged requests, client key persistence, Player ads removal/PiP flags, Shorts `isAd` reel entry removal.
-- Synthetic encrypted UMP: AES-CTR/HMAC-SHA256 authenticity, encrypt/decrypt, edited Player field, unchanged unknown field.
-- Files sized below Anywhere's 900 KB encoded module limit.
-- Not tested on Anywhere iOS Network Extension nor live YouTube traffic.
-- No assurance of compatibility with particular YouTube versions, playlists, accounts or Premium entitlements.
-- UMP experimental path has a risk of triggering Anywhere 4 MiB buffering behavior even with `enable_ump=false`; standard module leaves UMP response rule out.
-
-- r2 adds switchable match/skip diagnostics (enabled by default in both diagnostic builds); this is not a claim of real-device compatibility.
+- Native entrypoints compiled with no runtime Surge globals and no TextEncoder, TextDecoder, CompressionStream, or DecompressionStream requirements.
+- Differential tests run source Surge and native Anywhere scripts over identical Protobuf inputs: Player, get_watch, resolve_url, singleton Shorts shelf, Guide entry removal/retention, Shorts switch, reel ads, settings, ad-break, initplayback and videoplayback.
+- Native config key capture and persistent key formats verified.
+- UMP tests cover authenticated AES-CTR plaintext and gzip envelopes containing both Player and Next; HMAC independently verified, decrypted ads/Shorts absent, unknown Player field retained. Uncompressed output compared byte-for-byte with reference.
+- Module CSV/regex/Base64 and native hash-refresh header-delete declaration checked separately.
+- Main and legacy UMP files now both contain the full UMP engine. NoUMP is separately labelled incomplete.
+- No claim of successful iOS real-device execution. Native buffer limits, immutable response heads, suffix-only MITM, and unconditional key-refresh header deletion remain platform differences; see README.

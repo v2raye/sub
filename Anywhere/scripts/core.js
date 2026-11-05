@@ -1,55 +1,47 @@
-/*
- * Anywhere-native YouTube protobuf utilities.
- * Build-time included in each standalone process(ctx) script.
- * API: Anywhere.codec.protobuf / Anywhere.codec.utf8 / Anywhere.store.
- * No Surge globals, compatibility shims, dynamic code loading or network requests.
- */
-const AP = (() => {
-  const pb = Anywhere.codec.protobuf;
-  const utf8 = Anywhere.codec.utf8;
-  const b64 = Anywhere.codec.base64;
-  const LIMIT_DEPTH = 16;
-  const bytes = x => x instanceof Uint8Array ? x : new Uint8Array(x || 0);
-  const decode = x => pb.decode(bytes(x));
-  const encode = fields => pb.encode(fields);
-  const field = (f, n, w) => f.find(e => e.field === n && (w == null || e.wire === w));
-  const fields = (f, n, w) => f.filter(e => e.field === n && (w == null || e.wire === w));
-  const sub = (f, n) => { const e=field(f,n,2); return e ? decode(e.value) : null; };
-  const val = (f,n) => {const e=field(f,n,0); return e ? Number(e.value) : null;};
-  const raw = (f,n) => {const e=field(f,n,2);return e ? e.value : null;};
-  const str = (f,n) => {const v=raw(f,n);return v ? utf8.decode(v) : null;};
-  const bool = (name, d=true) => {
-    const value=Anywhere.params.get(name);
-    return value == null || value === '' ? d : /^(true|yes|on|1)$/i.test(value);
+/* Anywhere native execution helpers. No Surge runtime globals are used. */
+function ytContext(ctx, kind) {
+  const boolean = (name, fallback) => {
+    const v = Anywhere.params.get(name);
+    return v == null || v === '' ? fallback : /^(true|1|yes|on)$/i.test(String(v));
   };
-  const log = msg => Anywhere.log.warning('[YouTube] '+msg);
-  const set = (f,n,w,value) => {
-    const entry=field(f,n,w);const v=w===0?BigInt(value):bytes(value);
-    if(entry){ if(w===0 ? entry.value===v : eq(entry.value,v))return false; entry.value=v; }
-    else f.push({field:n,wire:w,value:v});
-    return true;
+  const debug = boolean('diagnostics', true);
+  const path = String(ctx.url || '').split('?')[0].replace(/^https?:\/\/[^/]+/, '');
+  const trace = message => { if (debug) Anywhere.log.warning('[YouTube/diag r3] '+message); };
+  const log = message => Anywhere.log.warning('[YouTube] '+String(message));
+  const headers = {};
+  for (const [name,value] of ctx.headers || []) headers[name] = value;
+  // Response ctx.headers contains response headers, not the original request UA.
+  // YouTube is the default; Music users must select the matching client mode.
+  const flavor=Anywhere.params.get('client_flavor') === 'youtubeMusic' ? 'YouTubeMusic' : 'YouTube';
+  const requestHeaders=ctx.phase === 'request' ? headers : {'User-Agent':flavor};
+  const request = {url: ctx.url || '', method: ctx.method, headers:requestHeaders, body: ctx.phase === 'request' ? ctx.body : undefined};
+  const response = {status:ctx.status,headers,body:ctx.phase === 'response' ? ctx.body : undefined};
+  const opts = {
+    blockUpload:boolean('block_upload',true),blockShorts:boolean('block_shorts',true),
+    blockGames:boolean('block_games',true),blockVerticalLive:boolean('block_vertical_live',false),
+    jumpAhead:boolean('jump_ahead',true),autoHd:boolean('auto_hd',true),
+    blockStore:boolean('block_store',true),blockAi:boolean('block_ai',true),
+    onTheGo:boolean('on_the_go',true)
   };
-  const drop = (f,n) => {let changed=false;for(let i=f.length-1;i>=0;i--)if(f[i].field===n){f.splice(i,1);changed=true;}return changed;};
-  const eq=(a,b)=>a===b || !!a && !!b && a.length===b.length && a.every((v,i)=>v===b[i]);
-  const mapNested=(f,n,modify)=>{
-    let changed=false;
-    for(const e of fields(f,n,2)){
-      const inner=decode(e.value);if(modify(inner)){e.value=encode(inner);changed=true;}
-    }return changed;
+  const readStore = key => Anywhere.store.getString(key,true) || null;
+  const writeStore = (value,key) => {
+    try { Anywhere.store.set(key,Anywhere.codec.utf8.encode(value),true);return true; }
+    catch(error) {log('store write failed: '+error);return false;}
   };
-  const view=(f,path)=>{let node=f;for(const p of path){node=sub(node,p);if(!node)return null;}return node;};
-  const config=()=>{try{const s=Anywhere.store.getString('YouTubeConfig',true);const a=JSON.parse(s||'{}');return a&&typeof a==='object'&&!Array.isArray(a)?a:{};}catch{return {};}};
-  const saveConfig=data=>{try{Anywhere.store.set('YouTubeConfig',JSON.stringify(data),true);}catch(e){log('persist config: '+e);}};
-  const client=ctx=>ctx.headers.some(([name,value])=>name.toLowerCase()==='user-agent'&&/music/i.test(value))?'youtubeMusic':'youtube';
-  const u8=str=>utf8.encode(str);
-  const toText=buf=>utf8.decode(buf);
-  const path=ctx=>{const m=/^https?:\/\/[^/?#]+([^?#]*)/.exec(ctx.url||'');return m?(m[1]||'/'):'';};
-  const media=ctx=>ctx.headers.some(([name,value])=>name.toLowerCase()==='content-type'&&/application\/vnd\.yt-ump/i.test(value));
-  const safe=(fn,msg)=>{try{return fn();}catch(e){log(msg+': '+e);return null;}};
-  const trace = message => {
-    try { if (bool('diagnostics', false)) Anywhere.log.warning('[YouTube/diag r2] '+message); }
-    catch (_) { /* Diagnostics must never prevent passthrough. */ }
+  const finish = result => {
+    if(result && result.response && ctx.phase === 'request') {
+      const r=result.response;
+      Anywhere.respond({status:r.status || 200,headers:Array.isArray(r.headers)?r.headers:Object.entries(r.headers || {}),body:r.body || new Uint8Array(0)});
+      trace(kind+' synthetic response '+path);return;
+    }
+    if(result && result.body !== undefined) {
+      ctx.body=result.body;trace(kind+' body returned '+path+' bytes='+ctx.body.length);
+    } else trace(kind+' unchanged '+path);
+    if(kind === 'key') {
+      try { const c=JSON.parse(readStore('YouTubeConfig') || '{}');trace('key cache available='+!!(c.youtube?.clientKey || c.youtubeMusic?.clientKey)); }
+      catch(_) {trace('key cache unavailable');}
+    }
   };
-  const kv=(f,n)=>[...fields(f,n,2)];
-  return {pb,utf8,b64,decode,encode,field,fields,sub,val,raw,str,bool,log,set,drop,eq,mapNested,view,config,saveConfig,client,u8,toText,path,media,safe,bytes,kv,LIMIT_DEPTH,trace};
-})();
+  trace(kind+' entered '+path+' phase='+ctx.phase+' status='+ctx.status+' bytes='+(ctx.body?.length || 0));
+  return {request,response,argument:JSON.stringify(opts),readStore,writeStore,finish,log,boolean,trace};
+}

@@ -1,113 +1,50 @@
-# Anywhere / YouTube Enhance + Hide Shorts
+# Anywhere YouTube 完整协议移植 r3
 
-本目录专门保存 **Anywhere 原生 `.amod` 模块与 JavaScript**。此实现按 [NodePassProject/Anywhere](https://github.com/NodePassProject/Anywhere) 的官方规则格式重新编写；**没有运行 Surge 脚本、没有兼容 `$request`/`$response`/`$done`，也没有远程 `script-path`**。
-
-原始功能需求参考仓库 `Surge/Module/YouTube-Enhance-HideShorts.sgmodule`，但脚本逻辑是按 Anywhere `process(ctx)`、`Anywhere.codec.protobuf`、`Anywhere.store`、`Anywhere.crypto` 原生接口重写，不是将原 Surge 代码包一层适配器。
-
-## 目录
-
-```text
-Anywhere/
-├── YouTube-Enhance-HideShorts.amod                    # 推荐：默认稳定版，未挂载 UMP 缓冲脚本
-├── YouTube-Enhance-HideShorts-UMP-Experimental.amod   # 实验版：包含加密 UMP 脚本
-├── scripts/
-│   ├── core.js            # Anywhere 原生 Protobuf 和持久化工具
-│   ├── request.js         # 广告请求空响应、可选画质提示
-│   ├── response.js        # 已知 Player/Shorts/UI 字段处理
-│   ├── key.js             # Protobuf 客户端密钥提取及持久化
-│   └── ump.js             # UMP 帧解析、AES-CTR/HMAC、再编码（实验）
-├── dist/
-│   ├── youtube-request.js # 内含 core.js，直接可被 Anywhere 运行
-│   ├── youtube-response.js
-│   ├── youtube-key.js
-│   └── youtube-ump.js
-├── tests/
-│   └── test_native.cjs    # 合成 Protobuf、AES-CTR/HMAC 验证（Node.js）
-└── build.py               # 将源码编码为 Anywhere 接受的 Base64 内嵌 JS
-```
+以本仓库 Surge 模块的四份最新协议引擎为基线，保留其已知 Protobuf schema、延迟解析、未知字段保留及 UI 处理逻辑；使用 Anywhere 原生 process(ctx)、store、编码、gzip 和响应接口。没有运行时 Surge 全局变量，也没有远程脚本依赖。不是把旧的简化扫描继续补丁化。
 
 ## 安装
 
-在 Anywhere 的 **Modules（模块）** 中，选择 **从文件导入**（或从 `.amod` URL 订阅）：
-
-- **推荐：** `YouTube-Enhance-HideShorts.amod`
-- **实验：** `YouTube-Enhance-HideShorts-UMP-Experimental.amod`
-
-**不要同时启用两份模块**，两者有相同的 MITM hostname 匹配，会相互覆盖。订阅地址应为能够返回 `text/plain`/UTF-8 内容并以 `.amod` 结尾的 URL，例如将仓库文件推送后使用：
-
-```
+主模块（完整 API + UMP）：
 https://raw.githubusercontent.com/v2raye/sub/main/Anywhere/YouTube-Enhance-HideShorts.amod
-```
 
-该 URL **只有推送到仓库以后才会有效**。在 GitHub 提交成功前先用本地文件导入。
+旧 UMP 实验版地址继续保留，现承载相同的完整引擎：
+https://raw.githubusercontent.com/v2raye/sub/main/Anywhere/YouTube-Enhance-HideShorts-UMP-Experimental.amod
 
-进入 Anywhere 开启 MITM 总开关并安装、完全信任 Anywhere 根证书。系统和 App 如果启用了证书固定，MITM 可能失败。也需确认 YouTube 流量实际经过 Anywhere 的 HTTP(S) 解密路径；QUIC 流量不保证能进入 TLS MITM。
+播放兼容性排查用 NoUMP（不挂载 UMP 响应缓冲规则，功能不完整）：
+https://raw.githubusercontent.com/v2raye/sub/main/Anywhere/YouTube-Enhance-HideShorts-NoUMP.amod
 
-## 功能边界（不要混淆测试与实机）
+只启用一个版本。刷新订阅、确认模块/MITM 开关及证书信任，重连后重启 YouTube。参数覆盖会被 Anywhere 保留；若之前关闭了 auto_hd、enable_ump 或 diagnostics，请检查实际值。
 
-| 功能 | 原生脚本实现 | 说明 |
-|---|---|---|
-| `/player/ad_break` | 是 | 生成空 Protobuf 响应 |
-| 广告统计 / `pagead` / `ptracking` | 是 | 按精确路径生成空响应 |
-| `&ctier=L...` | 是 | Anywhere 原生透明 URL rewrite；限定 googlevideo.com |
-| Player `adPlacements`/`adSlots`/`paidPromotion` | 是 | Schema-free Protobuf 删除已知字段 |
-| Player 背景播放 / PiP 标志 | 是 | 仅修改客户端可见 Protobuf，不提供账户授权 |
-| 最高 4x 播放速度 | 是 | 调整已知 `maximumPlaybackRate` 字段 |
-| Shorts 入口和 EML 卡片 | 部分 | 移除已知 FEshorts / Shorts EML 条目，保留 Shorts Pivot |
-| Shorts reel 广告 | 是 | 移除明确标记 `isAd=true` 的条目 |
-| Upload 入口 | 部分 | 已知 `FEuploads` Guide 条目 |
-| 游戏 / 竖屏直播 / 商店 / AI 卡片 | 部分 | 已知字段和 EML 标记启发式，存在漏网情况 |
-| Jump Ahead | 部分 | 仅修改已出现的 SmartSkip 控件，不保证生成按键 |
-| 自动高清 | 实验 | 默认关闭，仅增加客户端请求画质提示；不会创建不可用格式 |
-| On-the-go 控件 | 未实现 | 无已验证的稳定 Anywhere 原生 Protobuf 构建规则 |
-| UMP 加密播放初始化响应 | 实验 | 仅在 **UMP 实验版**启用；解析 UMP、验证 HMAC、AES-CTR，修改已知 Player 广告字段后重签名 |
-| Premium 订阅权益 | 不支持 | 无法通过本地响应改写获得服务端授权 |
+## 移植范围
 
-**重要限制：** Anywhere 的 `script` 对请求/响应缓冲上限为 **4 MiB**。超过限制的 chunked 流量可能直接失败；普通稳定版不加载 UMP 响应脚本，降低视频播放中断风险。实验性 UMP 脚本只处理 **256 KiB 内**的数据，但其规则被匹配时仍遵守 Anywhere 全局 4 MiB 缓冲约束。因此，不建议在主力设备上启用 UMP 实验版。
+- API 的 Player、Browse、Next、Search、Guide、Watch/get_watch、resolve_url 嵌套 Player、设置与 Shorts reel 处理。
+- 广告字段、后台播放、PiP、4x、Shorts EML/入口、上传入口、游戏、竖屏直播、商店、AI、Jump Ahead、On-the-go；均以源脚本支持的结构为限，不承诺新版本 UI 或服务端授权。
+- 完整自动高清元数据缓存及 videoplayback 请求处理，不再仅填写一个画质提示。
+- config/log_event 密钥捕获、历史密钥、initplayback 请求校验及密钥失配清理。
+- 完整 UMP 帧、HMAC、AES-CTR、gzip、Player 和 Next 处理；API 与 UMP 使用对应源引擎的完整逻辑。
+- ctier 按源模块使用 302，排除 initplayback；oad 空响应也排除播放初始化。
 
-不同 YouTube App 版本返回的 Protobuf 标签可能发生变化。实机出现播放器卡住、视频失败或加载循环时，首先停用 UMP 实验版，并暂时关闭 `auto_hd`。
+## 已确认的平台差异
 
-## 选项
+1. Anywhere 的 ctx.headers 不可由脚本修改，无法按缓存状态条件删除请求头。模块用原生 header-delete 在每次 log_event 请求移除 x-youtube-hot-hash-data，尝试获取完整配置；比 Surge 的“仅缺少密钥时删除”更频繁，可能增加配置返回开销，也不保证服务端一定返回密钥。
+2. Anywhere 的 MITM hostname 是后缀，无法表达 Surge 的 -redirector*.googlevideo.com 排除；googlevideo.com 会包含 redirector。GET/HEAD 初始化不会被请求引擎改写。
+3. 响应脚本只能改正文，源 UMP 错误分支的状态/响应头不能原样修改；正文行为保留。原生请求拒绝以合成响应表达，非完全相同的断连方式。
+4. Anywhere 缓冲脚本和原生压缩 codec 有 4 MiB 限制。移除了旧转换版额外的 256 KiB UMP 跳过条件，但无法消除客户端缓冲上限。关闭 enable_ump 仍会先匹配缓冲；要避开 UMP 缓冲必须改用 NoUMP 文件。
+5. Anywhere 响应 ctx.headers 不含原始请求 UA，无法完全复刻源脚本的自动 Music 识别。client_flavor 默认 youtube；仅用于 YouTube Music 时选择 youtubeMusic。两种 App 混用时不能声称自动分类等价。
+6. 原引擎使用的文本/base64/压缩 API 已换为 Anywhere.codec；坏 UTF-8 的失败语义可能与 Surge fatal TextDecoder 不同，未声称对损坏协议完全等价。
 
-模块提供 Anywhere 原生 `[Parameter]` 选择器（`true` / `false`）：
+因此“完整协议移植”指移植源脚本现有处理范围，并非承诺平台完全等价或 YouTube 所有版本均可去广告。Shorts 的新结构仍可能漏网；没有解锁 Premium 权益。
 
-- `block_ads`, `block_shorts`, `block_upload`: 默认 `true`
-- `block_games`, `block_store`, `block_ai`, `jump_ahead`: 默认 `true`；不是所有场景都实现
-- `block_vertical_live`: 默认 `false`
-- `auto_hd`: 默认 `false`
-- `enable_ump`: 仅实验模块，默认 `true`
+## 日志及隐私
 
-> Anywhere 不能直接写入 Surge `#!arguments`、`[Script]`、`[URL Rewrite]`、`[Map Local]`、`[MITM]` 组合。已转换为 `.amod` 的 `[Module]` / `[Routing]` / `[MITM]` / `[Parameter]` 与原生规则行。JS `process(ctx)` 被 **Base64 嵌入**模块中，这符合官方导入格式，并不影响仓库中保留可编辑的原始 `.js` 文件。
+诊断开关 diagnostics 默认 true；搜索 [YouTube/diag r3]。新增诊断仅包含接口路径（无查询参数）、阶段、状态、大小、正文是否返回和密钥缓存是否可用，不输出密钥或正文，不添加网络上报。排查完成后关闭。
 
-## 开发和验证
+## 源码和测试
 
-编辑 `scripts/` 后在本目录执行：
+upstream/ 保留 source snapshot 与署名；port.py 把运行入口和平台 API 移植为 Anywhere 原生接口，scripts/ 是可读可编辑移植代码，dist/ 为独立执行脚本。Base64 仅用于 amod 内嵌分发。
 
-```bash
-python3 build.py
-node tests/test_native.cjs
-```
+重新生成：python3 port.py && python3 build.py
 
-`build.py` 会更新两份 `.amod` 和 `dist/` 中自包含脚本。`tests/test_native.cjs` 是独立 JavaScript Protobuf/加密合成测试，不代表已在 iOS 真机实测。
+验证：node tests/test_native.cjs
 
-## 来源及许可提示
-
-功能需求参考 `v2raye/sub` 自有 Surge 模块及其 README 列出的上游作者（gholts、Maasea、DivineEngine、app2smile、ddgksf2013、Aioneas）。本目录中的原生处理逻辑单独编写；对上游工具、商标与协议的使用仍应遵守各自许可和服务条款。没有声明已解锁 YouTube Premium。
-
-官方格式参考：
-- [Anywhere Module](https://github.com/NodePassProject/Anywhere/blob/main/Documentations/Module.md)
-- [Anywhere MITM](https://github.com/NodePassProject/Anywhere/blob/main/Documentations/MITM.md)
-- [Anywhere Routing](https://github.com/NodePassProject/Anywhere/blob/main/Documentations/Routing.md)
-
-## 真机排查版 r2
-
-两版新增 diagnostics 参数，此次排查版均默认 true。更新订阅并重连后播放视频，在 Anywhere 日志中搜索 `[YouTube/diag r2]`。
-
-- 完全没有命中日志：先检查模块/MITM 开关、证书信任、是否有其他规则抢先命中、流量是否走 HTTP/3。源码已下载不能证明规则实际运行。
-- `UMP skip: clientKey missing`：key 提取路径尚未取得解密密钥。
-- `body exceeds 256 KiB`：触发保守安全限制。不要为了命中而直接取消上限，客户端仍有全局缓冲限制。
-- `HMAC/key mismatch`：密钥或实际响应结构不匹配。
-- `envelopes=0`：未识别出预期的加密 UMP 帧。
-- `changed=false`：本次没有改动已支持的 Player 广告字段，不代表实际响应没有广告。
-
-新增诊断只记录阶段、接口路径（无查询参数）、状态、大小和判断结果，不输出密钥及响应正文。它不新增网络上报。实验版目前仍未实现 UMP Next Shorts 过滤，原有 Shorts 过滤也有已知漏删；此版本用于定位，不能当作真机问题已经修复。排查完成后关闭 diagnostics。
+测试用同一份二进制输入对照源 Surge 引擎和移植引擎，包括曾复现的 Shorts/Guide/嵌套 Player 漏处理，以及 UMP 加密、认证、gzip 和未知字段保留。测试使用原生 API 模拟，不等于 Anywhere iOS 真机测试。还需用户真机验证密钥是否返回以及实际 YouTube 版本的效果。
