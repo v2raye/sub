@@ -1,15 +1,63 @@
-(function () {
+(function(){
 "use strict";
-/*
-京东去广告 - Surge conversion
-Source: fkingikelee/fkikelee @ d62650fa4b5d8c03f65f03ff0ec2e8afed3226c0
-Original authors: RuCu6[https://github.com/RuCu6], Maasea[https://github.com/Maasea]
-Original JS attribution: RuCu6/QuanX
-See conversion notes for schema guards, log removal, and UI changes.
-*/
+/* 京东去广告; Surge audit 2026-11-07. Source fkingikelee/fkikelee @ d62650fa4b5d8c03f65f03ff0ec2e8afed3226c0; RuCu6[https://github.com/RuCu6], Maasea[https://github.com/Maasea]. Original JS RuCu6/QuanX. See README-Adblock-Apps.md. */
 const APP="JD";
 const OPERATIONS=[{"line":19,"pattern":"^https:\\/\\/api\\.m\\.jd\\.com\\/client\\.action\\?functionId=basicConfig","flags":"i","action":"replace","paths":["data.JDMessage.socketmonitor.isSocketEstablishedAhead","data.JDMessage.socketmonitor.isSocketReport","data.JDHttpToolKit.httpdns.httpdns"],"values":[0,0,0]},{"line":22,"pattern":"^https:\\/\\/api\\.m\\.jd\\.com\\/client\\.action\\?functionId=(deliverLayer|getTabHomeInfo|myOrderInfo|orderTrackBusiness|personinfoBusiness|start|welcomeHome)","flags":"i","action":"upstream_js","data":"https://raw.githubusercontent.com/fkingikelee/fkikelee/main/Resource/kelee/JavaScript/JD/JD_remove_ads.js"}];
+const UI_REQUESTS=[{"pattern":"^https:\\/\\/api\\.m\\.jd\\.com\\/client\\.action\\?(?:[^#]*&)?functionId=(searchBoxWord|stationPullService|uniformRecommend[06])(?:&|$)","flags":"i","image":false}];
 const JQ_CONFIG={};
+// Preserve unsafe integer/scientific-integer literals without requiring BigInt support.
+class RawInteger {
+  constructor(raw) { Object.defineProperty(this, 'raw', {value: raw}); }
+}
+let unsafeIntegerSeen = false;
+function parseJSON(text) {
+  const tokens = [];
+  const quoted = [];
+  const re = /"(?:\\[\s\S]|[^"\\])*"|-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?/g;
+  let match;
+  while ((match = re.exec(text)) !== null) {
+    const raw = match[0];
+    if (raw[0] === '"') { if (raw.includes('_') || /\\u/i.test(raw)) quoted.push(raw); continue; }
+    const number = Number(raw);
+    if (!Number.isFinite(number) || (Number.isInteger(number) && !Number.isSafeInteger(number))) tokens.push({start:match.index,end:re.lastIndex,raw});
+  }
+  if (!tokens.length) return JSON.parse(text);
+  const strings = quoted.map(x => JSON.parse(x));
+  let prefix = '__SG_RAW_INT_0_'; let serial = 0;
+  while (strings.some(x => x.startsWith(prefix))) prefix = '__SG_RAW_INT_' + (++serial) + '_';
+  const values = new Map(); const parts = []; let offset = 0;
+  tokens.forEach((token, index) => { const key = prefix + index + '__'; values.set(key,token.raw); parts.push(text.slice(offset,token.start), JSON.stringify(key)); offset = token.end; });
+  parts.push(text.slice(offset));
+  const result = JSON.parse(parts.join(''), (_key,value) => typeof value === 'string' && values.has(value) ? new RawInteger(values.get(value)) : value);
+  unsafeIntegerSeen = true;
+  return result;
+}
+function stringifyJSON(value) {
+  if (!unsafeIntegerSeen) return JSON.stringify(value);
+  let serial = 0;
+  while (true) {
+    const prefix = '__SG_SERIAL_INT_' + serial++ + '_'; const records = []; let collision = false;
+    const result = JSON.stringify(value, (key,item) => {
+      if (key.startsWith(prefix)) collision = true;
+      if (item instanceof RawInteger) { const token=prefix+records.length+'__'; records.push(item.raw); return token; }
+      if (typeof item==='string' && item.startsWith(prefix)) collision=true;
+      return item;
+    });
+    if (collision) continue;
+    return typeof result==='string' ? result.replace(new RegExp('"'+prefix+'(\\d+)__"','g'), (raw,index) => records[Number(index)] ?? raw) : result;
+  }
+}
+const CLEANUP_UI = typeof $argument === 'string' && /(?:^|[;,\s])cleanup_ui=(?:true|1)(?:$|[;,\s])/i.test($argument);
+function keepKnown(items, predicate) {
+  const kept=items.filter(predicate);
+  return kept.length || !items.length ? kept : items;
+}
+function marketingKey(key) {
+  return /splash|advert|(?:^|_)ad(?:_|$)|^ad[A-Z_]|lottery|coupon|marketing|promo|banner|welfare|discount|coins|vip|grabbing|qqmusic|starbucks/i.test(key);
+}
+function isExplicitAd(item) {
+  return object(item) && (item.isAd===true || item.isAd===1 || item.ad===true || item.ad===1 || item.cardType==='ad' || item.type==='advertisement');
+}
 function upstream(url,obj) {
 
 if (url.includes("functionId=deliverLayer") || url.includes("functionId=orderTrackBusiness")) {
@@ -18,7 +66,7 @@ if (url.includes("functionId=deliverLayer") || url.includes("functionId=orderTra
     // 收货时寄快递享八折 享受条件苛刻 故移除
     delete obj.bannerInfo;
   }
-  if (obj?.floors?.length > 0) {
+  if (Array.isArray(obj?.floors) && obj.floors.length > 0) {
     // 运费八折
     obj.floors = obj.floors.filter((i) => !["banner", "jdDeliveryBanner"]?.includes(i?.mId));
   }
@@ -34,19 +82,21 @@ if (url.includes("functionId=deliverLayer") || url.includes("functionId=orderTra
   }
 } else if (url.includes("functionId=myOrderInfo")) {
   // 订单页面
-  if (obj?.floors?.length > 0) {
+  if (Array.isArray(obj?.floors) && obj.floors.length > 0) {
     let newFloors = [];
     for (let floor of obj.floors) {
+      if(!object(floor)){newFloors.push(floor);continue;}
       if (["bannerFloor", "bpDynamicFloor", "plusFloor"]?.includes(floor?.mId)) {
         // bannerFloor满意度评分 bpDynamicFloor专属权益 plusFloor开通会员
         continue;
       } else {
         if (floor?.mId === "virtualServiceCenter") {
           // 服务中心
-          if (floor?.data?.virtualServiceCenters?.length > 0) {
+          if (Array.isArray(floor?.data?.virtualServiceCenters) && floor.data.virtualServiceCenters.length > 0) {
             let newItems = [];
             for (let item of floor.data.virtualServiceCenters) {
-              if (item?.serviceList?.length > 0) {
+              if(!object(item)){newItems.push(item);continue;}
+              if (Array.isArray(item?.serviceList) && item.serviceList.length > 0) {
                 let newCards = [];
                 for (let card of item.serviceList) {
                   if (card?.serviceTitle === "精选特惠") {
@@ -77,9 +127,10 @@ if (url.includes("functionId=deliverLayer") || url.includes("functionId=orderTra
   }
 } else if (url.includes("functionId=personinfoBusiness")) {
   // 个人页面
-  if (obj?.floors?.length > 0) {
+  if (Array.isArray(obj?.floors) && obj.floors.length > 0) {
     let newFloors = [];
     for (let floor of obj.floors) {
+      if(!object(floor)){newFloors.push(floor);continue;}
       const items = [
         "bigSaleFloor", // 双十一
         "buyOften", // 常买常逛
@@ -94,24 +145,24 @@ if (url.includes("functionId=deliverLayer") || url.includes("functionId=orderTra
         // "orderIdFloor", // 我的订单
         "recommendfloor" // 我的推荐
       ];
-      if (items?.includes(floor?.mId)) {
+      if ((CLEANUP_UI ? items : ["bigSaleFloor","newBigSaleFloor","noticeFloor"])?.includes(floor?.mId)) {
         continue;
       } else {
         if (floor?.mId === "basefloorinfo") {
           // 弹窗
-          if (floor?.data?.commonPopup) {
+          if (CLEANUP_UI && floor?.data?.commonPopup) {
             delete floor.data.commonPopup;
           }
           // 弹窗
-          if (floor?.data?.commonPopup_dynamic) {
+          if (CLEANUP_UI && floor?.data?.commonPopup_dynamic) {
             delete floor.data.commonPopup_dynamic;
           }
           // 底部会员续费横幅
-          if (floor?.data?.commonTips?.length > 0) {
+          if (CLEANUP_UI && floor?.data?.commonTips?.length > 0) {
             floor.data.commonTips = [];
           }
           // 弹窗
-          if (floor?.data?.commonWindows?.length > 0) {
+          if (CLEANUP_UI && floor?.data?.commonWindows?.length > 0) {
             floor.data.commonWindows = [];
           }
           // 右下角动图
@@ -120,7 +171,7 @@ if (url.includes("functionId=deliverLayer") || url.includes("functionId=orderTra
           }
         } else if (floor?.mId === "iconToolFloor") {
           // 底部工具栏
-          if (floor?.data?.nodes?.length > 0) {
+          if (CLEANUP_UI && Array.isArray(floor?.data?.nodes) && floor.data.nodes.length > 0) {
             const sortLists = [
               "applezhushou", // apple助手 1-1-1
               "lingjindouxin", // 签到领豆 1-1-2
@@ -134,13 +185,13 @@ if (url.includes("functionId=deliverLayer") || url.includes("functionId=orderTra
               "huanletaojin" // 欢乐淘金 2-2-2
             ];
             let node = floor.data.nodes;
-            if (node?.[0]?.length > 0) {
+            if (Array.isArray(node?.[0]) && node[0].length > 0) {
               // 第一组十个
               node[0] = node[0]
                 .filter((i) => sortLists?.includes(i?.functionId))
                 .sort((a, b) => sortLists.indexOf(a?.functionId) - sortLists.indexOf(b?.functionId));
             }
-            if (node?.[1]?.length > 0) {
+            if (Array.isArray(node?.[1]) && node[1].length > 0) {
               // 第二组四个
               node[1] = node[1]
                 .filter((i) => sortLists?.includes(i?.functionId))
@@ -148,7 +199,7 @@ if (url.includes("functionId=deliverLayer") || url.includes("functionId=orderTra
             }
           }
         } else if (floor?.mId === "orderIdFloor") {
-          if (floor?.data?.commentRemindInfo?.infos?.length > 0) {
+          if (CLEANUP_UI && floor?.data?.commentRemindInfo?.infos?.length > 0) {
             // 发布评价的提醒
             floor.data.commentRemindInfo.infos = [];
           }
@@ -169,7 +220,7 @@ if (url.includes("functionId=deliverLayer") || url.includes("functionId=orderTra
   }
 } else if (url.includes("functionId=start")) {
   // 开屏广告
-  if (obj?.images?.length > 0) {
+  if (Array.isArray(obj?.images) && obj.images.length > 0) {
     obj.images = [];
   }
   if (obj?.showTimesDaily) {
@@ -177,15 +228,15 @@ if (url.includes("functionId=deliverLayer") || url.includes("functionId=orderTra
   }
 } else if (url.includes("functionId=welcomeHome")) {
   // 首页配置
-  if (obj?.floorList?.length > 0) {
+  if (Array.isArray(obj?.floorList) && obj.floorList.length > 0) {
     const delItems = [
       "bottomXview", // 底部悬浮通栏推广
       "float", // 悬浮推广小圆图
       "photoCeiling", // 顶部通栏动图推广
       // "recommend", // 为你推荐
-      "ruleFloat", // 资质与规则
+      ...(CLEANUP_UI ? ["ruleFloat"] : []), // 资质与规则
       "searchIcon", // 右上角消费券
-      "topRotate", // 左上角logo
+      ...(CLEANUP_UI ? ["topRotate"] : []), // 左上角logo
       "tabBarAtmosphere" // 底部悬浮通栏推广
     ];
     // 首页 图层列表
@@ -196,7 +247,7 @@ if (url.includes("functionId=deliverLayer") || url.includes("functionId=orderTra
   //   delete obj.topBgImgBig;
   // }
   // 首页 下拉二楼
-  if (obj?.webViewFloorList?.length > 0) {
+  if (CLEANUP_UI && Array.isArray(obj?.webViewFloorList) && obj.webViewFloorList.length > 0) {
     obj.webViewFloorList = [];
   }
 }
@@ -212,13 +263,15 @@ function base64JsonDecode(raw) {
   const unpadded = text.replace(/=+$/, '');
   if (text.includes('=') && text.length % 4 !== 0) throw new Error('Bad padding');
   text = unpadded.replace(/-/g,'+').replace(/_/g,'/');
-  let buffer = 0, bits = 0, percent = '';
+  let buffer = 0, bits = 0; const bytes=new Uint8Array(Math.floor(text.length*3/4)); let byteLength=0;
   for (const char of text) {
     buffer = (buffer << 6) | BASE64_ALPHABET.indexOf(char); bits += 6;
-    if (bits >= 8) { bits -= 8; percent += '%' + ((buffer >>> bits) & 255).toString(16).padStart(2,'0'); }
+    if (bits >= 8) { bits -= 8; bytes[byteLength++]=(buffer >>> bits) & 255; }
   }
   if (bits && (buffer & ((1 << bits) - 1))) throw new Error('Noncanonical trailing bits');
-  return JSON.parse(decodeURIComponent(percent));
+  let decoded='';
+  for(let i=0;i<byteLength;) { let end=Math.min(i+8192,byteLength); while(end<byteLength && (bytes[end]&192)===128)end--; if(end===i)throw new Error('Bad UTF8'); let part=''; for(let j=i;j<end;j++)part+='%'+bytes[j].toString(16).padStart(2,'0'); decoded+=decodeURIComponent(part); i=end; }
+  return parseJSON(decoded);
 }
 function base64JsonEncode(json, format) {
   const bytes = unescape(encodeURIComponent(json));
@@ -230,17 +283,17 @@ function base64JsonEncode(json, format) {
   }
   if (format.urlSafe) output=output.replace(/\+/g,'-').replace(/\//g,'_');
   if (!format.padded) output=output.replace(/=+$/,'');
-  return format.quoted ? JSON.stringify(output) : output;
+  return format.quoted ? stringifyJSON(output) : output;
 }
 function decodeCompatibleBody(raw) {
   const text=raw.trim();
   let value;
   try {
-    value=JSON.parse(text);
+    value=parseJSON(text);
     if (typeof value !== 'string') return {value,kind:'json'};
   } catch (_) {}
   const callback=/^([A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*)*)\s*\(([\s\S]*)\)\s*;?$/.exec(text);
-  if (callback) return {value:JSON.parse(callback[2]),kind:'jsonp',callback:callback[1],semicolon:text.endsWith(';')};
+  if (callback) return {value:parseJSON(callback[2]),kind:'jsonp',callback:callback[1],semicolon:text.endsWith(';')};
   const quoted=typeof value==='string', encoded=quoted?value:text;
   return {value:base64JsonDecode(encoded),kind:'base64',quoted,urlSafe:/[-_]/.test(encoded),padded:/=\s*$/.test(encoded)};
 }
@@ -262,8 +315,9 @@ function jdCompat(url, root) {
     return root;
   }
   let payload=root;
-  const shaped=x=>object(x) && ['images','floors','floorList','bannerInfo','result'].some(k=>Object.prototype.hasOwnProperty.call(x,k));
+  const shaped=x=>object(x) && ['images','floors','floorList','bannerInfo'].some(k=>Object.prototype.hasOwnProperty.call(x,k));
   if (!shaped(root) && shaped(root.data)) payload=root.data;
+  if (id==='getTabHomeInfo' && !object(root.result) && object(root.data?.result)) payload=root.data;
   if (!id) {
     // POST-only functionId is not exposed by Surge response scripts. Require independent response shape evidence.
     if (Array.isArray(payload.images) && Object.prototype.hasOwnProperty.call(payload,'showTimesDaily')) id='start';
@@ -280,7 +334,7 @@ function jdCompat(url, root) {
   return root;
 }
 // Pure JSON transforms. No network, storage, notification, cookie, or account APIs.
-function object(v) { return v !== null && typeof v === 'object' && !Array.isArray(v); }
+function object(v) { return v !== null && typeof v === 'object' && !Array.isArray(v) && !(v instanceof RawInteger); }
 function at(root, path) {
   let value = root;
   for (const key of Array.isArray(path) ? path : path.replace(/^\$\./, '').split('.')) {
@@ -308,11 +362,11 @@ function inner(root, name, fn) {
   const record = at(root, ['data', name]);
   if (!object(record) || typeof record.value !== 'string') return;
   let value;
-  try { value = JSON.parse(record.value); } catch (_) { return; }
+  try { value = parseJSON(record.value); } catch (_) { return; }
   if (!object(value)) return;
-  const before = JSON.stringify(value);
+  const before = stringifyJSON(value);
   fn(value);
-  if (JSON.stringify(value) !== before) record.value = JSON.stringify(value);
+  if (stringifyJSON(value) !== before) record.value = stringifyJSON(value);
 }
 function nestedObject(parent, key) {
   if (parent[key] === undefined || parent[key] === null) parent[key] = {};
@@ -322,7 +376,10 @@ function transform(url, root) {
   return jdCompat(url,root);
   for (const op of OPERATIONS) {
     if (!(new RegExp(op.pattern, op.flags)).test(url)) continue;
-    if (op.action === 'delete') for (const path of Array.isArray(op.data) ? op.data : [op.data]) drop(root,path);
+    if (op.action === 'delete') for (const path of Array.isArray(op.data) ? op.data : [op.data]) {
+      if (!CLEANUP_UI && !/(?:^|\.)(?:ad[A-Z]\w*|EndNaviC3AdCard|splash\w*|SplashScreenControl|\w*[Bb]anner|\w*_popup|operation_activity|marketing_resource_config|hotsaleConfig|coupon_risk_asac|commonCouponSceneLog|sug_coupon_opt)$/.test(path)) continue;
+      drop(root,path);
+    }
     else if (op.action === 'replace') op.paths.forEach((path,i) => { if (at(root,path) !== undefined) set(root,path,op.values[i]); });
     else if (op.action === 'jq_file') {
       if (op.data.endsWith('/updatable.jq')) amapUpdatable(root);
@@ -338,14 +395,17 @@ function transform(url, root) {
   return root;
 }
 try {
-  if (typeof $response === 'undefined' || typeof $response.body !== 'string' || !$response.body.trim()) $done({});
+  if (typeof $response === 'undefined') {
+    const match=UI_REQUESTS.find(x=>new RegExp(x.pattern,x.flags).test($request.url));
+    $done(CLEANUP_UI && match ? {response:{status:200,headers:{'Content-Type':match.image?'image/gif':'application/json; charset=utf-8'},body:match.image?new Uint8Array([71,73,70,56,57,97,1,0,1,0,128,0,0,0,0,0,255,255,255,33,249,4,1,0,0,0,0,44,0,0,0,0,1,0,1,0,0,2,2,68,1,0,59]):'{}'}} : {});
+  } else if ((Number($response.status || $response.statusCode || 200)<200 || Number($response.status || $response.statusCode || 200)>=300) || typeof $response.body !== 'string' || !$response.body.trim()) $done({});
   else {
-    const format = decodeCompatibleBody($response.body); const original = format.value;
-    if (!object(original)) $done({});
+    const format=decodeCompatibleBody($response.body); const original=format.value;
+    if (!object(original) || (Array.isArray(original.ret) && original.ret.some(x=>typeof x==='string' && /^FAIL/i.test(x)))) $done({});
     else {
-      const before = JSON.stringify(original);
+      const before = stringifyJSON(original);
       const result = transform($request.url,original);
-      const body = JSON.stringify(result);
+      const body = stringifyJSON(result);
       $done(body === before ? {} : {body:encodeCompatibleBody(body,format)});
     }
   }

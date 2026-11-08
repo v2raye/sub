@@ -1,19 +1,17 @@
 #!name=京东去广告
-#!desc=[开屏兼容修复 2026-11-07] 移除京东开屏广告，精简我的页面产品推广。（Surge 转换版；含原版页面精简）
+#!desc=过滤已适配广告；默认保留正常入口。cleanup_ui=true 可开启额外页面精简。
 #!category=去广告
 #!author=RuCu6[https://github.com/RuCu6], Maasea[https://github.com/Maasea]
+#!arguments=cleanup_ui:false
+#!arguments-desc=默认关闭页面精简；true 会隐藏部分推荐、工具与服务入口。
 # Source: https://github.com/fkingikelee/fkikelee/blob/d62650fa4b5d8c03f65f03ff0ec2e8afed3226c0/lpx/JD_remove_ads.lpx
-# Script snapshot: https://raw.githubusercontent.com/v2raye/sub/main/Surge/Module/scripts/JD.js?v=20261107-splash2
 
 [Rule]
 URL-REGEX,^http:\/\/\w{32}\.jddebug\.com\/diagnose\?,REJECT
 
-# Compatibility revision: JD base64/POST-only API; Xianyu async splash.
-[Map Local]
-(?i)^https:\/\/api\.m\.jd\.com\/client\.action\?(?:[^#]*&)?functionId=(searchBoxWord|stationPullService|uniformRecommend[06])(?:&|$) data-type=text data="{}" status-code=200 header="Content-Type:application/json; charset=utf-8"
-
 [Script]
-JD-Ads = type=http-response,pattern=(?i)^https:\/\/api\.m\.jd\.com\/client\.action(?:\?|$),requires-body=true,max-size=2097152,timeout=5,script-path=https://raw.githubusercontent.com/v2raye/sub/main/Surge/Module/scripts/JD.js?v=20261107-splash2
+JD-OptionalUI = type=http-request,pattern=(?i)(?:(?:^https:\/\/api\.m\.jd\.com\/client\.action\?(?:[^#]*&)?functionId=(searchBoxWord|stationPullService|uniformRecommend[06])(?:&|$))),timeout=5,script-path=https://raw.githubusercontent.com/v2raye/sub/main/Surge/Module/scripts/JD.js?v=20261107-audit1,argument="cleanup_ui={{{cleanup_ui}}}"
+JD-Ads = type=http-response,pattern=(?i)(?:(?:^https:\/\/api\.m\.jd\.com\/client\.action(?:\?|$))),requires-body=true,max-size=2097152,timeout=5,script-path=https://raw.githubusercontent.com/v2raye/sub/main/Surge/Module/scripts/JD.js?v=20261107-audit1,argument="cleanup_ui={{{cleanup_ui}}}"
 
 [MITM]
 hostname = %APPEND% api.m.jd.com

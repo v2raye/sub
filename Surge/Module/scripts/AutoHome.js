@@ -1,88 +1,135 @@
-(function () {
+(function(){
 "use strict";
-/*
-汽车之家去广告 - Surge conversion
-Source: fkingikelee/fkikelee @ d62650fa4b5d8c03f65f03ff0ec2e8afed3226c0
-Original authors: 可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
-Original JS attribution: upstream kelee resources
-See conversion notes for schema guards, log removal, and UI changes.
-*/
+/* 汽车之家去广告; Surge audit 2026-11-07. Source fkingikelee/fkikelee @ d62650fa4b5d8c03f65f03ff0ec2e8afed3226c0; 可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]. Original JS kelee resources. See README-Adblock-Apps.md. */
 const APP="AutoHome";
 const OPERATIONS=[{"line":53,"pattern":"^https:\\/\\/news\\.app\\.autohome\\.com\\.cn\\/news_v\\d+(?:\\.\\d+){2}\\/news\\/homenavigation","flags":"i","action":"upstream_js","data":"https://raw.githubusercontent.com/fkingikelee/fkikelee/main/Resource/kelee/JavaScript/AutoHome/AutoHome_remove_ads.js"},{"line":55,"pattern":"^https:\\/\\/(a\\.athm\\.cn\\/)?mobile\\.app\\.autohome\\.com\\.cn\\/platform\\/carserver\\/((usercenter\\/getservicecards)|(carcard\\/allcard)|(carcard\\/mycardv\\d+)|(carcard\\/cards))","flags":"i","action":"upstream_js","data":"https://raw.githubusercontent.com/fkingikelee/fkikelee/main/Resource/kelee/JavaScript/AutoHome/AutoHome_remove_ads.js"},{"line":57,"pattern":"^https:\\/\\/(a\\.athm\\.cn\\/)?club\\.app\\.autohome\\.com\\.cn\\/club_v\\d+(?:\\.\\d+){2}\\/club\\/index\\/businessv\\d+","flags":"i","action":"upstream_js","data":"https://raw.githubusercontent.com/fkingikelee/fkikelee/main/Resource/kelee/JavaScript/AutoHome/AutoHome_remove_ads.js"},{"line":59,"pattern":"^https:\\/\\/(a\\.athm\\.cn\\/)?cars\\.app\\.autohome\\.com\\.cn\\/carstreaming\\/selectcarportal\\/reclist","flags":"i","action":"upstream_js","data":"https://raw.githubusercontent.com/fkingikelee/fkikelee/main/Resource/kelee/JavaScript/AutoHome/AutoHome_remove_ads.js"},{"line":61,"pattern":"^https:\\/\\/(a\\.athm\\.cn\\/)?cars\\.app\\.autohome\\.com\\.cn\\/carstreaming\\/selectcarportal\\/seriestopwithtagscard","flags":"i","action":"upstream_js","data":"https://raw.githubusercontent.com/fkingikelee/fkikelee/main/Resource/kelee/JavaScript/AutoHome/AutoHome_remove_ads.js"},{"line":63,"pattern":"^https:\\/\\/(a\\.athm\\.cn\\/)?apiautoappusc\\.che168\\.com\\/apic\\/v\\d+\\/gethomepagefeed","flags":"i","action":"upstream_js","data":"https://raw.githubusercontent.com/fkingikelee/fkikelee/main/Resource/kelee/JavaScript/AutoHome/AutoHome_remove_ads.js"}];
+const UI_REQUESTS=[{"pattern":"^https:\\/\\/(a\\.athm\\.cn\\/)?mobile\\.app\\.autohome\\.com\\.cn\\/platform\\/carserver\\/carcard\\/findEquitysV5","flags":"i","image":false},{"pattern":"^https:\\/\\/(a\\.athm\\.cn\\/)?mobile\\.app\\.autohome\\.com\\.cn\\/platform\\/carserver\\/usercenter\\/chat\\/gse\\/recquery","flags":"i","image":false},{"pattern":"^https:\\/\\/(a\\.athm\\.cn\\/)?mobile\\.app\\.autohome\\.com\\.cn\\/platform\\/carserver\\/carcard\\/extendedcards","flags":"i","image":false},{"pattern":"^https:\\/\\/(a\\.athm\\.cn\\/)?mobile\\.app\\.autohome\\.com\\.cn\\/platform\\/carserver\\/usercenter\\/getwashcarlist","flags":"i","image":false},{"pattern":"^https:\\/\\/(a\\.athm\\.cn\\/)?mobile\\.app\\.autohome\\.com\\.cn\\/platform\\/carserver\\/usercenter\\/getdealertab","flags":"i","image":false},{"pattern":"^https:\\/\\/(a\\.athm\\.cn\\/)?mobile\\.app\\.autohome\\.com\\.cn\\/platform\\/carserver\\/usercenter\\/getoillist","flags":"i","image":false},{"pattern":"^https:\\/\\/news\\.app\\.autohome\\.com\\.cn\\/cont_v\\d+(?:\\.\\d+){2}\\/api\\/article\\/extenddata","flags":"i","image":false},{"pattern":"^https:\\/\\/club\\.app\\.autohome\\.com\\.cn\\/club_v\\d+(?:\\.\\d+){2}\\/club\\/channelqa\\/header","flags":"i","image":false},{"pattern":"^https:\\/\\/dealer\\.m\\.autohome\\.com\\.cn\\/handler\\/other\\/getdata\\?__action=super\\.list","flags":"i","image":false},{"pattern":"^https:\\/\\/autoapi\\.autohome\\.com\\.cn\\/arvr-dealercloud-api\\/online\\/aggregation\\/exhibitionList","flags":"i","image":false},{"pattern":"^https:\\/\\/dealer\\.m\\.autohome\\.com\\.cn\\/handler\\/other\\/getdata\\?__action=vrcore\\.list","flags":"i","image":false},{"pattern":"^https:\\/\\/dealer\\.m\\.autohome\\.com\\.cn\\/handler\\/other\\/getdata\\?__action=platform\\.search","flags":"i","image":false}];
 const JQ_CONFIG={};
+// Preserve unsafe integer/scientific-integer literals without requiring BigInt support.
+class RawInteger {
+  constructor(raw) { Object.defineProperty(this, 'raw', {value: raw}); }
+}
+let unsafeIntegerSeen = false;
+function parseJSON(text) {
+  const tokens = [];
+  const quoted = [];
+  const re = /"(?:\\[\s\S]|[^"\\])*"|-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?/g;
+  let match;
+  while ((match = re.exec(text)) !== null) {
+    const raw = match[0];
+    if (raw[0] === '"') { if (raw.includes('_') || /\\u/i.test(raw)) quoted.push(raw); continue; }
+    const number = Number(raw);
+    if (!Number.isFinite(number) || (Number.isInteger(number) && !Number.isSafeInteger(number))) tokens.push({start:match.index,end:re.lastIndex,raw});
+  }
+  if (!tokens.length) return JSON.parse(text);
+  const strings = quoted.map(x => JSON.parse(x));
+  let prefix = '__SG_RAW_INT_0_'; let serial = 0;
+  while (strings.some(x => x.startsWith(prefix))) prefix = '__SG_RAW_INT_' + (++serial) + '_';
+  const values = new Map(); const parts = []; let offset = 0;
+  tokens.forEach((token, index) => { const key = prefix + index + '__'; values.set(key,token.raw); parts.push(text.slice(offset,token.start), JSON.stringify(key)); offset = token.end; });
+  parts.push(text.slice(offset));
+  const result = JSON.parse(parts.join(''), (_key,value) => typeof value === 'string' && values.has(value) ? new RawInteger(values.get(value)) : value);
+  unsafeIntegerSeen = true;
+  return result;
+}
+function stringifyJSON(value) {
+  if (!unsafeIntegerSeen) return JSON.stringify(value);
+  let serial = 0;
+  while (true) {
+    const prefix = '__SG_SERIAL_INT_' + serial++ + '_'; const records = []; let collision = false;
+    const result = JSON.stringify(value, (key,item) => {
+      if (key.startsWith(prefix)) collision = true;
+      if (item instanceof RawInteger) { const token=prefix+records.length+'__'; records.push(item.raw); return token; }
+      if (typeof item==='string' && item.startsWith(prefix)) collision=true;
+      return item;
+    });
+    if (collision) continue;
+    return typeof result==='string' ? result.replace(new RegExp('"'+prefix+'(\\d+)__"','g'), (raw,index) => records[Number(index)] ?? raw) : result;
+  }
+}
+const CLEANUP_UI = typeof $argument === 'string' && /(?:^|[;,\s])cleanup_ui=(?:true|1)(?:$|[;,\s])/i.test($argument);
+function keepKnown(items, predicate) {
+  const kept=items.filter(predicate);
+  return kept.length || !items.length ? kept : items;
+}
+function marketingKey(key) {
+  return /splash|advert|(?:^|_)ad(?:_|$)|^ad[A-Z_]|lottery|coupon|marketing|promo|banner|welfare|discount|coins|vip|grabbing|qqmusic|starbucks/i.test(key);
+}
+function isExplicitAd(item) {
+  return object(item) && (item.isAd===true || item.isAd===1 || item.ad===true || item.ad===1 || item.cardType==='ad' || item.type==='advertisement');
+}
 function upstream(url,obj) {
-
-    // 删除首页 - 左上角以旧换新
-    if (/\/news_v\d+(?:\.\d+){2}\/news\/homenavigation/.test(url)) {
-        delete obj.result.leftops;
-    }
-
-    // 删除社区广场 - 广告轮播图
-    if (/\/club_v\d+(?:\.\d+){2}\/club\/index\/businessv\d+/.test(url)) {
-        delete obj.result.bannerlist;
-    }
-
-    // 删除选车 - 直播浮窗
-    if (url.includes("/carstreaming/selectcarportal/reclist")) {
-        delete obj.result.liveinfo;
-    }
-    
-    // 删除我的页面 - 移除添加我的爱车领券
-    if (/\/platform\/carserver\/carcard\/mycardv\d+/.test(url)) {
-      delete obj.result.nocartext;
+  url=url.toLowerCase();
+  if (!object(obj.result)) return obj;
+  const r=obj.result;
+  if (/\/news_v\d+(?:\.\d+){2}\/news\/homenavigation/.test(url) && (CLEANUP_UI || isExplicitAd(r.leftops))) delete r.leftops;
+  if (/\/club_v\d+(?:\.\d+){2}\/club\/index\/businessv\d+/.test(url) && Array.isArray(r.bannerlist)) { if(CLEANUP_UI) delete r.bannerlist; else r.bannerlist=r.bannerlist.filter(x=>!isExplicitAd(x)); }
+  if (url.includes('/carstreaming/selectcarportal/reclist')) delete r.liveinfo;
+  if (/\/platform\/carserver\/carcard\/mycardv\d+/.test(url) && (CLEANUP_UI || typeof r.nocartext==='string' && /领券|优惠券|红包|抽奖|推广/.test(r.nocartext))) delete r.nocartext;
+  if (/\/platform\/carserver\/carcard\/cards/.test(url) && Array.isArray(r.list)) r.list=r.list.filter(x=>!isExplicitAd(x) && !(CLEANUP_UI && at(x,'title')==='热门活动'));
+  function removeTitles(titles) {
+    if (!Array.isArray(r.otherlist)) return;
+    r.otherlist=r.otherlist.filter(group=>{
+      if (!object(group) || !Array.isArray(group.list)) return true;
+      const list=group.list.filter(x=>!titles.includes(at(x,'title')));
+      const changed=list.length!==group.list.length;group.list=list;
+      return !changed || list.length>0;
+    });
   }
-
-    // 删除我的页面 - 热门活动
-    if (/\/platform\/carserver\/carcard\/cards/.test(url)) {
-      if (Array.isArray(obj.result.list)) obj.result.list.splice(0,1);
+  if (url.includes('/carstreaming/selectcarportal/seriestopwithtagscard')) removeTitles(['直播中','报价中']);
+  if (/\/apic\/v\d+\/gethomepagefeed/.test(url)) removeTitles(['车抵贷']);
+  if (/\/platform\/carserver\/(?:usercenter\/getservicecards|carcard\/allcard)/.test(url)) removeTitles(['低息借钱','分期购车','车主贷','测贷款额度','测贷款额']);
+  return obj;
+}
+// Bounded format compatibility, independent of Buffer/atob/TextDecoder globals.
+const BASE64_ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+function base64JsonDecode(raw) {
+  let text = raw.replace(/\s+/g, '');
+  if (!text || !/^[A-Za-z0-9+/_-]*={0,2}$/.test(text) || text.length % 4 === 1) throw new Error('Not base64');
+  const unpadded = text.replace(/=+$/, '');
+  if (text.includes('=') && text.length % 4 !== 0) throw new Error('Bad padding');
+  text = unpadded.replace(/-/g,'+').replace(/_/g,'/');
+  let buffer = 0, bits = 0; const bytes=new Uint8Array(Math.floor(text.length*3/4)); let byteLength=0;
+  for (const char of text) {
+    buffer = (buffer << 6) | BASE64_ALPHABET.indexOf(char); bits += 6;
+    if (bits >= 8) { bits -= 8; bytes[byteLength++]=(buffer >>> bits) & 255; }
   }
-
-    // 遍历关键词删除
-    function removeItemsWithKeywords(objc, keyword) {
-        var otherlist = objc["result"]["otherlist"]
-        if (Array.isArray(otherlist)) {
-          otherlist = otherlist.filter(function(ol) {
-            var lists = ol["list"]
-            if (Array.isArray(lists)) {
-              for (let index in lists) {
-                var item = lists[index]
-                if (item["title"] === keyword) {
-                  return false
-                }
-              }
-            }
-            return true
-          });
-        }
-        objc["result"]["otherlist"] = otherlist
-        return objc
-    }
-
-    // 选车 - 新车报价页面直播内容
-    if (url.includes("/carstreaming/selectcarportal/seriestopwithtagscard")) {
-        obj = removeItemsWithKeywords(obj, "直播中");
-        obj = removeItemsWithKeywords(obj, "报价中");
-    }
-
-    // 删除二手车 - 竖版轮播图
-    if (/\/apic\/v\d+\/gethomepagefeed/.test(url)) {
-        obj = removeItemsWithKeywords(obj, "车抵贷");
-    }
-
-    // 精简精选服务、全部服务
-    if (/\/platform\/carserver\/((usercenter\/getservicecards)|(carcard\/allcard))/.test(url)) {
-        obj = removeItemsWithKeywords(obj, "低息借钱");
-        obj = removeItemsWithKeywords(obj, "分期购车");
-        obj = removeItemsWithKeywords(obj, "车主贷");
-        obj = removeItemsWithKeywords(obj, "测贷款额度");
-        obj = removeItemsWithKeywords(obj, "测贷款额");
-    }
-
-    
-return obj;
+  if (bits && (buffer & ((1 << bits) - 1))) throw new Error('Noncanonical trailing bits');
+  let decoded='';
+  for(let i=0;i<byteLength;) { let end=Math.min(i+8192,byteLength); while(end<byteLength && (bytes[end]&192)===128)end--; if(end===i)throw new Error('Bad UTF8'); let part=''; for(let j=i;j<end;j++)part+='%'+bytes[j].toString(16).padStart(2,'0'); decoded+=decodeURIComponent(part); i=end; }
+  return parseJSON(decoded);
+}
+function base64JsonEncode(json, format) {
+  const bytes = unescape(encodeURIComponent(json));
+  let output = '';
+  for (let i=0; i<bytes.length; i+=3) {
+    const a=bytes.charCodeAt(i), hasB=i+1<bytes.length, hasC=i+2<bytes.length;
+    const b=hasB?bytes.charCodeAt(i+1):0, c=hasC?bytes.charCodeAt(i+2):0;
+    output += BASE64_ALPHABET[a>>>2] + BASE64_ALPHABET[((a&3)<<4)|(b>>>4)] + (hasB?BASE64_ALPHABET[((b&15)<<2)|(c>>>6)]:'=') + (hasC?BASE64_ALPHABET[c&63]:'=');
+  }
+  if (format.urlSafe) output=output.replace(/\+/g,'-').replace(/\//g,'_');
+  if (!format.padded) output=output.replace(/=+$/,'');
+  return format.quoted ? stringifyJSON(output) : output;
+}
+function decodeCompatibleBody(raw) {
+  const text=raw.trim();
+  let value;
+  try {
+    value=parseJSON(text);
+    if (typeof value !== 'string') return {value,kind:'json'};
+  } catch (_) {}
+  const callback=/^([A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*)*)\s*\(([\s\S]*)\)\s*;?$/.exec(text);
+  if (callback) return {value:parseJSON(callback[2]),kind:'jsonp',callback:callback[1],semicolon:text.endsWith(';')};
+  const quoted=typeof value==='string', encoded=quoted?value:text;
+  return {value:base64JsonDecode(encoded),kind:'base64',quoted,urlSafe:/[-_]/.test(encoded),padded:/=\s*$/.test(encoded)};
+}
+function encodeCompatibleBody(json, format) {
+  if (format.kind==='base64') return base64JsonEncode(json,format);
+  if (format.kind==='jsonp') return format.callback+'('+json+')'+(format.semicolon?';':'');
+  return json;
 }
 // Pure JSON transforms. No network, storage, notification, cookie, or account APIs.
-function object(v) { return v !== null && typeof v === 'object' && !Array.isArray(v); }
+function object(v) { return v !== null && typeof v === 'object' && !Array.isArray(v) && !(v instanceof RawInteger); }
 function at(root, path) {
   let value = root;
   for (const key of Array.isArray(path) ? path : path.replace(/^\$\./, '').split('.')) {
@@ -110,11 +157,11 @@ function inner(root, name, fn) {
   const record = at(root, ['data', name]);
   if (!object(record) || typeof record.value !== 'string') return;
   let value;
-  try { value = JSON.parse(record.value); } catch (_) { return; }
+  try { value = parseJSON(record.value); } catch (_) { return; }
   if (!object(value)) return;
-  const before = JSON.stringify(value);
+  const before = stringifyJSON(value);
   fn(value);
-  if (JSON.stringify(value) !== before) record.value = JSON.stringify(value);
+  if (stringifyJSON(value) !== before) record.value = stringifyJSON(value);
 }
 function nestedObject(parent, key) {
   if (parent[key] === undefined || parent[key] === null) parent[key] = {};
@@ -123,7 +170,10 @@ function nestedObject(parent, key) {
 function transform(url, root) {
   for (const op of OPERATIONS) {
     if (!(new RegExp(op.pattern, op.flags)).test(url)) continue;
-    if (op.action === 'delete') for (const path of Array.isArray(op.data) ? op.data : [op.data]) drop(root,path);
+    if (op.action === 'delete') for (const path of Array.isArray(op.data) ? op.data : [op.data]) {
+      if (!CLEANUP_UI && !/(?:^|\.)(?:ad[A-Z]\w*|EndNaviC3AdCard|splash\w*|SplashScreenControl|\w*[Bb]anner|\w*_popup|operation_activity|marketing_resource_config|hotsaleConfig|coupon_risk_asac|commonCouponSceneLog|sug_coupon_opt)$/.test(path)) continue;
+      drop(root,path);
+    }
     else if (op.action === 'replace') op.paths.forEach((path,i) => { if (at(root,path) !== undefined) set(root,path,op.values[i]); });
     else if (op.action === 'jq_file') {
       if (op.data.endsWith('/updatable.jq')) amapUpdatable(root);
@@ -139,15 +189,18 @@ function transform(url, root) {
   return root;
 }
 try {
-  if (typeof $response === 'undefined' || typeof $response.body !== 'string' || !$response.body.trim()) $done({});
+  if (typeof $response === 'undefined') {
+    const match=UI_REQUESTS.find(x=>new RegExp(x.pattern,x.flags).test($request.url));
+    $done(CLEANUP_UI && match ? {response:{status:200,headers:{'Content-Type':match.image?'image/gif':'application/json; charset=utf-8'},body:match.image?new Uint8Array([71,73,70,56,57,97,1,0,1,0,128,0,0,0,0,0,255,255,255,33,249,4,1,0,0,0,0,44,0,0,0,0,1,0,1,0,0,2,2,68,1,0,59]):'{}'}} : {});
+  } else if ((Number($response.status || $response.statusCode || 200)<200 || Number($response.status || $response.statusCode || 200)>=300) || typeof $response.body !== 'string' || !$response.body.trim()) $done({});
   else {
-    const original = JSON.parse($response.body);
-    if (!object(original)) $done({});
+    const format=decodeCompatibleBody($response.body); const original=format.value;
+    if (!object(original) || (Array.isArray(original.ret) && original.ret.some(x=>typeof x==='string' && /^FAIL/i.test(x)))) $done({});
     else {
-      const before = JSON.stringify(original);
+      const before = stringifyJSON(original);
       const result = transform($request.url,original);
-      const body = JSON.stringify(result);
-      $done(body === before ? {} : {body});
+      const body = stringifyJSON(result);
+      $done(body === before ? {} : {body:encodeCompatibleBody(body,format)});
     }
   }
 } catch (_) {
