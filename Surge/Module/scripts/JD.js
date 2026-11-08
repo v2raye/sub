@@ -204,6 +204,81 @@ if (url.includes("functionId=deliverLayer") || url.includes("functionId=orderTra
 
 return obj;
 }
+// Bounded format compatibility, independent of Buffer/atob/TextDecoder globals.
+const BASE64_ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+function base64JsonDecode(raw) {
+  let text = raw.replace(/\s+/g, '');
+  if (!text || !/^[A-Za-z0-9+/_-]*={0,2}$/.test(text) || text.length % 4 === 1) throw new Error('Not base64');
+  const unpadded = text.replace(/=+$/, '');
+  if (text.includes('=') && text.length % 4 !== 0) throw new Error('Bad padding');
+  text = unpadded.replace(/-/g,'+').replace(/_/g,'/');
+  let buffer = 0, bits = 0, percent = '';
+  for (const char of text) {
+    buffer = (buffer << 6) | BASE64_ALPHABET.indexOf(char); bits += 6;
+    if (bits >= 8) { bits -= 8; percent += '%' + ((buffer >>> bits) & 255).toString(16).padStart(2,'0'); }
+  }
+  if (bits && (buffer & ((1 << bits) - 1))) throw new Error('Noncanonical trailing bits');
+  return JSON.parse(decodeURIComponent(percent));
+}
+function base64JsonEncode(json, format) {
+  const bytes = unescape(encodeURIComponent(json));
+  let output = '';
+  for (let i=0; i<bytes.length; i+=3) {
+    const a=bytes.charCodeAt(i), hasB=i+1<bytes.length, hasC=i+2<bytes.length;
+    const b=hasB?bytes.charCodeAt(i+1):0, c=hasC?bytes.charCodeAt(i+2):0;
+    output += BASE64_ALPHABET[a>>>2] + BASE64_ALPHABET[((a&3)<<4)|(b>>>4)] + (hasB?BASE64_ALPHABET[((b&15)<<2)|(c>>>6)]:'=') + (hasC?BASE64_ALPHABET[c&63]:'=');
+  }
+  if (format.urlSafe) output=output.replace(/\+/g,'-').replace(/\//g,'_');
+  if (!format.padded) output=output.replace(/=+$/,'');
+  return format.quoted ? JSON.stringify(output) : output;
+}
+function decodeCompatibleBody(raw) {
+  const text=raw.trim();
+  let value;
+  try {
+    value=JSON.parse(text);
+    if (typeof value !== 'string') return {value,kind:'json'};
+  } catch (_) {}
+  const callback=/^([A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*)*)\s*\(([\s\S]*)\)\s*;?$/.exec(text);
+  if (callback) return {value:JSON.parse(callback[2]),kind:'jsonp',callback:callback[1],semicolon:text.endsWith(';')};
+  const quoted=typeof value==='string', encoded=quoted?value:text;
+  return {value:base64JsonDecode(encoded),kind:'base64',quoted,urlSafe:/[-_]/.test(encoded),padded:/=\s*$/.test(encoded)};
+}
+function encodeCompatibleBody(json, format) {
+  if (format.kind==='base64') return base64JsonEncode(json,format);
+  if (format.kind==='jsonp') return format.callback+'('+json+')'+(format.semicolon?';':'');
+  return json;
+}
+// Compatibility evidence: zbsdsb/loon-adblock-plugins JD v2. Keep inferred shapes conservative.
+function jdCompat(url, root) {
+  if (!/^https?:\/\/api\.m\.jd\.com\/client\.action(?:[?#]|$)/i.test(url)) return root;
+  const hit=/[?&]functionId=([^&#]+)/i.exec(url);
+  let id=hit?decodeURIComponent(hit[1]):'';
+  const supported=['deliverLayer','getTabHomeInfo','myOrderInfo','orderTrackBusiness','personinfoBusiness','start','startup','welcomeHome','basicConfig'];
+  id=supported.find(x=>x.toLowerCase()===id.toLowerCase()) || (id?'__unknown__':'');
+  if (id==='basicConfig') {
+    const paths=['data.JDMessage.socketmonitor.isSocketEstablishedAhead','data.JDMessage.socketmonitor.isSocketReport','data.JDHttpToolKit.httpdns.httpdns'];
+    for (const path of paths) if(at(root,path)!==undefined)set(root,path,0);
+    return root;
+  }
+  let payload=root;
+  const shaped=x=>object(x) && ['images','floors','floorList','bannerInfo','result'].some(k=>Object.prototype.hasOwnProperty.call(x,k));
+  if (!shaped(root) && shaped(root.data)) payload=root.data;
+  if (!id) {
+    // POST-only functionId is not exposed by Surge response scripts. Require independent response shape evidence.
+    if (Array.isArray(payload.images) && Object.prototype.hasOwnProperty.call(payload,'showTimesDaily')) id='start';
+    else if (Array.isArray(payload.floors)) {
+      const ids=payload.floors.map(x=>at(x,'mId'));
+      if(ids.some(x=>['basefloorinfo','iconToolFloor','orderIdFloor','userinfo','bigSaleFloor','newAttentionCard','newBigSaleFloor','newStyleAttentionCard','newsFloor','noticeFloor','recommendfloor','buyOften'].includes(x)))id='personinfoBusiness';
+      else if(ids.some(x=>['bannerFloor','bpDynamicFloor','plusFloor','customerServiceFloor','virtualServiceCenter'].includes(x)))id='myOrderInfo';
+      else if(ids.some(x=>['banner','jdDeliveryBanner'].includes(x)))id='deliverLayer';
+    } else if(Array.isArray(payload.floorList) && payload.floorList.some(x=>['bottomXview','float','photoCeiling','ruleFloat','searchIcon','topRotate','tabBarAtmosphere'].includes(at(x,'type'))))id='welcomeHome';
+  }
+  if (!id || id==='__unknown__') return root;
+  if(id==='startup')id='start';
+  upstream('https://api.m.jd.com/client.action?functionId='+id,payload);
+  return root;
+}
 // Pure JSON transforms. No network, storage, notification, cookie, or account APIs.
 function object(v) { return v !== null && typeof v === 'object' && !Array.isArray(v); }
 function at(root, path) {
@@ -244,6 +319,7 @@ function nestedObject(parent, key) {
   return object(parent[key]) ? parent[key] : null;
 }
 function transform(url, root) {
+  return jdCompat(url,root);
   for (const op of OPERATIONS) {
     if (!(new RegExp(op.pattern, op.flags)).test(url)) continue;
     if (op.action === 'delete') for (const path of Array.isArray(op.data) ? op.data : [op.data]) drop(root,path);
@@ -264,13 +340,13 @@ function transform(url, root) {
 try {
   if (typeof $response === 'undefined' || typeof $response.body !== 'string' || !$response.body.trim()) $done({});
   else {
-    const original = JSON.parse($response.body);
+    const format = decodeCompatibleBody($response.body); const original = format.value;
     if (!object(original)) $done({});
     else {
       const before = JSON.stringify(original);
       const result = transform($request.url,original);
       const body = JSON.stringify(result);
-      $done(body === before ? {} : {body});
+      $done(body === before ? {} : {body:encodeCompatibleBody(body,format)});
     }
   }
 } catch (_) {

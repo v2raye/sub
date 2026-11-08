@@ -64,3 +64,14 @@
 JS/JQ 来自同一仓库 Resource/kelee/；京东、淘宝原 JS 另标注引用 RuCu6/QuanX。这里保留作者归属与来源，不宣称拥有上游作品版权，也不对上游授权作额外假定。
 
 Surge 语义参考：[模块](https://manual.nssurge.com/profile/module.html)、[Map Local](https://manual.nssurge.com/http/map-local.html)、[响应脚本](https://manual.nssurge.com/scripting/http-response.html)。
+
+## 2026-11-07 京东 / 闲鱼开屏兼容修复
+
+上一版按原 Loon 源插件移植，通过样例测试不代表适配所有新版 App。本次针对用户反馈的开屏问题补足已确认的捕获缺口：
+
+- 京东：捕获范围改为精确的 api.m.jd.com/client.action 接口，不再要求 functionId 位于 URL 首个参数。兼容明文 JSON、整体 Base64 JSON、JSON 字符串包装的 Base64；只在已知 functionId 或已有响应结构提供独立识别证据时处理。新旧 startup/start 入口兼容，无 functionId 时仅凭 images 字段不清空商品图片，开屏推断要求 showTimesDaily 等已知结构。无法识别的新协议继续原样放行，不将所有 client.action 请求拒绝。
+- 闲鱼：新增 splash.async.ads 响应处理，保留响应业务信封及返回状态，只清空已知 adMap 广告字段；兼容相应接口的 goofish / taobao、acs / g-acs 主机以及 JSONP/明文/Base64 响应。已有同步开屏 Map Local 规则保留。
+- 脚本 URL 版本参数变为 ?v=20261107-splash2；需在 Surge 中更新模块内容，才能拉取新地址。仅开关旧模块不会更新其匹配规则。更新后完全结束 App 进程再打开。
+- 原 117 项回归测试和新增 71 项开屏样例测试均通过，合计 188 项；包含不改写无关商品图片、订单、认证响应的用例。两模块内容合入测试 profile 的原生校验通过。尚无用户真实开屏响应回放和 iPhone 实测，不能据此承诺所有开屏广告均已拦截。
+
+兼容参考：[京东公开适配代码与记录](https://github.com/zbsdsb/loon-adblock-plugins)、[闲鱼异步开屏接口的公开记录](https://github.com/skernelx/SurgeScripts)。这些是外部适配证据，未据此推断用户确切 App 版本。未增加 Cookie 捕获、持久化记录、外发或正文日志。
