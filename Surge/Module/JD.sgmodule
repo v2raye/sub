@@ -1,0 +1,18 @@
+#!name=京东去广告
+#!desc=移除京东开屏广告，精简我的页面产品推广。（Surge 转换版；含原版页面精简）
+#!category=去广告
+#!author=RuCu6[https://github.com/RuCu6], Maasea[https://github.com/Maasea]
+# Source: https://github.com/fkingikelee/fkikelee/blob/d62650fa4b5d8c03f65f03ff0ec2e8afed3226c0/lpx/JD_remove_ads.lpx
+# Script snapshot: https://raw.githubusercontent.com/v2raye/sub/main/Surge/Module/scripts/JD.js
+
+[Rule]
+URL-REGEX,^http:\/\/\w{32}\.jddebug\.com\/diagnose\?,REJECT
+
+[Map Local]
+(?i)^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(searchBoxWord|stationPullService|uniformRecommend[06]) data-type=text data="{}" status-code=200 header="Content-Type:application/json; charset=utf-8"
+
+[Script]
+JD-Ads = type=http-response,pattern=(?i)(?:(?:^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=basicConfig)|(?:^https:\/\/api\.m\.jd\.com\/client\.action\?functionId=(deliverLayer|getTabHomeInfo|myOrderInfo|orderTrackBusiness|personinfoBusiness|start|welcomeHome))),requires-body=true,max-size=2097152,timeout=5,script-path=https://raw.githubusercontent.com/v2raye/sub/main/Surge/Module/scripts/JD.js
+
+[MITM]
+hostname = %APPEND% api.m.jd.com

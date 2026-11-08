@@ -1,0 +1,21 @@
+#!name=闲鱼去广告
+#!desc=移除开屏广告、商品信息流广告、关注推荐、搜索栏填充词、首页签到入口及悬浮广告，精简我的页面。（Surge 转换版；含原版页面精简）
+#!category=去广告
+#!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+# Source: https://github.com/fkingikelee/fkikelee/blob/d62650fa4b5d8c03f65f03ff0ec2e8afed3226c0/lpx/FleaMarket_remove_ads.lpx
+# Script snapshot: https://raw.githubusercontent.com/v2raye/sub/main/Surge/Module/scripts/Xianyu.js
+
+[Map Local]
+(?i)^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlecommerce\.splash\.ads\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json; charset=utf-8"
+(?i)^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.user\.strategy\.list\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json; charset=utf-8"
+(?i)^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.item\.recommend\.list\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json; charset=utf-8"
+(?i)^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.near\.by\.corner\.info\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json; charset=utf-8"
+(?i)^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.item\.buy\.feeds\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json; charset=utf-8"
+(?i)^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\.shade\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json; charset=utf-8"
+(?i)^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.playboy\.recommend\/ data-type=text data="{}" status-code=200 header="Content-Type:application/json; charset=utf-8"
+
+[Script]
+Xianyu-Ads = type=http-response,pattern=(?i)(?:(?:^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.home\.nextfresh\/)|(?:^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.widget\.refresh\.get\/)|(?:^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.home\.whale\.modulet\/)|(?:^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.fun\.follow\.feed\.list\/)|(?:^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.home\.community\/)|(?:^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.home\.newitem\.page\/)|(?:^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.flow\.plat\.section\/)|(?:^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.home\.top\/)|(?:^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.local\.home\/)|(?:^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.idle\.user\.page\.my\.adapter\/)|(?:^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.home\.circle\.list\/)|(?:^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlehome\.magic\.home\.page\.list\/)|(?:^https:\/\/g-acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\/)|(?:^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.search\.discover\/)|(?:^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idlemtopsearch\.item\.search\.activate\/)|(?:^https:\/\/acs\.m\.goofish\.com\/gw\/mtop\.taobao\.idle\.trade\.full\.info\/)),requires-body=true,max-size=2097152,timeout=5,script-path=https://raw.githubusercontent.com/v2raye/sub/main/Surge/Module/scripts/Xianyu.js
+
+[MITM]
+hostname = %APPEND% acs.m.goofish.com, g-acs.m.goofish.com
