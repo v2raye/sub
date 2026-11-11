@@ -1,22 +1,15 @@
 #!name=汽车之家去广告
-#!desc=过滤已适配广告；默认保留正常入口。cleanup_ui=true 可开启额外页面精简。
+#!desc=只过滤已适配的广告与推广内容。
 #!category=去广告
 #!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
-#!arguments=cleanup_ui:false
-#!arguments-desc=默认关闭页面精简；true 会隐藏部分推荐、工具与服务入口。
 # Source: https://github.com/fkingikelee/fkikelee/blob/d62650fa4b5d8c03f65f03ff0ec2e8afed3226c0/lpx/AutoHome_remove_ads.lpx
 
 [Map Local]
-(?i)^https:\/\/autoapi\.autohome\.com\.cn\/ypttd\/yjc\/web\/mkgt\/act\/seckillInfo data-type=text data="{}" status-code=200 header="Content-Type:application/json; charset=utf-8"
-(?i)^https:\/\/(a\.athm\.cn\/)?mobile\.app\.autohome\.com\.cn\/platform\/carserver\/usercenter\/gethotactcards data-type=text data="{}" status-code=200 header="Content-Type:application/json; charset=utf-8"
 (?i)^https:\/\/pcmx\.autohome\.com\.cn\/queryCreativeList data-type=text data="{}" status-code=200 header="Content-Type:application/json; charset=utf-8"
-(?i)^https:\/\/maam\.pingan\.com\.cn\/maam\/buoy\/getBuoyList\.do data-type=text data="{}" status-code=200 header="Content-Type:application/json; charset=utf-8"
-(?i)^https:\/\/adproxy\.autohome\.com\.cn\/AdvertiseService\/AppHandler\.ashx data-type=text data="{}" status-code=200 header="Content-Type:application/json; charset=utf-8"
-(?i)^https:\/\/a\.athm\.cn\/clientlive\.api\.autohome\.com\.cn\/api\/live\/getserieswindowsinfo data-type=text data="{}" status-code=200 header="Content-Type:application/json; charset=utf-8"
+^https?://adproxy\.autohome\.com\.cn/AdvertiseService/ data-type=tiny-gif status-code=200
 
 [Script]
-AutoHome-OptionalUI = type=http-request,pattern=(?i)(?:(?:^https:\/\/(a\.athm\.cn\/)?mobile\.app\.autohome\.com\.cn\/platform\/carserver\/carcard\/findEquitysV5)|(?:^https:\/\/(a\.athm\.cn\/)?mobile\.app\.autohome\.com\.cn\/platform\/carserver\/usercenter\/chat\/gse\/recquery)|(?:^https:\/\/(a\.athm\.cn\/)?mobile\.app\.autohome\.com\.cn\/platform\/carserver\/carcard\/extendedcards)|(?:^https:\/\/(a\.athm\.cn\/)?mobile\.app\.autohome\.com\.cn\/platform\/carserver\/usercenter\/getwashcarlist)|(?:^https:\/\/(a\.athm\.cn\/)?mobile\.app\.autohome\.com\.cn\/platform\/carserver\/usercenter\/getdealertab)|(?:^https:\/\/(a\.athm\.cn\/)?mobile\.app\.autohome\.com\.cn\/platform\/carserver\/usercenter\/getoillist)|(?:^https:\/\/news\.app\.autohome\.com\.cn\/cont_v\d+(?:\.\d+){2}\/api\/article\/extenddata)|(?:^https:\/\/club\.app\.autohome\.com\.cn\/club_v\d+(?:\.\d+){2}\/club\/channelqa\/header)|(?:^https:\/\/dealer\.m\.autohome\.com\.cn\/handler\/other\/getdata\?__action=super\.list)|(?:^https:\/\/autoapi\.autohome\.com\.cn\/arvr-dealercloud-api\/online\/aggregation\/exhibitionList)|(?:^https:\/\/dealer\.m\.autohome\.com\.cn\/handler\/other\/getdata\?__action=vrcore\.list)|(?:^https:\/\/dealer\.m\.autohome\.com\.cn\/handler\/other\/getdata\?__action=platform\.search)),timeout=5,script-path=https://raw.githubusercontent.com/v2raye/sub/main/Surge/Module/scripts/AutoHome.js?v=20261107-audit1,argument="cleanup_ui={{{cleanup_ui}}}"
-AutoHome-Ads = type=http-response,pattern=(?i)(?:(?:^https:\/\/news\.app\.autohome\.com\.cn\/news_v\d+(?:\.\d+){2}\/news\/homenavigation)|(?:^https:\/\/(a\.athm\.cn\/)?mobile\.app\.autohome\.com\.cn\/platform\/carserver\/((usercenter\/getservicecards)|(carcard\/allcard)|(carcard\/mycardv\d+)|(carcard\/cards)))|(?:^https:\/\/(a\.athm\.cn\/)?club\.app\.autohome\.com\.cn\/club_v\d+(?:\.\d+){2}\/club\/index\/businessv\d+)|(?:^https:\/\/(a\.athm\.cn\/)?cars\.app\.autohome\.com\.cn\/carstreaming\/selectcarportal\/reclist)|(?:^https:\/\/(a\.athm\.cn\/)?cars\.app\.autohome\.com\.cn\/carstreaming\/selectcarportal\/seriestopwithtagscard)|(?:^https:\/\/(a\.athm\.cn\/)?apiautoappusc\.che168\.com\/apic\/v\d+\/gethomepagefeed)),requires-body=true,max-size=2097152,timeout=5,script-path=https://raw.githubusercontent.com/v2raye/sub/main/Surge/Module/scripts/AutoHome.js?v=20261107-audit1,argument="cleanup_ui={{{cleanup_ui}}}"
+AutoHome-Ads = type=http-response,pattern=(?i)(?:(?:^https:\/\/news\.app\.autohome\.com\.cn\/news_v\d+(?:\.\d+){2}\/news\/homenavigation)|(?:^https:\/\/(a\.athm\.cn\/)?mobile\.app\.autohome\.com\.cn\/platform\/carserver\/((usercenter\/getservicecards)|(carcard\/allcard)|(carcard\/mycardv\d+)|(carcard\/cards)))|(?:^https:\/\/(a\.athm\.cn\/)?club\.app\.autohome\.com\.cn\/club_v\d+(?:\.\d+){2}\/club\/index\/businessv\d+)|(?:^https:\/\/(a\.athm\.cn\/)?cars\.app\.autohome\.com\.cn\/carstreaming\/selectcarportal\/reclist)|(?:^https:\/\/(a\.athm\.cn\/)?cars\.app\.autohome\.com\.cn\/carstreaming\/selectcarportal\/seriestopwithtagscard)|(?:^https:\/\/(a\.athm\.cn\/)?apiautoappusc\.che168\.com\/apic\/v\d+\/gethomepagefeed)),requires-body=true,max-size=2097152,timeout=5,script-path=https://raw.githubusercontent.com/v2raye/sub/main/Surge/Module/scripts/AutoHome.js?v=20261111-ads-only
 
 [MITM]
 hostname = %APPEND% a.athm.cn, adproxy.autohome.com.cn, apiautoappusc.che168.com, autoapi.autohome.com.cn, cars.app.autohome.com.cn, clientlive.api.autohome.com.cn, club.app.autohome.com.cn, dealer.m.autohome.com.cn, maam.pingan.com.cn, mobile.app.autohome.com.cn, news.app.autohome.com.cn, pcmx.autohome.com.cn

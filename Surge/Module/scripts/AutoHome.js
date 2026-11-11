@@ -3,7 +3,6 @@
 /* 汽车之家去广告; Surge audit 2026-11-07. Source fkingikelee/fkikelee @ d62650fa4b5d8c03f65f03ff0ec2e8afed3226c0; 可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]. Original JS kelee resources. See README-Adblock-Apps.md. */
 const APP="AutoHome";
 const OPERATIONS=[{"line":53,"pattern":"^https:\\/\\/news\\.app\\.autohome\\.com\\.cn\\/news_v\\d+(?:\\.\\d+){2}\\/news\\/homenavigation","flags":"i","action":"upstream_js","data":"https://raw.githubusercontent.com/fkingikelee/fkikelee/main/Resource/kelee/JavaScript/AutoHome/AutoHome_remove_ads.js"},{"line":55,"pattern":"^https:\\/\\/(a\\.athm\\.cn\\/)?mobile\\.app\\.autohome\\.com\\.cn\\/platform\\/carserver\\/((usercenter\\/getservicecards)|(carcard\\/allcard)|(carcard\\/mycardv\\d+)|(carcard\\/cards))","flags":"i","action":"upstream_js","data":"https://raw.githubusercontent.com/fkingikelee/fkikelee/main/Resource/kelee/JavaScript/AutoHome/AutoHome_remove_ads.js"},{"line":57,"pattern":"^https:\\/\\/(a\\.athm\\.cn\\/)?club\\.app\\.autohome\\.com\\.cn\\/club_v\\d+(?:\\.\\d+){2}\\/club\\/index\\/businessv\\d+","flags":"i","action":"upstream_js","data":"https://raw.githubusercontent.com/fkingikelee/fkikelee/main/Resource/kelee/JavaScript/AutoHome/AutoHome_remove_ads.js"},{"line":59,"pattern":"^https:\\/\\/(a\\.athm\\.cn\\/)?cars\\.app\\.autohome\\.com\\.cn\\/carstreaming\\/selectcarportal\\/reclist","flags":"i","action":"upstream_js","data":"https://raw.githubusercontent.com/fkingikelee/fkikelee/main/Resource/kelee/JavaScript/AutoHome/AutoHome_remove_ads.js"},{"line":61,"pattern":"^https:\\/\\/(a\\.athm\\.cn\\/)?cars\\.app\\.autohome\\.com\\.cn\\/carstreaming\\/selectcarportal\\/seriestopwithtagscard","flags":"i","action":"upstream_js","data":"https://raw.githubusercontent.com/fkingikelee/fkikelee/main/Resource/kelee/JavaScript/AutoHome/AutoHome_remove_ads.js"},{"line":63,"pattern":"^https:\\/\\/(a\\.athm\\.cn\\/)?apiautoappusc\\.che168\\.com\\/apic\\/v\\d+\\/gethomepagefeed","flags":"i","action":"upstream_js","data":"https://raw.githubusercontent.com/fkingikelee/fkikelee/main/Resource/kelee/JavaScript/AutoHome/AutoHome_remove_ads.js"}];
-const UI_REQUESTS=[{"pattern":"^https:\\/\\/(a\\.athm\\.cn\\/)?mobile\\.app\\.autohome\\.com\\.cn\\/platform\\/carserver\\/carcard\\/findEquitysV5","flags":"i","image":false},{"pattern":"^https:\\/\\/(a\\.athm\\.cn\\/)?mobile\\.app\\.autohome\\.com\\.cn\\/platform\\/carserver\\/usercenter\\/chat\\/gse\\/recquery","flags":"i","image":false},{"pattern":"^https:\\/\\/(a\\.athm\\.cn\\/)?mobile\\.app\\.autohome\\.com\\.cn\\/platform\\/carserver\\/carcard\\/extendedcards","flags":"i","image":false},{"pattern":"^https:\\/\\/(a\\.athm\\.cn\\/)?mobile\\.app\\.autohome\\.com\\.cn\\/platform\\/carserver\\/usercenter\\/getwashcarlist","flags":"i","image":false},{"pattern":"^https:\\/\\/(a\\.athm\\.cn\\/)?mobile\\.app\\.autohome\\.com\\.cn\\/platform\\/carserver\\/usercenter\\/getdealertab","flags":"i","image":false},{"pattern":"^https:\\/\\/(a\\.athm\\.cn\\/)?mobile\\.app\\.autohome\\.com\\.cn\\/platform\\/carserver\\/usercenter\\/getoillist","flags":"i","image":false},{"pattern":"^https:\\/\\/news\\.app\\.autohome\\.com\\.cn\\/cont_v\\d+(?:\\.\\d+){2}\\/api\\/article\\/extenddata","flags":"i","image":false},{"pattern":"^https:\\/\\/club\\.app\\.autohome\\.com\\.cn\\/club_v\\d+(?:\\.\\d+){2}\\/club\\/channelqa\\/header","flags":"i","image":false},{"pattern":"^https:\\/\\/dealer\\.m\\.autohome\\.com\\.cn\\/handler\\/other\\/getdata\\?__action=super\\.list","flags":"i","image":false},{"pattern":"^https:\\/\\/autoapi\\.autohome\\.com\\.cn\\/arvr-dealercloud-api\\/online\\/aggregation\\/exhibitionList","flags":"i","image":false},{"pattern":"^https:\\/\\/dealer\\.m\\.autohome\\.com\\.cn\\/handler\\/other\\/getdata\\?__action=vrcore\\.list","flags":"i","image":false},{"pattern":"^https:\\/\\/dealer\\.m\\.autohome\\.com\\.cn\\/handler\\/other\\/getdata\\?__action=platform\\.search","flags":"i","image":false}];
 const JQ_CONFIG={};
 // Preserve unsafe integer/scientific-integer literals without requiring BigInt support.
 class RawInteger {
@@ -47,7 +46,7 @@ function stringifyJSON(value) {
     return typeof result==='string' ? result.replace(new RegExp('"'+prefix+'(\\d+)__"','g'), (raw,index) => records[Number(index)] ?? raw) : result;
   }
 }
-const CLEANUP_UI = typeof $argument === 'string' && /(?:^|[;,\s])cleanup_ui=(?:true|1)(?:$|[;,\s])/i.test($argument);
+const CLEANUP_UI = false;
 function keepKnown(items, predicate) {
   const kept=items.filter(predicate);
   return kept.length || !items.length ? kept : items;
@@ -76,7 +75,7 @@ function upstream(url,obj) {
       return !changed || list.length>0;
     });
   }
-  if (url.includes('/carstreaming/selectcarportal/seriestopwithtagscard')) removeTitles(['直播中','报价中']);
+  if (url.includes('/carstreaming/selectcarportal/seriestopwithtagscard')) removeTitles(['直播中']);
   if (/\/apic\/v\d+\/gethomepagefeed/.test(url)) removeTitles(['车抵贷']);
   if (/\/platform\/carserver\/(?:usercenter\/getservicecards|carcard\/allcard)/.test(url)) removeTitles(['低息借钱','分期购车','车主贷','测贷款额度','测贷款额']);
   return obj;
@@ -170,7 +169,9 @@ function nestedObject(parent, key) {
 function transform(url, root) {
   for (const op of OPERATIONS) {
     if (!(new RegExp(op.pattern, op.flags)).test(url)) continue;
-    if (op.action === 'delete') for (const path of Array.isArray(op.data) ? op.data : [op.data]) {
+    if (op.action === 'delete-ad-fields') {
+      for (const path of op.data) drop(root, path);
+    } else if (op.action === 'delete') for (const path of Array.isArray(op.data) ? op.data : [op.data]) {
       if (!CLEANUP_UI && !/(?:^|\.)(?:ad[A-Z]\w*|EndNaviC3AdCard|splash\w*|SplashScreenControl|\w*[Bb]anner|\w*_popup|operation_activity|marketing_resource_config|hotsaleConfig|coupon_risk_asac|commonCouponSceneLog|sug_coupon_opt)$/.test(path)) continue;
       drop(root,path);
     }
@@ -189,10 +190,8 @@ function transform(url, root) {
   return root;
 }
 try {
-  if (typeof $response === 'undefined') {
-    const match=UI_REQUESTS.find(x=>new RegExp(x.pattern,x.flags).test($request.url));
-    $done(CLEANUP_UI && match ? {response:{status:200,headers:{'Content-Type':match.image?'image/gif':'application/json; charset=utf-8'},body:match.image?new Uint8Array([71,73,70,56,57,97,1,0,1,0,128,0,0,0,0,0,255,255,255,33,249,4,1,0,0,0,0,44,0,0,0,0,1,0,1,0,0,2,2,68,1,0,59]):'{}'}} : {});
-  } else if ((Number($response.status || $response.statusCode || 200)<200 || Number($response.status || $response.statusCode || 200)>=300) || typeof $response.body !== 'string' || !$response.body.trim()) $done({});
+  if (typeof $response === 'undefined') $done({});
+  else if ((Number($response.status || $response.statusCode || 200)<200 || Number($response.status || $response.statusCode || 200)>=300) || typeof $response.body !== 'string' || !$response.body.trim()) $done({});
   else {
     const format=decodeCompatibleBody($response.body); const original=format.value;
     if (!object(original) || (Array.isArray(original.ret) && original.ret.some(x=>typeof x==='string' && /^FAIL/i.test(x)))) $done({});

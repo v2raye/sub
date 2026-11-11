@@ -1,20 +1,15 @@
 #!name=高德地图去广告
-#!desc=过滤已适配广告；默认保留正常入口。cleanup_ui=true 可开启额外页面精简。
+#!desc=只过滤已适配的广告与推广内容。
 #!category=去广告
 #!author=可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
-#!arguments=cleanup_ui:false
-#!arguments-desc=默认关闭页面精简；true 会隐藏部分推荐、工具与服务入口。
 # Source: https://github.com/fkingikelee/fkikelee/blob/d62650fa4b5d8c03f65f03ff0ec2e8afed3226c0/lpx/Amap_remove_ads.lpx
 
 [Map Local]
 (?i)^https://m[56]\.amap\.com/ws/(?:valueadded|aos)/alimama/splash_screen/?(?:\?|$) data-type=text data="{}" status-code=200 header="Content-Type:application/json; charset=utf-8"
-(?i)^https:\/\/m5-zb\.amap\.com\/ws\/promotion-web\/resource(\/home)?\? data-type=text data="{}" status-code=200 header="Content-Type:application/json; charset=utf-8"
-(?i)^https:\/\/m5\.amap\.com\/ws\/shield\/search_business\/process\/marketingOperationStructured\? data-type=text data="{}" status-code=200 header="Content-Type:application/json; charset=utf-8"
 
 [Script]
 Amap-AMDC = type=http-request,pattern=(?i)^https?://amdc\.m\.taobao\.com(?::(?:80|443))?/amdc/mobileDispatch/?(?:\?|$),timeout=5,script-path=https://raw.githubusercontent.com/v2raye/sub/main/Surge/Module/scripts/AMDC.js?v=20261110-splash2
-Amap-OptionalUI = type=http-request,pattern=(?i)(?:(?:^https:\/\/m5\.amap\.com\/ws\/faas\/amap-navigation\/main-page-assets\?)|(?:^https:\/\/m5\.amap\.com\/ws\/faas\/amap-navigation\/main-page-aiqs\?)|(?:^https:\/\/ai\.amap\.com\/v1\/ai_rec\/home_qs\?)|(?:^https:\/\/m5\.amap\.com\/ws\/info_bff\/rankingCard\?)),timeout=5,script-path=https://raw.githubusercontent.com/v2raye/sub/main/Surge/Module/scripts/Amap.js?v=20261107-audit1,argument="cleanup_ui={{{cleanup_ui}}}"
-Amap-Ads = type=http-response,pattern=(?i)(?:(?:^https:\/\/m5\.amap\.com\/ws\/shield\/frogserver\/aocs\/updatable\/1\?)|(?:^https:\/\/m5\.amap\.com\/ws\/shield\/dsp\/profile\/index\/nodefaasv3\?)|(?:^https:\/\/m5\.amap\.com\/ws\/shield\/scene\/recommend\?)|(?:^https:\/\/sns\.amap\.com\/ws\/opc\/tools\/list\?)|(?:^https:\/\/info\.amap\.com\/ws\/c3frontend\/af-search\/search\?)|(?:^https:\/\/m5-zb\.amap\.com\/ws\/boss\/car\/order\/content_info\?)|(?:^https:\/\/m5-zb\.amap\.com\/ws\/amap\/hitch\/passenger\/content_info\?)|(?:^https:\/\/center\.amap\.com\/ws\/amc\/server\/conv\/raise_list\?)|(?:^https:\/\/info\.amap\.com\/ws\/shield\/search_business\/process\/middleLayer\/sug\?)|(?:^https:\/\/info\.amap\.com\/ws\/shield\/search\/poi\/detail\?)|(?:^https:\/\/m5\.amap\.com\/ws\/smartui\/near_recommend\?)),requires-body=true,max-size=2097152,timeout=5,script-path=https://raw.githubusercontent.com/v2raye/sub/main/Surge/Module/scripts/Amap.js?v=20261107-audit1,argument="cleanup_ui={{{cleanup_ui}}}"
+Amap-Ads = type=http-response,pattern=(?i)(?:(?:^https:\/\/m5\.amap\.com\/ws\/shield\/frogserver\/aocs\/updatable\/1\?)|(?:^https:\/\/m5\.amap\.com\/ws\/shield\/dsp\/profile\/index\/nodefaasv3\?)|(?:^https:\/\/m5\.amap\.com\/ws\/shield\/scene\/recommend\?)|(?:^https:\/\/sns\.amap\.com\/ws\/opc\/tools\/list\?)|(?:^https:\/\/info\.amap\.com\/ws\/c3frontend\/af-search\/search\?)|(?:^https:\/\/m5-zb\.amap\.com\/ws\/boss\/car\/order\/content_info\?)|(?:^https:\/\/m5-zb\.amap\.com\/ws\/amap\/hitch\/passenger\/content_info\?)|(?:^https:\/\/center\.amap\.com\/ws\/amc\/server\/conv\/raise_list\?)|(?:^https:\/\/info\.amap\.com\/ws\/shield\/search_business\/process\/middleLayer\/sug\?)|(?:^https:\/\/info\.amap\.com\/ws\/shield\/search\/poi\/detail\?)|(?:^https:\/\/m5\.amap\.com\/ws\/smartui\/near_recommend\?)|(?:^https://m5\.amap\.com/ws/shield/search_business/process/marketingOperationStructured(?:\?|$))),requires-body=true,max-size=2097152,timeout=5,script-path=https://raw.githubusercontent.com/v2raye/sub/main/Surge/Module/scripts/Amap.js?v=20261111-ads-only
 
 [MITM]
 hostname = %APPEND% m5.amap.com, ai.amap.com, m5-zb.amap.com, center.amap.com, sns.amap.com, info.amap.com, m6.amap.com, amdc.m.taobao.com

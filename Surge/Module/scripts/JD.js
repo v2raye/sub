@@ -3,7 +3,6 @@
 /* 京东去广告; Surge audit 2026-11-07. Source fkingikelee/fkikelee @ d62650fa4b5d8c03f65f03ff0ec2e8afed3226c0; RuCu6[https://github.com/RuCu6], Maasea[https://github.com/Maasea]. Original JS RuCu6/QuanX. See README-Adblock-Apps.md. */
 const APP="JD";
 const OPERATIONS=[{"line":19,"pattern":"^https:\\/\\/api\\.m\\.jd\\.com\\/client\\.action\\?functionId=basicConfig","flags":"i","action":"replace","paths":["data.JDMessage.socketmonitor.isSocketEstablishedAhead","data.JDMessage.socketmonitor.isSocketReport","data.JDHttpToolKit.httpdns.httpdns"],"values":[0,0,0]},{"line":22,"pattern":"^https:\\/\\/api\\.m\\.jd\\.com\\/client\\.action\\?functionId=(deliverLayer|getTabHomeInfo|myOrderInfo|orderTrackBusiness|personinfoBusiness|start|welcomeHome)","flags":"i","action":"upstream_js","data":"https://raw.githubusercontent.com/fkingikelee/fkikelee/main/Resource/kelee/JavaScript/JD/JD_remove_ads.js"}];
-const UI_REQUESTS=[{"pattern":"^https:\\/\\/api\\.m\\.jd\\.com\\/client\\.action\\?(?:[^#]*&)?functionId=(searchBoxWord|stationPullService|uniformRecommend[06])(?:&|$)","flags":"i","image":false}];
 const JQ_CONFIG={};
 // Preserve unsafe integer/scientific-integer literals without requiring BigInt support.
 class RawInteger {
@@ -47,7 +46,7 @@ function stringifyJSON(value) {
     return typeof result==='string' ? result.replace(new RegExp('"'+prefix+'(\\d+)__"','g'), (raw,index) => records[Number(index)] ?? raw) : result;
   }
 }
-const CLEANUP_UI = typeof $argument === 'string' && /(?:^|[;,\s])cleanup_ui=(?:true|1)(?:$|[;,\s])/i.test($argument);
+const CLEANUP_UI = false;
 function keepKnown(items, predicate) {
   const kept=items.filter(predicate);
   return kept.length || !items.length ? kept : items;
@@ -86,7 +85,7 @@ if (url.includes("functionId=deliverLayer") || url.includes("functionId=orderTra
     let newFloors = [];
     for (let floor of obj.floors) {
       if(!object(floor)){newFloors.push(floor);continue;}
-      if (["bannerFloor", "bpDynamicFloor", "plusFloor"]?.includes(floor?.mId)) {
+      if (["bpDynamicFloor", "plusFloor"]?.includes(floor?.mId)) {
         // bannerFloor满意度评分 bpDynamicFloor专属权益 plusFloor开通会员
         continue;
       } else {
@@ -109,15 +108,6 @@ if (url.includes("functionId=deliverLayer") || url.includes("functionId=orderTra
               newItems.push(item);
             }
             floor.data.virtualServiceCenters = newItems;
-          }
-        }
-        if (floor?.mId === "customerServiceFloor") {
-          // 客户服务
-          if (floor?.data?.moreText) {
-            // 点此获得更多服务
-            delete floor.data.moreIcon;
-            delete floor.data.moreIcon_dark;
-            floor.data.moreText = " ";
           }
         }
         newFloors.push(floor);
@@ -376,7 +366,9 @@ function transform(url, root) {
   return jdCompat(url,root);
   for (const op of OPERATIONS) {
     if (!(new RegExp(op.pattern, op.flags)).test(url)) continue;
-    if (op.action === 'delete') for (const path of Array.isArray(op.data) ? op.data : [op.data]) {
+    if (op.action === 'delete-ad-fields') {
+      for (const path of op.data) drop(root, path);
+    } else if (op.action === 'delete') for (const path of Array.isArray(op.data) ? op.data : [op.data]) {
       if (!CLEANUP_UI && !/(?:^|\.)(?:ad[A-Z]\w*|EndNaviC3AdCard|splash\w*|SplashScreenControl|\w*[Bb]anner|\w*_popup|operation_activity|marketing_resource_config|hotsaleConfig|coupon_risk_asac|commonCouponSceneLog|sug_coupon_opt)$/.test(path)) continue;
       drop(root,path);
     }
@@ -395,10 +387,8 @@ function transform(url, root) {
   return root;
 }
 try {
-  if (typeof $response === 'undefined') {
-    const match=UI_REQUESTS.find(x=>new RegExp(x.pattern,x.flags).test($request.url));
-    $done(CLEANUP_UI && match ? {response:{status:200,headers:{'Content-Type':match.image?'image/gif':'application/json; charset=utf-8'},body:match.image?new Uint8Array([71,73,70,56,57,97,1,0,1,0,128,0,0,0,0,0,255,255,255,33,249,4,1,0,0,0,0,44,0,0,0,0,1,0,1,0,0,2,2,68,1,0,59]):'{}'}} : {});
-  } else if ((Number($response.status || $response.statusCode || 200)<200 || Number($response.status || $response.statusCode || 200)>=300) || typeof $response.body !== 'string' || !$response.body.trim()) $done({});
+  if (typeof $response === 'undefined') $done({});
+  else if ((Number($response.status || $response.statusCode || 200)<200 || Number($response.status || $response.statusCode || 200)>=300) || typeof $response.body !== 'string' || !$response.body.trim()) $done({});
   else {
     const format=decodeCompatibleBody($response.body); const original=format.value;
     if (!object(original) || (Array.isArray(original.ret) && original.ret.some(x=>typeof x==='string' && /^FAIL/i.test(x)))) $done({});
