@@ -8,10 +8,14 @@
 
 [Rule]
 URL-REGEX,^http:\/\/\w{32}\.jddebug\.com\/diagnose\?,REJECT
+DOMAIN,dns.jd.com,REJECT
+
+[Map Local]
+^https?://dns\.jd\.com(?::(?:80|443))?(?:/|\?|$) data-type=text data="{}" status-code=503
 
 [Script]
 JD-OptionalUI = type=http-request,pattern=(?i)(?:(?:^https:\/\/api\.m\.jd\.com\/client\.action\?(?:[^#]*&)?functionId=(searchBoxWord|stationPullService|uniformRecommend[06])(?:&|$))),timeout=5,script-path=https://raw.githubusercontent.com/v2raye/sub/main/Surge/Module/scripts/JD.js?v=20261107-audit1,argument="cleanup_ui={{{cleanup_ui}}}"
 JD-Ads = type=http-response,pattern=(?i)(?:(?:^https:\/\/api\.m\.jd\.com\/client\.action(?:\?|$))),requires-body=true,max-size=2097152,timeout=5,script-path=https://raw.githubusercontent.com/v2raye/sub/main/Surge/Module/scripts/JD.js?v=20261107-audit1,argument="cleanup_ui={{{cleanup_ui}}}"
 
 [MITM]
-hostname = %APPEND% api.m.jd.com
+hostname = %APPEND% api.m.jd.com, dns.jd.com

@@ -1,6 +1,6 @@
 # 五款 App 去广告（Surge iOS 6）
 
-2026-11-07 审查修订版。默认过滤已适配的开屏与广告字段，保留正常业务入口；额外页面精简独立为 `cleanup_ui` 参数，默认 `false`。完成静态及合成响应测试，未完成 iPhone 真机或真实抓包回放验证。
+2026-11-10 开屏修订版。默认过滤已适配的开屏与广告字段，保留正常业务入口；额外页面精简独立为 `cleanup_ui` 参数，默认 `false`。完成静态及合成响应测试，未完成 iPhone 真机或真实抓包回放验证。
 
 ## 安装与更新
 
@@ -14,11 +14,21 @@ Surge → 模块 → 安装新模块，按需添加：
 | 高德地图 | https://raw.githubusercontent.com/v2raye/sub/main/Surge/Module/Amap.sgmodule |
 | 汽车之家 | https://raw.githubusercontent.com/v2raye/sub/main/Surge/Module/AutoHome.sgmodule |
 
-脚本均在同仓库 `Surge/Module/scripts/`，无须手动下载。此次必须**更新模块内容**，使规则、参数和脚本地址一起更新到 `?v=20261107-audit1`；仅开关旧模块不会更新。开启 Rewrite、Scripting、MITM，并安装且信任 Surge CA。模块追加 hostname，不覆盖证书或主配置。更新后完全结束对应 App 再打开。避免同时启用处理相同接口的其他脚本模块。
+脚本均在同仓库 `Surge/Module/scripts/`，无须手动下载。此次必须**更新模块内容**，使规则及脚本引用一起更新；仅开关旧模块不会更新。开启 Rewrite、Scripting、MITM，并安装且信任 Surge CA。模块追加 hostname，不覆盖证书或主配置。更新后完全结束对应 App 再打开。避免同时启用处理相同接口的其他脚本模块。
 
 模块参数 `cleanup_ui=false` 为默认模式；`true` 开启上游额外页面精简，会隐藏部分推荐、工具、订单组件、地点详情模块等正常功能。两种模式都保留已适配的开屏广告清理。不同 App 版本与未识别的新广告结构仍需实机确认。
 
-## 本次发现与修复
+## 2026-11-10 开屏修复
+
+- 淘宝：原版已匹配的开屏素材改用默认生效的透明小图，和页面精简分开。
+- 高德：匹配 m5、m6 上的 valueadded 和 aos 开屏路径，兼容末尾斜线。
+- 闲鱼：加入 iyes.youku.com 开屏请求处理，保留原同步和异步开屏规则。
+- 京东：处理 dns.jd.com 的 HTTPDNS 请求，保留 start/startup 响应过滤。
+- 高德、淘宝、闲鱼共用同一 AMDC 脚本。任一模块启用后，脚本仅对共享 mobileDispatch 接口中匹配这三款 App 的 User-Agent 返回空 JSON。重复安装时首条匹配执行。HTTPS 依赖 Surge MITM。
+
+参考：[高德与 AMDC](https://github.com/ddgksf2013/Rewrite/blob/master/AdBlock/AmapAds.conf)、[闲鱼](https://github.com/ddgksf2013/Rewrite/blob/master/AdBlock/GoofishAds.conf)、[京东 HTTPDNS](https://github.com/fmz200/wool_scripts/blob/main/Surge/module/split/partJ/JD.com.sgmodule)。
+
+## 既有修复
 
 | 范围 | 原问题 | 修复 |
 |---|---|---|
@@ -35,14 +45,14 @@ Surge → 模块 → 安装新模块，按需添加：
 ## 当前处理范围
 
 - 京东：start/startup 开屏、已知营销楼层、物流及订单推广、源插件 basicConfig 开关。工具排序、评价提醒、关注/常购等精简默认关闭。
-- 淘宝：已知开屏图片/视频配置和广告接口；上游域名拒绝仍保留。按图片尺寸拦截与部分活动/二楼入口精简默认关闭。
+- 淘宝：已知开屏图片/视频配置和广告接口；上游域名拒绝仍保留。已匹配的开屏图片默认拦截，部分活动和二楼入口精简默认关闭。
 - 闲鱼：同步开屏 Map Local、异步开屏 adMap（acs/g-acs、goofish/taobao 四个主机）、已知 mamaAD/banner/ads 卡片及搜索广告。订单组件与个人工具白名单默认关闭。
 - 高德：已知开屏/营销接口、明确广告配置及横幅、搜索明确 ad 标记。正常钱包、工具、打车功能、POI 地址及未知详情模块默认保留。
 - 汽车之家：已知广告服务接口、推广子项、直播浮窗及明确广告卡片。默认不整页清空 mycardv6，不按位置删除第一项。
 
 ## 验证与仍存在的边界
 
-367 项合成检查全部通过：117 项源行为/结构检查（使用 cleanup_ui=true 对照原处理范围）、71 项京东闲鱼开屏兼容检查、179 项新增数据精度、异常、类型、默认业务保留、条件请求、编码及接口匹配检查。包含与上游 JQ/JS 的代表输入对照；不是对所有生产协议的证明。
+384 项合成检查全部通过：117 项源行为/结构检查（使用 cleanup_ui=true 对照原处理范围）、71 项京东闲鱼开屏兼容检查、178 项数据精度、异常、类型、默认业务保留、条件请求、编码及接口匹配检查，以及 18 项开屏规则和 AMDC 回归检查。包含与上游 JQ/JS 的代表输入对照；不是对所有生产协议的证明。
 
 五份模块均通过 Surge Mac 原生模块 LSP 检查（零诊断），合入最小 profile 后 `surge-cli --check` 全部 OK。测试覆盖默认参数展开；尚未实测 iPhone 的模块参数界面、联网执行及五款 App 的完整业务流程。
 
