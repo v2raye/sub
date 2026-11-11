@@ -1,7 +1,9 @@
 #!name=京东去广告
-#!desc=只过滤已适配的广告与推广内容。
+#!desc=去广告与页面精简。关闭页面精简后继续去广告。
 #!category=去广告
 #!author=RuCu6[https://github.com/RuCu6], Maasea[https://github.com/Maasea]
+#!arguments=cleanup_ui:true
+#!arguments-desc=页面精简默认开启，设为 false 可保留推荐和工具入口。
 # Source: https://github.com/fkingikelee/fkikelee/blob/d62650fa4b5d8c03f65f03ff0ec2e8afed3226c0/lpx/JD_remove_ads.lpx
 
 [Rule]
@@ -12,7 +14,8 @@ DOMAIN,dns.jd.com,REJECT
 ^https?://dns\.jd\.com(?::(?:80|443))?(?:/|\?|$) data-type=text data="{}" status-code=503
 
 [Script]
-JD-Ads = type=http-response,pattern=(?i)(?:(?:^https:\/\/api\.m\.jd\.com\/client\.action(?:\?|$))),requires-body=true,max-size=2097152,timeout=5,script-path=https://raw.githubusercontent.com/v2raye/sub/main/Surge/Module/scripts/JD.js?v=20261111-ads-only
+JD-OptionalUI = type=http-request,pattern=(?i)(?:(?:^https:\/\/api\.m\.jd\.com\/client\.action\?(?:[^#]*&)?functionId=(searchBoxWord|stationPullService|uniformRecommend[06])(?:&|$))),timeout=5,script-path=https://raw.githubusercontent.com/v2raye/sub/main/Surge/Module/scripts/JD.js?v=20261111-ui,argument="cleanup_ui={{{cleanup_ui}}}"
+JD-Ads = type=http-response,pattern=(?i)(?:(?:^https:\/\/api\.m\.jd\.com\/client\.action(?:\?|$))),requires-body=true,max-size=2097152,timeout=5,script-path=https://raw.githubusercontent.com/v2raye/sub/main/Surge/Module/scripts/JD.js?v=20261111-ui,argument="cleanup_ui={{{cleanup_ui}}}"
 
 [MITM]
 hostname = %APPEND% api.m.jd.com, dns.jd.com

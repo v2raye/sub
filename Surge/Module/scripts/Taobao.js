@@ -3,6 +3,7 @@
 /* 淘宝去广告; Surge audit 2026-11-07. Source fkingikelee/fkikelee @ d62650fa4b5d8c03f65f03ff0ec2e8afed3226c0; RuCu6[https://github.com/RuCu6]. Original JS RuCu6/QuanX. See README-Adblock-Apps.md. */
 const APP="Taobao";
 const OPERATIONS=[{"line":35,"pattern":"^https:\\/\\/guide-acs\\.m\\.taobao\\.com\\/gw\\/mtop\\.taobao\\.(cloudvideo\\.video\\.query|wireless\\.home\\.splash\\.awesome\\.get)","flags":"i","action":"upstream_js","data":"https://raw.githubusercontent.com/fkingikelee/fkikelee/main/Resource/kelee/JavaScript/Taobao/Taobao_remove_ads.js"},{"line":37,"pattern":"^https:\\/\\/poplayer\\.template\\.alibaba\\.com\\/\\w+\\.json","flags":"i","action":"upstream_js","data":"https://raw.githubusercontent.com/fkingikelee/fkikelee/main/Resource/kelee/JavaScript/Taobao/Taobao_remove_ads.js"}];
+const UI_REQUESTS=[{"pattern":"^https:\\/\\/acs\\.m\\.taobao\\.com\\/gw\\/mtop\\.alimusic\\.common\\.mobileservice\\.startinit","flags":"i","image":false},{"pattern":"^https:\\/\\/acs\\.m\\.taobao\\.com\\/gw\\/mtop\\.taobao\\.idle\\.home\\.welcome","flags":"i","image":false},{"pattern":"^https:\\/\\/acs\\.m\\.taobao\\.com\\/gw\\/mtop\\.trip\\.activity\\.querytmsresources","flags":"i","image":false},{"pattern":"^https:\\/\\/guide-acs\\.m\\.taobao\\.com\\/gw\\/mtop\\.taobao\\.(volvo\\.secondfloor\\.getconfig|wireless\\.home\\.newface\\.awesome\\.get)","flags":"i","image":false}];
 const JQ_CONFIG={};
 // Preserve unsafe integer/scientific-integer literals without requiring BigInt support.
 class RawInteger {
@@ -46,7 +47,8 @@ function stringifyJSON(value) {
     return typeof result==='string' ? result.replace(new RegExp('"'+prefix+'(\\d+)__"','g'), (raw,index) => records[Number(index)] ?? raw) : result;
   }
 }
-const CLEANUP_UI = false;
+const uiArgument = typeof $argument === 'string' ? $argument : '';
+const CLEANUP_UI = !/(?:^|[;,\s])cleanup_ui=(?:false|0)(?:$|[;,\s])/i.test(uiArgument);
 function keepKnown(items, predicate) {
   const kept=items.filter(predicate);
   return kept.length || !items.length ? kept : items;
@@ -199,8 +201,10 @@ function transform(url, root) {
   return root;
 }
 try {
-  if (typeof $response === 'undefined') $done({});
-  else if ((Number($response.status || $response.statusCode || 200)<200 || Number($response.status || $response.statusCode || 200)>=300) || typeof $response.body !== 'string' || !$response.body.trim()) $done({});
+  if (typeof $response === 'undefined') {
+    const match=UI_REQUESTS.find(x=>new RegExp(x.pattern,x.flags).test($request.url));
+    $done(CLEANUP_UI && match ? {response:{status:200,headers:{'Content-Type':match.image?'image/gif':'application/json; charset=utf-8'},body:match.image?new Uint8Array([71,73,70,56,57,97,1,0,1,0,128,0,0,0,0,0,255,255,255,33,249,4,1,0,0,0,0,44,0,0,0,0,1,0,1,0,0,2,2,68,1,0,59]):'{}'}} : {});
+  } else if ((Number($response.status || $response.statusCode || 200)<200 || Number($response.status || $response.statusCode || 200)>=300) || typeof $response.body !== 'string' || !$response.body.trim()) $done({});
   else {
     const format=decodeCompatibleBody($response.body); const original=format.value;
     if (!object(original) || (Array.isArray(original.ret) && original.ret.some(x=>typeof x==='string' && /^FAIL/i.test(x)))) $done({});
