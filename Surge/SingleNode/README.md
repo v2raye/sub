@@ -17,9 +17,22 @@ FINAL,Snell,dns-failed
 
 [Surge DOMAIN-SET](https://manual.nssurge.com/rules/domain.html) · [LAN](https://manual.nssurge.com/rules/ruleset.html) · [GEOIP](https://manual.nssurge.com/rules/ip.html) · [FINAL](https://manual.nssurge.com/rules/final.html)
 
+## 可选补充 Sukka（SKK）分流
+
+把下面两行放在现有 `China.list` 之后、`GEOIP,CN,DIRECT` 之前。它们只处理前面的 LAN、个人覆盖和本仓库域名规则均未命中的流量。Sukka 国内规则优先于 Sukka 国外规则，因为国外清单含若干整段顶级域。
+
+```ini
+RULE-SET,https://raw.githubusercontent.com/SukkaLab/ruleset.skk.moe/master/List/non_ip/domestic.conf,DIRECT
+RULE-SET,https://raw.githubusercontent.com/SukkaLab/ruleset.skk.moe/master/List/non_ip/global.conf,Snell
+```
+
+把 `Snell` 换成配置中的节点名。Surge 从 Sukka 的 GitHub 镜像拉取这两份 AGPL-3.0 清单，更新跟随上游。本仓库每日生成的快照只覆盖下文的 v2fly 清单。此配置只引用 Sukka 的国内外非 IP 清单，继续使用内置 LAN 和 GEOIP。
+
+[Sukka 上游与许可](https://github.com/SukkaW/Surge) · [规则镜像](https://github.com/SukkaLab/ruleset.skk.moe)
+
 ## 数据和冲突处理
 
-唯一上游是 [v2fly/domain-list-community](https://github.com/v2fly/domain-list-community)，按 [MIT 许可](LICENSE-v2fly.txt) 分发派生规则。国内采用 `cn`，国外采用生成器中列出的常用服务；Google 已包含 YouTube。展开递归引用并应用上游属性过滤后，跳过广告分类及 `@ads` 标记、关键词和正则。域名转成小写，去除根点，按 Surge 的精确和后缀语义去重并删除同策略冗余。未标记的域名只参与路由。
+本仓库生成规则的上游是 [v2fly/domain-list-community](https://github.com/v2fly/domain-list-community)，按 [MIT 许可](LICENSE-v2fly.txt) 分发派生规则。国内采用 `cn`，国外采用生成器中列出的常用服务；Google 已包含 YouTube。展开递归引用并应用上游属性过滤后，跳过广告分类及 `@ads` 标记、关键词和正则。域名转成小写，去除根点，按 Surge 的精确和后缀语义去重并删除同策略冗余。未标记的域名只参与路由。
 
 会完全遮蔽任一保留国内规则的国外条目被移除。仍处于国内后缀下的较窄国外条目作为代理例外，依靠 Global 在 China 之前生效。`Rules/stats.json` 记录上游提交、规则数量、跳过项及每条冲突的处理结果。其余流量继续评估 GEOIP 和 FINAL。
 
