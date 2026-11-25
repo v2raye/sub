@@ -110,7 +110,7 @@ function expand(name, ancestry = []) {
 
 const sources = {
   China: ['cn'],
-  Global: ['anthropic', 'cloudflare', 'github', 'google', 'netflix', 'openai', 'telegram', 'wikimedia'],
+  Global: ['anthropic', 'cloudflare', 'github', 'google', 'netflix', 'openai', 'wikimedia'],
 };
 
 function collect(names, exclusion) {
@@ -140,13 +140,18 @@ function collect(names, exclusion) {
   return { domains, invalid: [...invalid].sort(), unsupported };
 }
 
-function readRules(path) {
+function readRules(path, allowLegacy = false) {
   const rules = new Set();
   for (const [index, line] of read(path).split('\n').entries()) {
-    const value = line.trim();
-    if (!value || value.startsWith('#') || value.startsWith('//')) continue;
-    if (!validDomain(value.replace(/^\./, '')) || rules.has(value)) {
-      throw new Error(path + ':' + (index + 1) + ' invalid or duplicate rule: ' + value);
+    const rule = line.trim();
+    if (!rule || rule.startsWith('#') || rule.startsWith('//')) continue;
+    const match = /^(DOMAIN|DOMAIN-SUFFIX),([a-z0-9.-]+)$/.exec(rule);
+    const value = match
+      ? (match[1] === 'DOMAIN-SUFFIX' ? '.' : '') + match[2]
+      : (allowLegacy && !rule.includes(',') ? rule : '');
+    const host = match ? match[2] : value.replace(/^\./, '');
+    if (!validDomain(host) || rules.has(value)) {
+      throw new Error(path + ':' + (index + 1) + ' invalid or duplicate rule: ' + rule);
     }
     rules.add(value);
   }
@@ -170,7 +175,7 @@ function readSukka(file, minimum) {
     count++;
     const [type, host, ...extra] = line.split(',');
     if (!host) throw new Error('Malformed Sukka rule in ' + file);
-    if (['DOMAIN-KEYWORD', 'DOMAIN-WILDCARD', 'USER-AGENT'].includes(type)) {
+    if (['DOMAIN-KEYWORD', 'DOMAIN-WILDCARD', 'USER-AGENT', 'PROCESS-NAME', 'URL-REGEX'].includes(type)) {
       skipped[type] = (skipped[type] ?? 0) + 1;
       continue;
     }
@@ -192,6 +197,9 @@ function readSukka(file, minimum) {
 
 const sukkaChina = readSukka('domestic.conf', 500);
 const sukkaGlobal = readSukka('global.conf', 800);
+const sukkaStream = readSukka('stream.conf', 200);
+const sukkaAi = readSukka('ai.conf', 25);
+const sukkaGitlab = readSukka('gitlab.conf', 1);
 
 const direct = readRules(join(root, 'Overrides', 'Direct.list'));
 const proxy = readRules(join(root, 'Overrides', 'Proxy.list'));
@@ -205,7 +213,29 @@ for (const [first, second] of [[direct, proxy], [proxy, direct]]) {
 const chinaInput = collect(sources.China, '@!cn');
 const globalInput = collect(sources.Global, '@cn');
 const china = compact([...chinaInput.domains, ...sukkaChina.rules]);
-const global = new Set([...globalInput.domains, ...sukkaGlobal.rules]);
+const global = new Set([
+  ...globalInput.domains, ...sukkaGlobal.rules, ...sukkaStream.rules,
+  ...sukkaAi.rules, ...sukkaGitlab.rules,
+]);
+
+// Use v2fly service aliases plus Spotify-only domains present in Sukka's stream list.
+const excludedServices = new Set([
+  ...collect(['telegram', 'spotify']).domains, '.spotifynewsroom.jp', '.spotify-com.akamaized.net',
+]);
+const excludedGlobalServices = [...global].filter(value => covering(excludedServices, value)).sort();
+for (const value of excludedGlobalServices) global.delete(value);
+const removedGlobalTlds = [...global].filter(value => /^\.[^.]+$/.test(value)).sort();
+for (const value of removedGlobalTlds) global.delete(value);
+
+// Keep regional pruning limited to service families with a shared primary domain.
+const regionalAliasFamilies = new Set(['blogspot', 'google', 'youtube', 'youtubego']);
+const removedRegionalAliases = [...global].filter(value => {
+  const host = value.replace(/^\./, '');
+  const match = /^([^.]+)\.(?:(?:co|com|net|org)\.)?[a-z]{2}$/.exec(host);
+  return match && host !== 'google.cn' && regionalAliasFamilies.has(match[1])
+    && global.has('.' + match[1] + '.com');
+}).sort();
+for (const value of removedRegionalAliases) global.delete(value);
 const removedGlobal = new Map();
 for (const value of china) {
   // Preserve the domestic match when a Global rule would fully shadow it.
@@ -225,15 +255,21 @@ const rules = { China: china, Global: finalGlobal };
 const outputs = new Map();
 const summary = {
   revision,
-  sukka: { domestic: sukkaChina.stats, global: sukkaGlobal.stats },
+  sukka: {
+    domestic: sukkaChina.stats, global: sukkaGlobal.stats, stream: sukkaStream.stats,
+    ai: sukkaAi.stats, gitlab: sukkaGitlab.stats,
+  },
+  excludedGlobalServices,
   lists: {},
+  removedGlobalTlds,
+  removedRegionalAliases,
   removedGlobal: Object.fromEntries([...removedGlobal].sort()),
   proxyExceptions,
 };
 for (const [name, values] of Object.entries(rules)) {
   const path = join(root, 'Rules', name + '.list');
   const input = name === 'China' ? chinaInput : globalInput;
-  const lastCount = readRules(path).size;
+  const lastCount = readRules(path, mode === '--write').size;
   if (values.size < Math.max(name === 'China' ? 1000 : 100, Math.ceil(lastCount * 0.8))) {
     throw new Error(name + ' rule count below safety floor: ' + values.size + ' (previous: ' + lastCount + ')');
   }
@@ -244,7 +280,9 @@ for (const [name, values] of Object.entries(rules)) {
   outputs.set(path, '# Combined and modified from v2fly/domain-list-community and SukkaW/Surge.\n'
     + '# SPDX-License-Identifier: AGPL-3.0-only\n'
     + '# Licenses and corresponding source: https://github.com/v2raye/sub/tree/main/Surge/SingleNode\n'
-    + [...values].sort().join('\n') + '\n');
+    + [...values].sort().map(value => value.startsWith('.')
+      ? 'DOMAIN-SUFFIX,' + value.slice(1)
+      : 'DOMAIN,' + value).join('\n') + '\n');
 }
 outputs.set(join(root, 'Rules', 'stats.json'), JSON.stringify(summary, null, 2) + '\n');
 
