@@ -17,32 +17,22 @@ FINAL,Snell,dns-failed
 
 [Surge DOMAIN-SET](https://manual.nssurge.com/rules/domain.html) · [LAN](https://manual.nssurge.com/rules/ruleset.html) · [GEOIP](https://manual.nssurge.com/rules/ip.html) · [FINAL](https://manual.nssurge.com/rules/final.html)
 
-## 可选补充 Sukka（SKK）分流
+## 数据、许可和冲突处理
 
-把下面两行放在现有 `China.list` 之后、`GEOIP,CN,DIRECT` 之前。它们只处理前面的 LAN、个人覆盖和本仓库域名规则均未命中的流量。Sukka 国内规则优先于 Sukka 国外规则，因为国外清单含若干整段顶级域。
+国内和国外清单由两个上游合并生成。v2fly 使用 `cn` 和生成器中列出的国外常用服务分类。Sukka 使用 `domestic.conf` 和 `global.conf` 两份非 IP 清单，仅导入精确域名和域名后缀，跳过关键词、通配符、User-Agent 和上游标识域名。配置只需订阅本仓库生成的两份清单。
 
-```ini
-RULE-SET,https://raw.githubusercontent.com/SukkaLab/ruleset.skk.moe/master/List/non_ip/domestic.conf,DIRECT
-RULE-SET,https://raw.githubusercontent.com/SukkaLab/ruleset.skk.moe/master/List/non_ip/global.conf,Snell
-```
+- [v2fly/domain-list-community](https://github.com/v2fly/domain-list-community) 的原始数据采用 [MIT](LICENSE-v2fly.txt)，保留原版权和许可。
+- [SukkaW/Surge](https://github.com/SukkaW/Surge) 的输入与合并后的规则清单按 [AGPL-3.0-only](LICENSE-Sukka.txt) 分发。合并快照的输入和构建方法随仓库发布，Sukka 原始导出保存在 [Sources/Sukka](Sources/Sukka)。首版与 Sukka 发布服务器的两份文件所标注的内容指纹一致，来源为其 GitHub 导出镜像。后续更新从 [Sukka 发布服务器](https://ruleset.skk.moe/)拉取。
 
-把 `Snell` 换成配置中的节点名。Surge 从 Sukka 的 GitHub 镜像拉取这两份 AGPL-3.0 清单，更新跟随上游。本仓库每日生成的快照只覆盖下文的 v2fly 清单。此配置只引用 Sukka 的国内外非 IP 清单，继续使用内置 LAN 和 GEOIP。
-
-[Sukka 上游与许可](https://github.com/SukkaW/Surge) · [规则镜像](https://github.com/SukkaLab/ruleset.skk.moe)
-
-## 数据和冲突处理
-
-本仓库生成规则的上游是 [v2fly/domain-list-community](https://github.com/v2fly/domain-list-community)，按 [MIT 许可](LICENSE-v2fly.txt) 分发派生规则。国内采用 `cn`，国外采用生成器中列出的常用服务；Google 已包含 YouTube。展开递归引用并应用上游属性过滤后，跳过广告分类及 `@ads` 标记、关键词和正则。域名转成小写，去除根点，按 Surge 的精确和后缀语义去重并删除同策略冗余。未标记的域名只参与路由。
-
-会完全遮蔽任一保留国内规则的国外条目被移除。仍处于国内后缀下的较窄国外条目作为代理例外，依靠 Global 在 China 之前生效。`Rules/stats.json` 记录上游提交、规则数量、跳过项及每条冲突的处理结果。其余流量继续评估 GEOIP 和 FINAL。
+同策略重复和冗余条目会被删除。会完全遮蔽任一保留国内规则的国外条目被移除，例如含有国内服务的整个顶级域。仍处于国内后缀下的较窄国外条目作为代理例外，依靠 Global 在 China 之前生效。`Rules/stats.json` 记录 v2fly 提交、Sukka 输入的 SHA-256、数量、跳过项及冲突处理。
 
 ## 生成、校验与回滚
 
-使用 Node.js 22 或更新版本。把上游仓库检出到独立目录，复现首版或某次发布时使用 `Rules/stats.json` 中的 `revision`。
+使用 Node.js 22 或更新版本。把上游仓库检出到独立目录，复现首版或某次发布时使用 `Rules/stats.json` 中的 `revision`。生成器同时读取随快照归档的 Sukka 输入。
 
 ```sh
 node Surge/SingleNode/generate.mjs --write /path/to/domain-list-community
 node Surge/SingleNode/generate.mjs --check /path/to/domain-list-community
 ```
 
-默认分支每日约在新加坡时间 04:23 执行更新，也支持手动运行。工作流只有在生成和校验成功后才提交整个快照。上游不可用、许可变更、个人规则冲突、条目跌破最低数量或较前次下降超过 20% 时不会发布。并发修改导致推送被拒时也会保留远端已有版本。默认分支需允许工作流令牌推送。Git 历史记录每次更新；需要回滚时，可用同一个历史提交下的两个 raw URL 固定规则版本，也可以回退对应更新提交。
+默认分支每日约在新加坡时间 04:23 执行更新，也支持手动运行。工作流只有在生成和校验成功后才提交整个快照。任一上游不可用、许可标记变更、Sukka 导出截断、个人规则冲突、条目跌破最低数量或较前次下降超过 20% 时不会发布。并发修改导致推送被拒时也会保留远端已有版本。默认分支需允许工作流令牌推送。Git 历史记录每次更新；需要回滚时，可用同一个历史提交下的两个 raw URL 固定规则版本，也可以回退对应更新提交。

@@ -48,12 +48,19 @@ jobs:
         run: |
           upstream="$RUNNER_TEMP/surge-dlc"
           git clone --depth 1 https://github.com/v2fly/domain-list-community.git "$upstream"
-          node Surge/SingleNode/generate.mjs --write "$upstream"
+          sukka="$RUNNER_TEMP/surge-sukka"
+          mkdir "$sukka"
+          for file in domestic.conf global.conf; do
+            curl --proto '=https' --fail --silent --show-error --retry 2 --max-time 30 \
+              --max-filesize 1048576 --output "$sukka/$file" "https://ruleset.skk.moe/List/non_ip/$file"
+          done
+          node Surge/SingleNode/generate.mjs --write "$upstream" "$sukka"
+          cp "$sukka/"*.conf Surge/SingleNode/Sources/Sukka/
           node Surge/SingleNode/generate.mjs --check "$upstream"
       - name: Publish validated snapshot
         shell: bash
         run: |
-          git add -- Surge/SingleNode/Rules
+          git add -- Surge/SingleNode/Rules Surge/SingleNode/Sources/Sukka
           if git diff --cached --quiet; then exit 0; fi
           git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' commit -m 'Update Surge single-node rules'
           git push origin HEAD

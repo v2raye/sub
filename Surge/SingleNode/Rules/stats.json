@@ -1,12 +1,32 @@
 {
   "revision": "e5f669692b33c189efc96cb1a972c69b390bbbc8",
+  "sukka": {
+    "domestic": {
+      "sha256": "b80c6ce2b79f3a4ec5288f4297f8ddee4f2ba5e0a42487fe99e1b58d6517e2d6",
+      "count": 876,
+      "imported": 871,
+      "skipped": {
+        "DOMAIN-WILDCARD": 1,
+        "USER-AGENT": 3
+      }
+    },
+    "global": {
+      "sha256": "9b5e53dc90878f3d4fa6afd56916f46f630ffe9143196384ba6be6300a883bbb",
+      "count": 1277,
+      "imported": 1266,
+      "skipped": {
+        "DOMAIN-KEYWORD": 9,
+        "USER-AGENT": 1
+      }
+    }
+  },
   "lists": {
     "China": {
       "sources": [
         "cn"
       ],
       "candidates": 8567,
-      "published": 6254,
+      "published": 6352,
       "unsupported": 3,
       "invalid": []
     },
@@ -22,21 +42,49 @@
         "wikimedia"
       ],
       "candidates": 1173,
-      "published": 999,
+      "published": 1924,
       "unsupported": 5,
       "invalid": []
     }
   },
   "removedGlobal": {
-    ".cloudflare.net": ".lenovo.com.cdn.cloudflare.net"
+    ".ac": ".uoj.ac",
+    ".ai": ".tidb.ai",
+    ".bblmw.com": ".bblmw.com",
+    ".blizzard.com": ".blizzard.com",
+    ".cloudflare.net": ".lenovo.com.cdn.cloudflare.net",
+    ".cx": ".f.cx",
+    ".es": ".joybuy.es",
+    ".fm": ".lizhi.fm",
+    ".guru": ".mchost.guru",
+    ".hk": ".weboss.hk",
+    ".in": ".ifanr.in",
+    ".to": ".ddurl.to",
+    ".us": ".xiumi.us"
   },
   "proxyExceptions": [
+    {
+      "global": ".c.mi.com",
+      "china": ".mi.com"
+    },
     {
       "global": ".googleapis.cn",
       "china": ".cn"
     },
     {
+      "global": ".softonic.cn",
+      "china": ".cn"
+    },
+    {
+      "global": "community.oneplus.com",
+      "china": ".oneplus.com"
+    },
+    {
       "global": "scholar.google.cn",
+      "china": ".cn"
+    },
+    {
+      "global": "store.ui.com.cn",
       "china": ".cn"
     }
   ]
