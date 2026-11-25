@@ -1,0 +1,43 @@
+{
+  "revision": "e5f669692b33c189efc96cb1a972c69b390bbbc8",
+  "lists": {
+    "China": {
+      "sources": [
+        "cn"
+      ],
+      "candidates": 8567,
+      "published": 6254,
+      "unsupported": 3,
+      "invalid": []
+    },
+    "Global": {
+      "sources": [
+        "anthropic",
+        "cloudflare",
+        "github",
+        "google",
+        "netflix",
+        "openai",
+        "telegram",
+        "wikimedia"
+      ],
+      "candidates": 1173,
+      "published": 999,
+      "unsupported": 5,
+      "invalid": []
+    }
+  },
+  "removedGlobal": {
+    ".cloudflare.net": ".lenovo.com.cdn.cloudflare.net"
+  },
+  "proxyExceptions": [
+    {
+      "global": ".googleapis.cn",
+      "china": ".cn"
+    },
+    {
+      "global": "scholar.google.cn",
+      "china": ".cn"
+    }
+  ]
+}
