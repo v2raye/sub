@@ -24,7 +24,11 @@ FINAL,Snell,dns-failed
 - [v2fly/domain-list-community](https://github.com/v2fly/domain-list-community) 的原始数据采用 [MIT](LICENSE-v2fly.txt)，保留原版权和许可。
 - [SukkaW/Surge](https://github.com/SukkaW/Surge) 的输入与合并后的规则清单按 [AGPL-3.0-only](LICENSE-Sukka.txt) 分发。合并快照的输入和构建方法随仓库发布，Sukka 原始导出保存在 [Sources/Sukka](Sources/Sukka)。本次归档的 Sukka 输入取自其 GitHub 导出镜像。后续更新从 [Sukka 发布服务器](https://ruleset.skk.moe/)拉取。
 
-同策略重复和冗余条目会被删除。国外规则按具体域名匹配，去除 `.sx`、`.jp` 等整个顶级域后缀。Google Search、YouTube、YouTube Go 和 Blogspot 的地区入口按服务系列精简，保留各自的 `.com` 主域名、`google.cn` 原有处理，以及 `youtu.be`、`googlevideo.com` 等独立域名。访问已移除的地区域名时，按 GEOIP 和 FINAL 分流；只有 Google Search 和 Blogger 的官方说明确认了地区入口的重定向策略。其他服务的地区站点继续按原规则处理。会完全遮蔽任一保留国内规则的国外条目也会被移除。仍处于国内后缀下的较窄国外条目作为代理例外，依靠 Global 在 China 之前生效。`Rules/stats.json` 记录 v2fly 提交、Sukka 输入的 SHA-256、数量、跳过项及冲突处理。
+同策略重复和冗余条目会被删除。国外规则按具体域名匹配，去除 `.sx`、`.jp` 等整个地区顶级域后缀。Apple 和 Microsoft 专用的品牌顶级域（如 `.apple`、`.microsoft`）按服务域名保留。Google Search、YouTube、YouTube Go 和 Blogspot 的地区入口按服务系列精简，保留各自的 `.com` 主域名、`google.cn` 原有处理，以及 `youtu.be`、`googlevideo.com` 等独立域名。访问已移除的地区域名时，按 GEOIP 和 FINAL 分流；只有 Google Search 和 Blogger 的官方说明确认了地区入口的重定向策略。其他服务的地区站点继续按原规则处理。会完全遮蔽任一保留国内规则的国外条目也会被移除。仍处于国内后缀下的较窄国外条目作为代理例外，依靠 Global 在 China 之前生效。`Rules/stats.json` 记录 v2fly 提交、Sukka 输入的 SHA-256、数量、跳过项及冲突处理。
+
+## Apple 和 Microsoft
+
+同步 v2fly 的 Apple 和 Microsoft 服务列表。带 `@cn` 标记或位于 `.cn` 的已识别服务进入国内清单，其余已识别的服务进入国外清单。对于同时覆盖中国区端点的全球后缀，国外条目显式排除这些端点，随后由国内规则直连。例如，`dl.delivery.mp.microsoft.com` 和 v2fly 标记为中国区的 `www.apple.com` 走直连，`www.microsoft.com`、`www.icloud.com` 和 `www.xbox.com` 走代理。个人覆盖优先于这两份清单。
 
 ## 生成、校验与回滚
 
