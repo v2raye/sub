@@ -219,6 +219,11 @@ const vendorProxy = new Set(collect(vendors, '@cn', entry => !isVendorChina(entr
 const china = compact([...chinaInput.domains, ...sukkaChina.rules, ...vendorChina]);
 // Official Ultra Mobile website and legacy PayGo account and activation hosts.
 const ultraMobile = ['.ultramobile.com', 'my.ultra.me', 'paygo.ultra.me'];
+// T-Mobile's documented ePDG host and Wi-Fi Calling 2.0 IPv4 firewall scope.
+const ultraWifiCalling = [
+  'DOMAIN,ss.epdg.epc.mnc260.mcc310.pub.3gppnetwork.org',
+  'AND,((PROTOCOL,UDP),(OR,((DEST-PORT,500),(DEST-PORT,4500))),(IP-CIDR,208.54.0.0/16,no-resolve))',
+];
 const global = new Set([
   ...ultraMobile,
   ...globalInput.domains, ...sukkaGlobal.rules, ...sukkaStream.rules,
@@ -300,6 +305,7 @@ const summary = {
   },
   vendors: { sources: vendors, china: vendorChina.size, proxy: vendorProxy.size, directExceptions: Object.fromEntries(vendorExceptions) },
   ultraMobile,
+  ultraWifiCalling,
   excludedGlobalServices,
   lists: {},
   removedGlobalTlds,
@@ -311,17 +317,19 @@ for (const [name, values] of Object.entries(rules)) {
   const path = join(root, 'Rules', name + '.list');
   const input = name === 'China' ? chinaInput : globalInput;
   const lastCount = read(path).split('\n').filter(line => line && !line.startsWith('#')).length;
-  if (values.size < Math.max(name === 'China' ? 1000 : 100, Math.ceil(lastCount * 0.8))) {
-    throw new Error(name + ' rule count below safety floor: ' + values.size + ' (previous: ' + lastCount + ')');
+  const lines = [...values].sort().map(name === 'Global' ? proxyRule : domainRule);
+  if (name === 'Global') lines.push(...ultraWifiCalling);
+  if (lines.length < Math.max(name === 'China' ? 1000 : 100, Math.ceil(lastCount * 0.8))) {
+    throw new Error(name + ' rule count below safety floor: ' + lines.length + ' (previous: ' + lastCount + ')');
   }
   summary.lists[name] = {
-    sources: sources[name], candidates: input.domains.length, published: values.size,
+    sources: sources[name], candidates: input.domains.length, published: lines.length,
     unsupported: input.unsupported, invalid: input.invalid,
   };
   outputs.set(path, '# Combined and modified from v2fly/domain-list-community and SukkaW/Surge.\n'
     + '# SPDX-License-Identifier: AGPL-3.0-only\n'
     + '# Licenses and corresponding source: https://github.com/v2raye/sub/tree/main/Surge/SingleNode\n'
-    + [...values].sort().map(name === 'Global' ? proxyRule : domainRule).join('\n') + '\n');
+    + lines.join('\n') + '\n');
 }
 outputs.set(join(root, 'Rules', 'stats.json'), JSON.stringify(summary, null, 2) + '\n');
 
@@ -330,4 +338,4 @@ for (const [path, content] of outputs) {
   else if (read(path) !== content) throw new Error('Generated file differs: ' + path);
 }
 console.log('Upstream %s | China %d | Global %d | Global rules removed %d | Proxy exceptions %d',
-  revision, china.size, finalGlobal.size, removedGlobal.size, proxyExceptions.length);
+  revision, china.size, summary.lists.Global.published, removedGlobal.size, proxyExceptions.length);

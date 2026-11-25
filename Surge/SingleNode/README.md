@@ -32,7 +32,18 @@ FINAL,Snell,dns-failed
 
 ## Ultra Mobile
 
-美国 Ultra Mobile 的官网、账户、充值及 PayGo 激活域名走代理，包括 `ultramobile.com` 及其子域名、`my.ultra.me` 和 `paygo.ultra.me`。这几条规则覆盖网页服务。Wi-Fi Calling 的运营商通话隧道保持原有处理。
+美国 Ultra Mobile 的官网、账户、充值及 PayGo 激活域名走代理，包括 `ultramobile.com` 及其子域名、`my.ultra.me` 和 `paygo.ultra.me`。Wi-Fi Calling 和通过 Wi-Fi 收发的运营商短信也使用同一代理。规则覆盖 T-Mobile 的 ePDG 主机。如果设备直接使用 IP，规则只匹配 T-Mobile 公布的 Wi-Fi Calling 网段 `208.54.0.0/16` 上的 UDP 500 和 4500。
+
+在 Surge iOS 的现有 `[General]` 中启用以下选项，让 Surge 接管可通过互联网路由的运营商流量。代理节点需支持 UDP 转发，Snell v3 及以上支持。运营商直接在蜂窝网传送的短信和通话由运营商处理。
+
+```ini
+include-all-networks = true
+include-cellular-services = true
+```
+
+先在 Ultra Mobile 账户和手机上启用 Wi-Fi Calling。实测时打开飞行模式，再单独打开 Wi-Fi，等手机显示 Wi-Fi Calling 后，用普通 SMS 号码分别发一条、收一条，并试拨或接听一次。检查 Surge 请求记录是否命中现有代理节点。使用普通 SMS 验证，避免把 iMessage 或 RCS 当成运营商短信。
+
+[T-Mobile Wi-Fi Calling 防火墙说明](https://www.t-mobile.com/support/coverage/wi-fi-calling-on-a-corporate-network) · [T-Mobile ePDG 主机参考](https://arubanetworking.hpe.com/techdocs/ArubaOS/oxygen/AOS-8%20Consolidated%20User%20Guide/voice-and-video/wi-fi-calling-operation.html) · [Surge 运营商流量设置](https://manual.nssurge.com/profile/general.html) · [Surge UDP 转发](https://manual.nssurge.com/policies/udp.html)
 
 [Ultra Mobile PayGo 官方说明](https://www.ultramobile.com/paygo/)
 

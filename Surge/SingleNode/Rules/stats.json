@@ -348,6 +348,10 @@
     "my.ultra.me",
     "paygo.ultra.me"
   ],
+  "ultraWifiCalling": [
+    "DOMAIN,ss.epdg.epc.mnc260.mcc310.pub.3gppnetwork.org",
+    "AND,((PROTOCOL,UDP),(OR,((DEST-PORT,500),(DEST-PORT,4500))),(IP-CIDR,208.54.0.0/16,no-resolve))"
+  ],
   "excludedGlobalServices": [
     ".byspotify.com",
     ".pscdn.co",
@@ -387,7 +391,7 @@
         "wikimedia"
       ],
       "candidates": 1152,
-      "published": 3669,
+      "published": 3671,
       "unsupported": 5,
       "invalid": []
     }

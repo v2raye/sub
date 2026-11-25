@@ -3670,3 +3670,5 @@ DOMAIN,wego.here.com
 DOMAIN,www-cdn.icloud.com.akadns.net
 DOMAIN,www.tubi.tv
 DOMAIN,www.tubitv.com
+DOMAIN,ss.epdg.epc.mnc260.mcc310.pub.3gppnetwork.org
+AND,((PROTOCOL,UDP),(OR,((DEST-PORT,500),(DEST-PORT,4500))),(IP-CIDR,208.54.0.0/16,no-resolve))
