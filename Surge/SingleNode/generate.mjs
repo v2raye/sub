@@ -214,11 +214,15 @@ const global = new Set([...globalInput.domains, ...sukkaGlobal.rules]);
 const removedGlobalTlds = [...global].filter(value => /^\.[^.]+$/.test(value)).sort();
 for (const value of removedGlobalTlds) global.delete(value);
 
-// Google Search is moving its country-specific entry points to google.com.
-const removedGoogleSearchAliases = [...global].filter(value =>
-  /^\.?google\.(?:(?:co|com)\.)?[a-z]{2}$/.test(value)
-  && value.replace(/^\./, '') !== 'google.cn').sort();
-for (const value of removedGoogleSearchAliases) global.delete(value);
+// Keep regional pruning limited to service families with a shared primary domain.
+const regionalAliasFamilies = new Set(['blogspot', 'google', 'youtube', 'youtubego']);
+const removedRegionalAliases = [...global].filter(value => {
+  const host = value.replace(/^\./, '');
+  const match = /^([^.]+)\.(?:(?:co|com|net|org)\.)?[a-z]{2}$/.exec(host);
+  return match && host !== 'google.cn' && regionalAliasFamilies.has(match[1])
+    && global.has('.' + match[1] + '.com');
+}).sort();
+for (const value of removedRegionalAliases) global.delete(value);
 const removedGlobal = new Map();
 for (const value of china) {
   // Preserve the domestic match when a Global rule would fully shadow it.
@@ -241,7 +245,7 @@ const summary = {
   sukka: { domestic: sukkaChina.stats, global: sukkaGlobal.stats },
   lists: {},
   removedGlobalTlds,
-  removedGoogleSearchAliases,
+  removedRegionalAliases,
   removedGlobal: Object.fromEntries([...removedGlobal].sort()),
   proxyExceptions,
 };
