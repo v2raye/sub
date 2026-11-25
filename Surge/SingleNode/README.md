@@ -30,6 +30,12 @@ FINAL,Snell,dns-failed
 
 同步 v2fly 的 Apple 和 Microsoft 服务列表。带 `@cn` 标记或位于 `.cn` 的已识别服务进入国内清单，其余已识别的服务进入国外清单。对于同时覆盖中国区端点的全球后缀，国外条目显式排除这些端点，随后由国内规则直连。例如，`dl.delivery.mp.microsoft.com` 和 v2fly 标记为中国区的 `www.apple.com` 走直连，`www.microsoft.com`、`www.icloud.com` 和 `www.xbox.com` 走代理。个人覆盖优先于这两份清单。
 
+## Ultra Mobile
+
+美国 Ultra Mobile 的官网、账户、充值及 PayGo 激活域名走代理，包括 `ultramobile.com` 及其子域名、`my.ultra.me` 和 `paygo.ultra.me`。这几条规则覆盖网页服务。Wi-Fi Calling 的运营商通话隧道保持原有处理。
+
+[Ultra Mobile PayGo 官方说明](https://www.ultramobile.com/paygo/)
+
 ## 生成、校验与回滚
 
 使用 Node.js 22 或更新版本。把上游仓库检出到独立目录，复现首版或某次发布时使用 `Rules/stats.json` 中的 `revision`。生成器同时读取随快照归档的 Sukka 输入。

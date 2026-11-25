@@ -3248,6 +3248,7 @@ DOMAIN-SUFFIX,ubuntu.com
 DOMAIN-SUFFIX,udn.com
 DOMAIN-SUFFIX,ui.com
 DOMAIN-SUFFIX,ukipad.com
+DOMAIN-SUFFIX,ultramobile.com
 DOMAIN-SUFFIX,umblr.com
 DOMAIN-SUFFIX,underhentai.net
 DOMAIN-SUFFIX,unfiltered.news
@@ -3567,11 +3568,13 @@ DOMAIN,img-s-msn-com.akamaized.net
 DOMAIN,inference.codeium.com
 DOMAIN,manifest.prod.boltdns.net
 DOMAIN,mwf-service.akamaized.net
+DOMAIN,my.ultra.me
 DOMAIN,news.ycombinator.com
 DOMAIN,officecdn-microsoft-com.akamaized.net
 DOMAIN,openaicom.imgix.net
 DOMAIN,openrouter.ai
 DOMAIN,p-events-delivery.akamaized.net
+DOMAIN,paygo.ultra.me
 DOMAIN,players.brightcove.net
 DOMAIN,prod-api.crackle.com
 DOMAIN,push-apple.com.akadns.net

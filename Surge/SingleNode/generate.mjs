@@ -217,7 +217,10 @@ const isVendorChina = entry => entry.attrs.includes('@cn') || /\.cn\.?$/i.test(e
 const vendorChina = compact(collect(vendors, '@!cn', isVendorChina).domains);
 const vendorProxy = new Set(collect(vendors, '@cn', entry => !isVendorChina(entry)).domains);
 const china = compact([...chinaInput.domains, ...sukkaChina.rules, ...vendorChina]);
+// Official Ultra Mobile website and legacy PayGo account and activation hosts.
+const ultraMobile = ['.ultramobile.com', 'my.ultra.me', 'paygo.ultra.me'];
 const global = new Set([
+  ...ultraMobile,
   ...globalInput.domains, ...sukkaGlobal.rules, ...sukkaStream.rules,
   ...sukkaAi.rules, ...sukkaGitlab.rules, ...vendorProxy,
 ]);
@@ -296,6 +299,7 @@ const summary = {
     ai: sukkaAi.stats, gitlab: sukkaGitlab.stats,
   },
   vendors: { sources: vendors, china: vendorChina.size, proxy: vendorProxy.size, directExceptions: Object.fromEntries(vendorExceptions) },
+  ultraMobile,
   excludedGlobalServices,
   lists: {},
   removedGlobalTlds,

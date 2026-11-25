@@ -343,6 +343,11 @@
       ]
     }
   },
+  "ultraMobile": [
+    ".ultramobile.com",
+    "my.ultra.me",
+    "paygo.ultra.me"
+  ],
   "excludedGlobalServices": [
     ".byspotify.com",
     ".pscdn.co",
@@ -382,7 +387,7 @@
         "wikimedia"
       ],
       "candidates": 1152,
-      "published": 3666,
+      "published": 3669,
       "unsupported": 5,
       "invalid": []
     }
