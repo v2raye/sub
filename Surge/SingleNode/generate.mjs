@@ -110,7 +110,7 @@ function expand(name, ancestry = []) {
 
 const sources = {
   China: ['cn'],
-  Global: ['anthropic', 'cloudflare', 'github', 'google', 'netflix', 'openai', 'telegram', 'wikimedia'],
+  Global: ['anthropic', 'cloudflare', 'github', 'google', 'netflix', 'openai', 'wikimedia'],
 };
 
 function collect(names, exclusion) {
@@ -175,7 +175,7 @@ function readSukka(file, minimum) {
     count++;
     const [type, host, ...extra] = line.split(',');
     if (!host) throw new Error('Malformed Sukka rule in ' + file);
-    if (['DOMAIN-KEYWORD', 'DOMAIN-WILDCARD', 'USER-AGENT'].includes(type)) {
+    if (['DOMAIN-KEYWORD', 'DOMAIN-WILDCARD', 'USER-AGENT', 'PROCESS-NAME', 'URL-REGEX'].includes(type)) {
       skipped[type] = (skipped[type] ?? 0) + 1;
       continue;
     }
@@ -197,6 +197,9 @@ function readSukka(file, minimum) {
 
 const sukkaChina = readSukka('domestic.conf', 500);
 const sukkaGlobal = readSukka('global.conf', 800);
+const sukkaStream = readSukka('stream.conf', 200);
+const sukkaAi = readSukka('ai.conf', 25);
+const sukkaGitlab = readSukka('gitlab.conf', 1);
 
 const direct = readRules(join(root, 'Overrides', 'Direct.list'));
 const proxy = readRules(join(root, 'Overrides', 'Proxy.list'));
@@ -210,7 +213,17 @@ for (const [first, second] of [[direct, proxy], [proxy, direct]]) {
 const chinaInput = collect(sources.China, '@!cn');
 const globalInput = collect(sources.Global, '@cn');
 const china = compact([...chinaInput.domains, ...sukkaChina.rules]);
-const global = new Set([...globalInput.domains, ...sukkaGlobal.rules]);
+const global = new Set([
+  ...globalInput.domains, ...sukkaGlobal.rules, ...sukkaStream.rules,
+  ...sukkaAi.rules, ...sukkaGitlab.rules,
+]);
+
+// Use v2fly service aliases plus Spotify-only domains present in Sukka's stream list.
+const excludedServices = new Set([
+  ...collect(['telegram', 'spotify']).domains, '.spotifynewsroom.jp', '.spotify-com.akamaized.net',
+]);
+const excludedGlobalServices = [...global].filter(value => covering(excludedServices, value)).sort();
+for (const value of excludedGlobalServices) global.delete(value);
 const removedGlobalTlds = [...global].filter(value => /^\.[^.]+$/.test(value)).sort();
 for (const value of removedGlobalTlds) global.delete(value);
 
@@ -242,7 +255,11 @@ const rules = { China: china, Global: finalGlobal };
 const outputs = new Map();
 const summary = {
   revision,
-  sukka: { domestic: sukkaChina.stats, global: sukkaGlobal.stats },
+  sukka: {
+    domestic: sukkaChina.stats, global: sukkaGlobal.stats, stream: sukkaStream.stats,
+    ai: sukkaAi.stats, gitlab: sukkaGitlab.stats,
+  },
+  excludedGlobalServices,
   lists: {},
   removedGlobalTlds,
   removedRegionalAliases,

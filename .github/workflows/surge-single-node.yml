@@ -50,7 +50,7 @@ jobs:
           git clone --depth 1 https://github.com/v2fly/domain-list-community.git "$upstream"
           sukka="$RUNNER_TEMP/surge-sukka"
           mkdir "$sukka"
-          for file in domestic.conf global.conf; do
+          for file in domestic.conf global.conf stream.conf ai.conf gitlab.conf; do
             curl --proto '=https' --fail --silent --show-error --retry 2 --max-time 30 \
               --max-filesize 1048576 --output "$sukka/$file" "https://ruleset.skk.moe/List/non_ip/$file"
           done

@@ -18,8 +18,51 @@
         "DOMAIN-KEYWORD": 9,
         "USER-AGENT": 1
       }
+    },
+    "stream": {
+      "sha256": "e35f4e37b3e1a39c6c2a1c09750299c4318feb72b65a6e79a18b4a2b39f44ce6",
+      "count": 336,
+      "imported": 258,
+      "skipped": {
+        "DOMAIN-KEYWORD": 14,
+        "USER-AGENT": 49,
+        "PROCESS-NAME": 14
+      }
+    },
+    "ai": {
+      "sha256": "9bb1deda142ba4e15f17a8bb33fb3154928bbd6fece9ba7b9aa9a3471378b318",
+      "count": 61,
+      "imported": 57,
+      "skipped": {
+        "DOMAIN-KEYWORD": 2,
+        "URL-REGEX": 1
+      }
+    },
+    "gitlab": {
+      "sha256": "d43baf4354759c0baa342bb63d08f74f52d578ffc95648577221fc869522af17",
+      "count": 2,
+      "imported": 1,
+      "skipped": {}
     }
   },
+  "excludedGlobalServices": [
+    ".byspotify.com",
+    ".pscdn.co",
+    ".scdn.co",
+    ".spoti.fi",
+    ".spotify-com.akamaized.net",
+    ".spotify-everywhere.com",
+    ".spotify.com",
+    ".spotify.design",
+    ".spotifycdn.com",
+    ".spotifycdn.net",
+    ".spotifycharts.com",
+    ".spotifycodes.com",
+    ".spotifyforbrands.com",
+    ".spotifyjobs.com",
+    ".spotifynewsroom.jp",
+    ".tospotify.com"
+  ],
   "lists": {
     "China": {
       "sources": [
@@ -38,11 +81,10 @@
         "google",
         "netflix",
         "openai",
-        "telegram",
         "wikimedia"
       ],
-      "candidates": 1173,
-      "published": 1682,
+      "candidates": 1152,
+      "published": 1872,
       "unsupported": 5,
       "invalid": []
     }
@@ -590,8 +632,36 @@
       "china": ".cn"
     },
     {
+      "global": ".intl-rcd.iqiyi.com",
+      "china": ".iqiyi.com"
+    },
+    {
+      "global": ".intl-subscription.iqiyi.com",
+      "china": ".iqiyi.com"
+    },
+    {
+      "global": ".intl.iqiyi.com",
+      "china": ".iqiyi.com"
+    },
+    {
       "global": ".softonic.cn",
       "china": ".cn"
+    },
+    {
+      "global": "akmcdnoversea-tw.inter.ptqy.gitv.tv",
+      "china": ".gitv.tv"
+    },
+    {
+      "global": "apm-misaka.biliapi.net",
+      "china": ".biliapi.net"
+    },
+    {
+      "global": "cache.video.iqiyi.com",
+      "china": ".iqiyi.com"
+    },
+    {
+      "global": "chuangcachecdnoversea-tw.inter.ptqy.gitv.tv",
+      "china": ".gitv.tv"
     },
     {
       "global": "community.oneplus.com",
