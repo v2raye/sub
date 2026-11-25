@@ -1527,7 +1527,6 @@ DOMAIN-SUFFIX,cmicapm.com
 DOMAIN-SUFFIX,cmpassport.com
 DOMAIN-SUFFIX,cmpay.com
 DOMAIN-SUFFIX,cmread.com
-DOMAIN-SUFFIX,cn
 DOMAIN-SUFFIX,cn.bing.com
 DOMAIN-SUFFIX,cn.bing.net
 DOMAIN-SUFFIX,cn.mm.bing.net
@@ -6682,3 +6681,4 @@ DOMAIN,www.layuicdn.com
 DOMAIN,www.support.apple.com
 DOMAIN,xp.apple.com
 DOMAIN,xtratime.qcomgeo2.com
+DOMAIN-SUFFIX,cn

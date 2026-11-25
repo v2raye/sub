@@ -216,7 +216,8 @@ const vendors = ['apple', 'microsoft'];
 const isVendorChina = entry => entry.attrs.includes('@cn') || /\.cn\.?$/i.test(entry.value);
 const vendorChina = compact(collect(vendors, '@!cn', isVendorChina).domains);
 const vendorProxy = new Set(collect(vendors, '@cn', entry => !isVendorChina(entry)).domains);
-const china = compact([...chinaInput.domains, ...sukkaChina.rules, ...vendorChina]);
+const chinaFallback = '.cn';
+const china = compact([...chinaInput.domains, ...sukkaChina.rules, ...vendorChina, chinaFallback]);
 // Official Ultra Mobile website and legacy PayGo account and activation hosts.
 const ultraMobile = ['.ultramobile.com', 'my.ultra.me', 'paygo.ultra.me'];
 // T-Mobile's documented ePDG host and Wi-Fi Calling 2.0 IPv4 firewall scope.
@@ -317,8 +318,10 @@ for (const [name, values] of Object.entries(rules)) {
   const path = join(root, 'Rules', name + '.list');
   const input = name === 'China' ? chinaInput : globalInput;
   const lastCount = read(path).split('\n').filter(line => line && !line.startsWith('#')).length;
-  const lines = [...values].sort().map(name === 'Global' ? proxyRule : domainRule);
-  if (name === 'Global') lines.push(...ultraWifiCalling);
+  const sorted = [...values].sort();
+  const lines = name === 'Global'
+    ? [...sorted.map(proxyRule), ...ultraWifiCalling]
+    : [...sorted.filter(value => value !== chinaFallback).map(domainRule), domainRule(chinaFallback)];
   if (lines.length < Math.max(name === 'China' ? 1000 : 100, Math.ceil(lastCount * 0.8))) {
     throw new Error(name + ' rule count below safety floor: ' + lines.length + ' (previous: ' + lastCount + ')');
   }

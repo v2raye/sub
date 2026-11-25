@@ -13,7 +13,7 @@ GEOIP,CN,DIRECT
 FINAL,Snell,dns-failed
 ```
 
-默认分支合入后，上述 URL 可用。个人清单填入规则后再启用对应配置行。两份清单可换成本地路径，避免在公开仓库记录个人域名。清单中的 `DOMAIN,host.example` 精确匹配主机，`DOMAIN-SUFFIX,example.com` 匹配该域名及所有子域名。已有配置若引用这些 URL，请把引用它们的 `DOMAIN-SET` 同时改为 `RULE-SET`。两份个人清单不得有交集。内置 LAN 优先识别 `.local` 和已知的局域网地址，`no-resolve` 避免在这里主动解析域名。域名都未命中时才评估内置 GEOIP。DNS 解析失败时可由 `FINAL` 交给代理处理。规则只使用 DIRECT 和一个代理节点。
+默认分支合入后，上述 URL 可用。个人清单填入规则后再启用对应配置行。两份清单可换成本地路径，避免在公开仓库记录个人域名。清单中的 `DOMAIN,host.example` 精确匹配主机，`DOMAIN-SUFFIX,example.com` 匹配该域名及所有子域名。已有配置若引用这些 URL，请把引用它们的 `DOMAIN-SET` 同时改为 `RULE-SET`。两份个人清单不得有交集。内置 LAN 优先识别 `.local` 和已知的局域网地址，`no-resolve` 避免在这里主动解析域名。国内清单始终以 `DOMAIN-SUFFIX,cn` 收尾，作为 `.cn` 直连兜底。域名都未命中时才评估内置 GEOIP。DNS 解析失败时可由 `FINAL` 交给代理处理。规则只使用 DIRECT 和一个代理节点。
 
 [Surge RULE-SET 与 LAN](https://manual.nssurge.com/rules/ruleset.html) · [GEOIP](https://manual.nssurge.com/rules/ip.html) · [FINAL](https://manual.nssurge.com/rules/final.html)
 
