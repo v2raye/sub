@@ -1,1 +1,1 @@
-# Add exact hostnames or .domain suffixes, one per line.
+# One rule per line: DOMAIN,host.example or DOMAIN-SUFFIX,example.com.

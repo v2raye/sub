@@ -140,13 +140,18 @@ function collect(names, exclusion) {
   return { domains, invalid: [...invalid].sort(), unsupported };
 }
 
-function readRules(path) {
+function readRules(path, allowLegacy = false) {
   const rules = new Set();
   for (const [index, line] of read(path).split('\n').entries()) {
-    const value = line.trim();
-    if (!value || value.startsWith('#') || value.startsWith('//')) continue;
-    if (!validDomain(value.replace(/^\./, '')) || rules.has(value)) {
-      throw new Error(path + ':' + (index + 1) + ' invalid or duplicate rule: ' + value);
+    const rule = line.trim();
+    if (!rule || rule.startsWith('#') || rule.startsWith('//')) continue;
+    const match = /^(DOMAIN|DOMAIN-SUFFIX),([a-z0-9.-]+)$/.exec(rule);
+    const value = match
+      ? (match[1] === 'DOMAIN-SUFFIX' ? '.' : '') + match[2]
+      : (allowLegacy && !rule.includes(',') ? rule : '');
+    const host = match ? match[2] : value.replace(/^\./, '');
+    if (!validDomain(host) || rules.has(value)) {
+      throw new Error(path + ':' + (index + 1) + ' invalid or duplicate rule: ' + rule);
     }
     rules.add(value);
   }
@@ -233,7 +238,7 @@ const summary = {
 for (const [name, values] of Object.entries(rules)) {
   const path = join(root, 'Rules', name + '.list');
   const input = name === 'China' ? chinaInput : globalInput;
-  const lastCount = readRules(path).size;
+  const lastCount = readRules(path, mode === '--write').size;
   if (values.size < Math.max(name === 'China' ? 1000 : 100, Math.ceil(lastCount * 0.8))) {
     throw new Error(name + ' rule count below safety floor: ' + values.size + ' (previous: ' + lastCount + ')');
   }
@@ -244,7 +249,9 @@ for (const [name, values] of Object.entries(rules)) {
   outputs.set(path, '# Combined and modified from v2fly/domain-list-community and SukkaW/Surge.\n'
     + '# SPDX-License-Identifier: AGPL-3.0-only\n'
     + '# Licenses and corresponding source: https://github.com/v2raye/sub/tree/main/Surge/SingleNode\n'
-    + [...values].sort().join('\n') + '\n');
+    + [...values].sort().map(value => value.startsWith('.')
+      ? 'DOMAIN-SUFFIX,' + value.slice(1)
+      : 'DOMAIN,' + value).join('\n') + '\n');
 }
 outputs.set(join(root, 'Rules', 'stats.json'), JSON.stringify(summary, null, 2) + '\n');
 
