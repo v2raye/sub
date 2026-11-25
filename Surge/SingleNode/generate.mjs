@@ -211,6 +211,8 @@ const chinaInput = collect(sources.China, '@!cn');
 const globalInput = collect(sources.Global, '@cn');
 const china = compact([...chinaInput.domains, ...sukkaChina.rules]);
 const global = new Set([...globalInput.domains, ...sukkaGlobal.rules]);
+const removedGlobalTlds = [...global].filter(value => /^\.[^.]+$/.test(value)).sort();
+for (const value of removedGlobalTlds) global.delete(value);
 const removedGlobal = new Map();
 for (const value of china) {
   // Preserve the domestic match when a Global rule would fully shadow it.
@@ -232,6 +234,7 @@ const summary = {
   revision,
   sukka: { domestic: sukkaChina.stats, global: sukkaGlobal.stats },
   lists: {},
+  removedGlobalTlds,
   removedGlobal: Object.fromEntries([...removedGlobal].sort()),
   proxyExceptions,
 };
