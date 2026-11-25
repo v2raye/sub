@@ -113,10 +113,10 @@ const sources = {
   Global: ['anthropic', 'cloudflare', 'github', 'google', 'netflix', 'openai', 'wikimedia'],
 };
 
-function collect(names, exclusion) {
+function collect(names, exclusion, include = () => true) {
   const entries = names.flatMap(name => {
     const entries = expand(name).filter(entry =>
-      !entry.attrs.some(attr => attr === '@ads' || attr === exclusion));
+      !entry.attrs.some(attr => attr === '@ads' || attr === exclusion) && include(entry));
     if (!entries.some(entry => ['domain', 'full'].includes(entry.type))) {
       throw new Error('No supported rules in upstream list ' + name);
     }
@@ -140,7 +140,7 @@ function collect(names, exclusion) {
   return { domains, invalid: [...invalid].sort(), unsupported };
 }
 
-function readRules(path, allowLegacy = false) {
+function readRules(path) {
   const rules = new Set();
   for (const [index, line] of read(path).split('\n').entries()) {
     const rule = line.trim();
@@ -148,7 +148,7 @@ function readRules(path, allowLegacy = false) {
     const match = /^(DOMAIN|DOMAIN-SUFFIX),([a-z0-9.-]+)$/.exec(rule);
     const value = match
       ? (match[1] === 'DOMAIN-SUFFIX' ? '.' : '') + match[2]
-      : (allowLegacy && !rule.includes(',') ? rule : '');
+      : '';
     const host = match ? match[2] : value.replace(/^\./, '');
     if (!validDomain(host) || rules.has(value)) {
       throw new Error(path + ':' + (index + 1) + ' invalid or duplicate rule: ' + rule);
@@ -212,10 +212,23 @@ for (const [first, second] of [[direct, proxy], [proxy, direct]]) {
 
 const chinaInput = collect(sources.China, '@!cn');
 const globalInput = collect(sources.Global, '@cn');
-const china = compact([...chinaInput.domains, ...sukkaChina.rules]);
+const vendors = ['apple', 'microsoft'];
+const isVendorChina = entry => entry.attrs.includes('@cn') || /\.cn\.?$/i.test(entry.value);
+const vendorChina = compact(collect(vendors, '@!cn', isVendorChina).domains);
+const vendorProxy = new Set(collect(vendors, '@cn', entry => !isVendorChina(entry)).domains);
+const chinaFallback = '.cn';
+const china = compact([...chinaInput.domains, ...sukkaChina.rules, ...vendorChina, chinaFallback]);
+// Official Ultra Mobile website and legacy PayGo account and activation hosts.
+const ultraMobile = ['.ultramobile.com', 'my.ultra.me', 'paygo.ultra.me'];
+// T-Mobile's documented ePDG host and Wi-Fi Calling 2.0 IPv4 firewall scope.
+const ultraWifiCalling = [
+  'DOMAIN,ss.epdg.epc.mnc260.mcc310.pub.3gppnetwork.org',
+  'AND,((PROTOCOL,UDP),(OR,((DEST-PORT,500),(DEST-PORT,4500))),(IP-CIDR,208.54.0.0/16,no-resolve))',
+];
 const global = new Set([
+  ...ultraMobile,
   ...globalInput.domains, ...sukkaGlobal.rules, ...sukkaStream.rules,
-  ...sukkaAi.rules, ...sukkaGitlab.rules,
+  ...sukkaAi.rules, ...sukkaGitlab.rules, ...vendorProxy,
 ]);
 
 // Use v2fly service aliases plus Spotify-only domains present in Sukka's stream list.
@@ -224,7 +237,9 @@ const excludedServices = new Set([
 ]);
 const excludedGlobalServices = [...global].filter(value => covering(excludedServices, value)).sort();
 for (const value of excludedGlobalServices) global.delete(value);
-const removedGlobalTlds = [...global].filter(value => /^\.[^.]+$/.test(value)).sort();
+const vendorBrandTlds = new Set(['.apple', '.azure', '.bing', '.microsoft', '.office', '.skype', '.xbox']);
+const removedGlobalTlds = [...global].filter(value =>
+  /^\.[^.]+$/.test(value) && !(vendorBrandTlds.has(value) && vendorProxy.has(value))).sort();
 for (const value of removedGlobalTlds) global.delete(value);
 
 // Keep regional pruning limited to service families with a shared primary domain.
@@ -237,15 +252,45 @@ const removedRegionalAliases = [...global].filter(value => {
 }).sort();
 for (const value of removedRegionalAliases) global.delete(value);
 const removedGlobal = new Map();
+const guardedVendorRules = new Set();
 for (const value of china) {
   // Preserve the domestic match when a Global rule would fully shadow it.
   let conflicting;
   while ((conflicting = covering(global, value))) {
-    removedGlobal.set(conflicting, value);
+    if (vendorProxy.has(conflicting) && !covering(vendorChina, conflicting)) {
+      guardedVendorRules.add(conflicting);
+    } else {
+      removedGlobal.set(conflicting, value);
+    }
     global.delete(conflicting);
   }
 }
+for (const value of guardedVendorRules) global.add(value);
+for (const value of global) {
+  const domestic = covering(vendorChina, value);
+  if (domestic) {
+    removedGlobal.set(value, domestic);
+    global.delete(value);
+  }
+}
 const finalGlobal = compact(global);
+const vendorExceptions = new Map();
+for (const value of finalGlobal) {
+  const rule = new Set([value]);
+  const exceptions = [...vendorChina].filter(host => covering(rule, host)).sort();
+  if (exceptions.length) vendorExceptions.set(value, exceptions);
+}
+
+function domainRule(value) {
+  return value.startsWith('.') ? 'DOMAIN-SUFFIX,' + value.slice(1) : 'DOMAIN,' + value;
+}
+
+function proxyRule(value) {
+  const exceptions = vendorExceptions.get(value);
+  if (!exceptions) return domainRule(value);
+  const unmatched = exceptions.map(host => '(NOT,((' + domainRule(host) + ')))');
+  return 'AND,((' + domainRule(value) + '),' + unmatched.join(',') + ')';
+}
 const proxyExceptions = [...finalGlobal].sort().flatMap(value => {
   const match = covering(china, value);
   return match ? [{ global: value, china: match }] : [];
@@ -259,6 +304,9 @@ const summary = {
     domestic: sukkaChina.stats, global: sukkaGlobal.stats, stream: sukkaStream.stats,
     ai: sukkaAi.stats, gitlab: sukkaGitlab.stats,
   },
+  vendors: { sources: vendors, china: vendorChina.size, proxy: vendorProxy.size, directExceptions: Object.fromEntries(vendorExceptions) },
+  ultraMobile,
+  ultraWifiCalling,
   excludedGlobalServices,
   lists: {},
   removedGlobalTlds,
@@ -269,20 +317,22 @@ const summary = {
 for (const [name, values] of Object.entries(rules)) {
   const path = join(root, 'Rules', name + '.list');
   const input = name === 'China' ? chinaInput : globalInput;
-  const lastCount = readRules(path, mode === '--write').size;
-  if (values.size < Math.max(name === 'China' ? 1000 : 100, Math.ceil(lastCount * 0.8))) {
-    throw new Error(name + ' rule count below safety floor: ' + values.size + ' (previous: ' + lastCount + ')');
+  const lastCount = read(path).split('\n').filter(line => line && !line.startsWith('#')).length;
+  const sorted = [...values].sort();
+  const lines = name === 'Global'
+    ? [...sorted.map(proxyRule), ...ultraWifiCalling]
+    : [...sorted.filter(value => value !== chinaFallback).map(domainRule), domainRule(chinaFallback)];
+  if (lines.length < Math.max(name === 'China' ? 1000 : 100, Math.ceil(lastCount * 0.8))) {
+    throw new Error(name + ' rule count below safety floor: ' + lines.length + ' (previous: ' + lastCount + ')');
   }
   summary.lists[name] = {
-    sources: sources[name], candidates: input.domains.length, published: values.size,
+    sources: sources[name], candidates: input.domains.length, published: lines.length,
     unsupported: input.unsupported, invalid: input.invalid,
   };
   outputs.set(path, '# Combined and modified from v2fly/domain-list-community and SukkaW/Surge.\n'
     + '# SPDX-License-Identifier: AGPL-3.0-only\n'
     + '# Licenses and corresponding source: https://github.com/v2raye/sub/tree/main/Surge/SingleNode\n'
-    + [...values].sort().map(value => value.startsWith('.')
-      ? 'DOMAIN-SUFFIX,' + value.slice(1)
-      : 'DOMAIN,' + value).join('\n') + '\n');
+    + lines.join('\n') + '\n');
 }
 outputs.set(join(root, 'Rules', 'stats.json'), JSON.stringify(summary, null, 2) + '\n');
 
@@ -291,4 +341,4 @@ for (const [path, content] of outputs) {
   else if (read(path) !== content) throw new Error('Generated file differs: ' + path);
 }
 console.log('Upstream %s | China %d | Global %d | Global rules removed %d | Proxy exceptions %d',
-  revision, china.size, finalGlobal.size, removedGlobal.size, proxyExceptions.length);
+  revision, china.size, summary.lists.Global.published, removedGlobal.size, proxyExceptions.length);
