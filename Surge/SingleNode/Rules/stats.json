@@ -1,5 +1,5 @@
 {
-  "revision": "e5f669692b33c189efc96cb1a972c69b390bbbc8",
+  "revision": "99b3169c537639873b56499d3412232b52b6b59b",
   "sukka": {
     "domestic": {
       "sha256": "b80c6ce2b79f3a4ec5288f4297f8ddee4f2ba5e0a42487fe99e1b58d6517e2d6",
@@ -51,7 +51,7 @@
       "microsoft"
     ],
     "china": 491,
-    "proxy": 1965,
+    "proxy": 1966,
     "directExceptions": {
       ".apple.com": [
         ".captive.apple.com",
@@ -391,7 +391,7 @@
         "wikimedia"
       ],
       "candidates": 1152,
-      "published": 3671,
+      "published": 3672,
       "unsupported": 5,
       "invalid": []
     }
