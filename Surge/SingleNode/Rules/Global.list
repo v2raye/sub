@@ -3566,7 +3566,6 @@ DOMAIN,help.ubnt.com
 DOMAIN,http-intake.logs.us5.datadoghq.com
 DOMAIN,img-prod-cms-rt-microsoft-com.akamaized.net
 DOMAIN,img-s-msn-com.akamaized.net
-DOMAIN,inference.codeium.com
 DOMAIN,manifest.prod.boltdns.net
 DOMAIN,mwf-service.akamaized.net
 DOMAIN,my.ultra.me

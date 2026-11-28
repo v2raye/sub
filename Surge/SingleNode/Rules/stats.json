@@ -1,5 +1,5 @@
 {
-  "revision": "99b3169c537639873b56499d3412232b52b6b59b",
+  "revision": "f68dab92e2ce656bbd81a4ae424de79b179f0f77",
   "sukka": {
     "domestic": {
       "sha256": "b80c6ce2b79f3a4ec5288f4297f8ddee4f2ba5e0a42487fe99e1b58d6517e2d6",
@@ -30,9 +30,9 @@
       }
     },
     "ai": {
-      "sha256": "9bb1deda142ba4e15f17a8bb33fb3154928bbd6fece9ba7b9aa9a3471378b318",
-      "count": 61,
-      "imported": 57,
+      "sha256": "407f909cbe02d5ae7061ddf182ac1c6441a3a2c19c1273774fea44984279d935",
+      "count": 60,
+      "imported": 56,
       "skipped": {
         "DOMAIN-KEYWORD": 2,
         "URL-REGEX": 1
@@ -391,7 +391,7 @@
         "wikimedia"
       ],
       "candidates": 1152,
-      "published": 3672,
+      "published": 3671,
       "unsupported": 5,
       "invalid": []
     }
